@@ -1,0 +1,1 @@
+ALTER TABLE `mythicaldash_services` ADD `price` INT NOT NULL AFTER `quantity`;

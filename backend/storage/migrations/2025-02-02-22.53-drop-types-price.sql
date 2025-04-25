@@ -1,0 +1,1 @@
+DROP TABLE `mythicaldash_services_price`;

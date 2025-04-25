@@ -1,0 +1,1 @@
+ALTER TABLE `mythicaldash_orders` ADD `days_left` INT NOT NULL DEFAULT '0' AFTER `status`;

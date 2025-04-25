@@ -1,0 +1,1 @@
+ALTER TABLE `mythicaldash_invoices` CHANGE `service` `order` INT(16) NOT NULL;
