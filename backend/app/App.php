@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,29 +11,23 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-namespace MythicalDash;
+namespace MyMythicalID;
 
+use MyMythicalID\Hooks\MythicalAPP;
 use RateLimit\Rate;
-use MythicalDash\Chat\Database;
+use MyMythicalID\Chat\Database;
 use RateLimit\RedisRateLimiter;
-use MythicalDash\Hooks\MythicalAPP;
-use MythicalDash\Hooks\MythicalZero;
-use MythicalDash\Router\Router as rt;
-use MythicalDash\Config\ConfigFactory;
-use MythicalDash\Logger\LoggerFactory;
+use MyMythicalID\Router\Router as rt;
+use MyMythicalID\Config\ConfigFactory;
+use MyMythicalID\Logger\LoggerFactory;
 use RateLimit\Exception\LimitExceeded;
-use MythicalDash\Config\ConfigInterface;
-use MythicalDash\Hooks\LicenseValidator;
-use MythicalDash\CloudFlare\CloudFlareRealIP;
-use MythicalDash\Plugins\Events\Events\AppEvent;
-use MythicalDash\Hooks\MythicalSystems\Utils\XChaCha20;
+use MyMythicalID\CloudFlare\CloudFlareRealIP;
+use MyMythicalID\Hooks\MythicalSystems\Utils\XChaCha20;
 
 class App extends MythicalAPP
 {
     public static App $instance;
-    public LicenseValidator $licenseValidator;
     public Database $db;
-    public MythicalZero $telemetry;
 
     public function __construct(bool $softBoot, bool $isCron = false)
     {
@@ -64,11 +58,6 @@ class App extends MythicalAPP
             define('CRON_MODE', true);
         }
 
-        /**
-         * @global \MythicalDash\Plugins\PluginManager $pluginManager
-         * @global \MythicalDash\Plugins\Events\PluginEvent $eventManager
-         */
-        global $pluginManager, $eventManager;
 
         /**
          * Redis.
@@ -109,52 +98,12 @@ class App extends MythicalAPP
             self::InternalServerError($e->getMessage(), null);
         }
 
-        /**
-         * Initialize the plugin manager.
-         */
-        if (!defined('CRON_MODE')) {
-            $pluginManager->loadKernel();
-            define('LOGGER', $this->getLogger());
-        }
-
         if ($isCron) {
             return;
         }
 
         $router = new rt();
         $this->registerApiRoutes($router);
-        $eventManager->emit(AppEvent::onAppLoad(), []);
-        $eventManager->emit(AppEvent::onRouterReady(), [$router]);
-
-        try {
-            /**
-             * License validator.
-             */
-            $this->licenseValidator = new LicenseValidator($this->getConfig()->getSetting(ConfigInterface::LICENSE_KEY, 'NULL'));
-            if (!$this->licenseValidator->validate()) {
-                define('HAS_VALID_LICENSE', false);
-            } else {
-                $this->getLogger()->debug('License is valid! Thank you for supporting the development of MythicalDash!');
-                define('HAS_VALID_LICENSE', true);
-            }
-        } catch (\Exception $e) {
-            App::getInstance(true)->getLogger()->error('License validator error: ' . $e->getMessage());
-        }
-        /**
-         * MythicalZero.
-         */
-        $this->telemetry = new MythicalZero(
-            'https://api.mythical.systems',
-            APP_VERSION,
-            preg_replace('/^https?:\/\//', '', $this->getConfig()->getSetting(ConfigInterface::APP_URL, 'NULL')),
-            $this->getConfig()->getSetting(ConfigInterface::MYTHICAL_ZERO_TRUST_ENABLED, 'true'),
-            $this->getConfig()->getSetting(ConfigInterface::TELEMETRY_ENABLED, 'true'),
-        );
-
-        if ($this->getConfig()->getSetting(ConfigInterface::APP_URL, 'https://mythicaldash-v3.mythical.systems') == 'https://mythicaldash-v3.mythical.systems') {
-            $appUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
-            $this->getConfig()->setSetting(ConfigInterface::APP_URL, $appUrl);
-        }
 
         $router->add('/(.*)', function ($route): void {
             self::init();
@@ -214,22 +163,6 @@ class App extends MythicalAPP
             echo $e->getMessage();
             exit;
         }
-    }
-
-    /**
-     * Get the license validator.
-     */
-    public function getLicenseValidator(): LicenseValidator
-    {
-        return $this->licenseValidator;
-    }
-
-    /**
-     * Get the telemetry.
-     */
-    public function getTelemetry(): MythicalZero
-    {
-        return $this->telemetry;
     }
 
     /**
@@ -294,7 +227,7 @@ class App extends MythicalAPP
      */
     public function getLogger(): LoggerFactory
     {
-        return new LoggerFactory(__DIR__ . '/../storage/logs/mythicaldash.log');
+        return new LoggerFactory(__DIR__ . '/../storage/logs/mymythicalid.log');
     }
 
     /**
@@ -302,7 +235,7 @@ class App extends MythicalAPP
      */
     public function getWebServerLogger(): LoggerFactory
     {
-        return new LoggerFactory(__DIR__ . '/../storage/logs/mythicaldash-v3.log');
+        return new LoggerFactory(__DIR__ . '/../storage/logs/mymythicalid-v3.log');
     }
 
     /**

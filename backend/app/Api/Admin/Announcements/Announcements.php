@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,22 +11,21 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\App;
-use MythicalDash\Chat\User\Can;
-use MythicalDash\Chat\columns\UserColumns;
-use MythicalDash\Chat\User\UserActivities;
-use MythicalDash\CloudFlare\CloudFlareRealIP;
-use MythicalDash\Chat\Announcements\Announcements;
-use MythicalDash\Chat\interface\UserActivitiesTypes;
-use MythicalDash\Chat\Announcements\AnnouncementsTags;
-use MythicalDash\Chat\Announcements\AnnouncementsAssets;
-use MythicalDash\Plugins\Events\Events\AnnouncementsEvent;
+use MyMythicalID\App;
+use MyMythicalID\Chat\User\Can;
+use MyMythicalID\Chat\columns\UserColumns;
+use MyMythicalID\Chat\User\UserActivities;
+use MyMythicalID\CloudFlare\CloudFlareRealIP;
+use MyMythicalID\Chat\Announcements\Announcements;
+use MyMythicalID\Chat\interface\UserActivitiesTypes;
+use MyMythicalID\Chat\Announcements\AnnouncementsTags;
+use MyMythicalID\Chat\Announcements\AnnouncementsAssets;
 
 $router->get('/api/admin/announcements', function () {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyGET();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         $announcements = Announcements::getAll();
@@ -39,11 +38,10 @@ $router->get('/api/admin/announcements', function () {
 });
 
 $router->post('/api/admin/announcements/create', function () {
-    global $eventManager;
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         $title = $appInstance->getPostOrNull('title');
@@ -67,13 +65,6 @@ $router->post('/api/admin/announcements/create', function () {
         if ($id === 0) {
             $appInstance->InternalServerError('Failed to create announcement', ['error_code' => 'FAILED_TO_CREATE_ANNOUNCEMENT']);
         }
-
-        $eventManager->emit(AnnouncementsEvent::onCreateAnnouncement(), [
-            'id' => $id,
-            'title' => $title,
-            'shortDescription' => $shortDescription,
-            'description' => $description,
-        ]);
 
         UserActivities::add(
             $session->getInfo(UserColumns::UUID, false),
@@ -101,9 +92,8 @@ $router->post('/api/admin/announcements/create', function () {
 $router->post('/api/admin/announcements/(.*)/update', function ($id) {
     App::init();
     $appInstance = App::getInstance(true);
-    global $eventManager;
     $appInstance->allowOnlyPOST();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         $title = $appInstance->getPostOrNull('title');
@@ -124,12 +114,6 @@ $router->post('/api/admin/announcements/(.*)/update', function ($id) {
             $description
         );
 
-        $eventManager->emit(AnnouncementsEvent::onUpdateAnnouncement(), [
-            'id' => $id,
-            'title' => $title,
-            'shortDescription' => $shortDescription,
-            'description' => $description,
-        ]);
         UserActivities::add(
             $session->getInfo(UserColumns::UUID, false),
             UserActivitiesTypes::$announcement_update,
@@ -153,9 +137,8 @@ $router->post('/api/admin/announcements/(.*)/update', function ($id) {
 $router->post('/api/admin/announcements/(.*)/tags/add', function ($id) {
     App::init();
     $appInstance = App::getInstance(true);
-    global $eventManager;
     $appInstance->allowOnlyPOST();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         $tag = $appInstance->getPostOrNull('tag');
@@ -175,11 +158,6 @@ $router->post('/api/admin/announcements/(.*)/tags/add', function ($id) {
             $appInstance->InternalServerError('Failed to create announcement tag', ['error_code' => 'FAILED_TO_CREATE_ANNOUNCEMENT_TAG']);
         }
 
-        $eventManager->emit(AnnouncementsEvent::onAnnouncementsAddTag(), [
-            'tag' => $tag,
-            'tagId' => $tagId,
-            'announcementId' => $id,
-        ]);
         UserActivities::add(
             $session->getInfo(UserColumns::UUID, false),
             UserActivitiesTypes::$announcement_tag_create,
@@ -197,8 +175,7 @@ $router->post('/api/admin/announcements/(.*)/assets/add', function ($id) {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
-    global $eventManager;
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         if (!Announcements::exists((int) $id)) {
             $appInstance->BadRequest('Announcement not found', ['error_code' => 'ANNOUNCEMENT_NOT_FOUND']);
@@ -287,10 +264,7 @@ $router->post('/api/admin/announcements/(.*)/assets/add', function ($id) {
                 }
             }
 
-            $eventManager->emit(AnnouncementsEvent::onAnnouncementsAddAttachment(), [
-                'announcementId' => $id,
-                'files' => $uploadedFiles,
-            ]);
+
             UserActivities::add(
                 $session->getInfo(UserColumns::UUID, false),
                 UserActivitiesTypes::$announcement_asset_create,
@@ -319,7 +293,7 @@ $router->get('/api/admin/announcements/(.*)/assets', function ($id) {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyGET();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         if (Announcements::exists((int) $id)) {
@@ -337,16 +311,11 @@ $router->post('/api/admin/announcements/(.*)/assets/(.*)/delete', function ($id,
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         if (Announcements::exists((int) $id)) {
             if (AnnouncementsAssets::exists((int) $assetId)) {
-                global $eventManager;
-                $eventManager->emit(AnnouncementsEvent::onAnnouncementsRemoveAttachment(), [
-                    'announcementId' => $id,
-                    'assetId' => $assetId,
-                ]);
                 UserActivities::add(
                     $session->getInfo(UserColumns::UUID, false),
                     UserActivitiesTypes::$announcement_asset_delete,
@@ -370,7 +339,7 @@ $router->post('/api/admin/announcements/(.*)/tags/(.*)/delete', function (int $i
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         if (!Announcements::exists((int) $id)) {
@@ -381,11 +350,6 @@ $router->post('/api/admin/announcements/(.*)/tags/(.*)/delete', function (int $i
             $appInstance->BadRequest('Announcement tag not found', ['error_code' => 'ANNOUNCEMENT_TAG_NOT_FOUND']);
         }
 
-        global $eventManager;
-        $eventManager->emit(AnnouncementsEvent::onAnnouncementsRemoveTag(), [
-            'announcementId' => $id,
-            'tagId' => $tagId,
-        ]);
         UserActivities::add(
             $session->getInfo(UserColumns::UUID, false),
             UserActivitiesTypes::$announcement_tag_delete,
@@ -405,7 +369,7 @@ $router->get('/api/admin/announcements/(.*)/tags', function ($id) {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyGET();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         if (!Announcements::exists((int) $id)) {
@@ -421,14 +385,11 @@ $router->post('/api/admin/announcements/(.*)/delete', function ($id) {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         if (Announcements::exists((int) $id)) {
-            global $eventManager;
-            $eventManager->emit(AnnouncementsEvent::onDeleteAnnouncement(), [
-                'announcementId' => $id,
-            ]);
+
             UserActivities::add(
                 $session->getInfo(UserColumns::UUID, false),
                 UserActivitiesTypes::$announcement_delete,

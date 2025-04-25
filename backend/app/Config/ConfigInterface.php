@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,7 +11,7 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-namespace MythicalDash\Config;
+namespace MyMythicalID\Config;
 
 interface ConfigInterface
 {
@@ -47,99 +47,6 @@ interface ConfigInterface
      */
     public const LEGAL_TOS = 'legal_tos_url';
     public const LEGAL_PRIVACY = 'legal_privacy_url';
-
-    /**
-     * Pterodactyl.
-     */
-    public const PTERODACTYL_API_KEY = 'pterodactyl_api_key';
-    public const PTERODACTYL_BASE_URL = 'pterodactyl_base_url';
-
-    /**
-     * License.
-     */
-    public const LICENSE_KEY = 'license_key';
-
-    /**
-     * Earn.
-     */
-    public const AFK_ENABLED = 'afk_enabled';
-    public const AFK_MIN_PER_COIN = 'afk_min_per_coin';
-
-    /**
-     * Code Redemption.
-     */
-    public const CODE_REDEMPTION_ENABLED = 'code_redemption_enabled';
-    /**
-     * Join For Rewards.
-     */
-    public const J4R_ENABLED = 'j4r_enabled';
-
-    /**
-     * Referrals.
-     */
-    public const REFERRALS_ENABLED = 'referrals_enabled';
-    public const REFERRALS_COINS_PER_REFERRAL = 'referrals_coins_per_referral';
-    public const REFERRALS_COINS_PER_REFERRAL_REDEEMER = 'referrals_coins_per_referral_redeemer';
-
-    /**
-     * Link For Rewards.
-     */
-    public const L4R_ENABLED = 'l4r_enabled';
-    /**
-     * Linkvertise Stuff.
-     */
-    public const L4R_LINKVERTISE_ENABLED = 'l4r_linkadvertise_enabled';
-    public const L4R_LINKVERTISE_USER_ID = 'l4r_linkadvertise_user_id';
-    public const L4R_LINKVERTISE_COINS_PER_LINK = 'l4r_linkadvertise_coins_per_link';
-    public const L4R_LINKVERTISE_DAILY_LIMIT = 'l4r_linkadvertise_daily_limit';
-    public const L4R_LINKVERTISE_MIN_TIME_TO_COMPLETE = 'l4r_linkadvertise_min_time_to_complete';
-    public const L4R_LINKVERTISE_TIME_TO_EXPIRE = 'l4r_linkadvertise_time_to_expire';
-    public const L4R_LINKVERTISE_COOLDOWN_TIME = 'l4r_linkadvertise_cooldown_time';
-    /**
-     * ShareUs Settings.
-     */
-    public const L4R_SHAREUS_ENABLED = 'l4r_shareus_enabled';
-    public const L4R_SHAREUS_API_KEY = 'l4r_shareus_api_key';
-    public const L4R_SHAREUS_COINS_PER_LINK = 'l4r_shareus_coins_per_link';
-    public const L4R_SHAREUS_DAILY_LIMIT = 'l4r_shareus_daily_limit';
-    public const L4R_SHAREUS_MIN_TIME_TO_COMPLETE = 'l4r_shareus_min_time_to_complete';
-    public const L4R_SHAREUS_TIME_TO_EXPIRE = 'l4r_shareus_time_to_expire';
-    public const L4R_SHAREUS_COOLDOWN_TIME = 'l4r_shareus_cooldown_time';
-
-    /**
-     * LinkPays Settings.
-     */
-    public const L4R_LINKPAYS_ENABLED = 'l4r_linkpays_enabled';
-    public const L4R_LINKPAYS_API_KEY = 'l4r_linkpays_api_key';
-    public const L4R_LINKPAYS_COINS_PER_LINK = 'l4r_linkpays_coins_per_link';
-    public const L4R_LINKPAYS_DAILY_LIMIT = 'l4r_linkpays_daily_limit';
-    public const L4R_LINKPAYS_MIN_TIME_TO_COMPLETE = 'l4r_linkpays_min_time_to_complete';
-    public const L4R_LINKPAYS_TIME_TO_EXPIRE = 'l4r_linkpays_time_to_expire';
-    public const L4R_LINKPAYS_COOLDOWN_TIME = 'l4r_linkpays_cooldown_time';
-
-    /**
-     * GyaniLinks Settings.
-     */
-    public const L4R_GYANILINKS_ENABLED = 'l4r_gyanilinks_enabled';
-    public const L4R_GYANILINKS_API_KEY = 'l4r_gyanilinks_api_key';
-    public const L4R_GYANILINKS_COINS_PER_LINK = 'l4r_gyanilinks_coins_per_link';
-    public const L4R_GYANILINKS_DAILY_LIMIT = 'l4r_gyanilinks_daily_limit';
-    public const L4R_GYANILINKS_MIN_TIME_TO_COMPLETE = 'l4r_gyanilinks_min_time_to_complete';
-    public const L4R_GYANILINKS_TIME_TO_EXPIRE = 'l4r_gyanilinks_time_to_expire';
-    public const L4R_GYANILINKS_COOLDOWN_TIME = 'l4r_gyanilinks_cooldown_time';
-
-    /**
-     * Store.
-     */
-    public const STORE_ENABLED = 'store_enabled';
-    public const STORE_RAM_PRICE = 'store_ram_price';
-    public const STORE_DISK_PRICE = 'store_disk_price';
-    public const STORE_CPU_PRICE = 'store_cpu_price';
-    public const STORE_PORTS_PRICE = 'store_ports_price';
-    public const STORE_DATABASES_PRICE = 'store_databases_price';
-    public const STORE_SERVER_SLOT_PRICE = 'store_server_slot_price';
-    public const STORE_BACKUPS_PRICE = 'store_backups_price';
-
     /**
      * Misc.
      */
@@ -156,13 +63,6 @@ interface ConfigInterface
     public const REDDIT_URL = 'reddit_url';
     public const TELEGRAM_URL = 'telegram_url';
     public const WHATSAPP_URL = 'whatsapp_url';
-
-    /**
-     * Misc.
-     */
-    public const EARLY_SUPPORTERS_ENABLED = 'early_supporters_enabled';
-    public const EARLY_SUPPORTERS_AMOUNT = 'early_supporters_amount';
-    public const SHOW_NODE_PING = 'show_node_ping';
 
     /**
      * Credits Recharge.
@@ -218,82 +118,10 @@ interface ConfigInterface
     public const GITHUB_CLIENT_SECRET = 'github_client_secret';
     public const GITHUB_LINK_ALLOWED = 'github_link_allowed';
 
-    /**
-     * Max Resources.
-     */
-    public const MAX_RAM = 'max_ram';
-    public const MAX_DISK = 'max_disk';
-    public const MAX_CPU = 'max_cpu';
-    public const MAX_PORTS = 'max_ports';
-    public const MAX_DATABASES = 'max_databases';
-    public const MAX_SERVER_SLOTS = 'max_server_slots';
-    public const MAX_BACKUPS = 'max_backups';
-    /**
-     * Default Resources.
-     */
-    public const DEFAULT_RAM = 'default_ram';
-    public const DEFAULT_DISK = 'default_disk';
-    public const DEFAULT_CPU = 'default_cpu';
-    public const DEFAULT_PORTS = 'default_ports';
-    public const DEFAULT_DATABASES = 'default_databases';
-    public const DEFAULT_SERVER_SLOTS = 'default_server_slots';
-    public const DEFAULT_BACKUPS = 'default_backups';
-
-    /**
-     * Block Resources.
-     */
-    public const BLOCK_RAM = 'block_ram';
-    public const BLOCK_DISK = 'block_disk';
-    public const BLOCK_CPU = 'block_cpu';
-    public const BLOCK_PORTS = 'block_ports';
-    public const BLOCK_DATABASES = 'block_databases';
-    public const BLOCK_SERVER_SLOTS = 'block_server_slots';
-    public const BLOCK_BACKUPS = 'block_backups';
-
-    /**
-     * Leaderboard Configs.
-     */
-    public const LEADERBOARD_ENABLED = 'leaderboard_enabled';
-    public const LEADERBOARD_LIMIT = 'leaderboard_limit';
 
     /**
      * Allow Tickets.
      */
     public const ALLOW_TICKETS = 'allow_tickets';
-    /**
-     * Allow Servers.
-     */
-    public const ALLOW_SERVERS = 'allow_servers';
-
-    /**
-     * Allow Public Profiles.
-     */
-    public const ALLOW_PUBLIC_PROFILES = 'allow_public_profiles';
-
-    /**
-     * Allow Coins Sharing.
-     */
-    public const ALLOW_COINS_SHARING = 'allow_coins_sharing';
-    public const COINS_SHARE_MAX_AMOUNT = 'coins_share_max_amount';
-    public const COINS_SHARE_MIN_AMOUNT = 'coins_share_min_amount';
-    public const COINS_SHARE_FEE = 'coins_share_fee';
-
-    /**
-     * Telemetry.
-     */
-    public const TELEMETRY_ENABLED = 'telemetry_enabled';
-    public const MYTHICAL_ZERO_TRUST_ENABLED = 'zero_trust_enabled';
-    public const MYTHICAL_ZERO_TRUST_SERVER_SCAN_TOOL_ENABLED = 'zero_trust_server_scan_tool_enabled';
-    public const MYTHICAL_ZERO_TRUST_WHITELIST_IPS_ENABLED = 'zero_trust_whitelist_ips_enabled';
-    public const MYTHICAL_ZERO_TRUST_BLOCK_TOR_ENABLED = 'zero_trust_block_tor_enabled';
-    public const MYTHICAL_ZERO_TRUST_ENHANCED_LOGGING_ENABLED = 'zero_trust_enhanced_logging_enabled';
-
-    /**
-     * Server Renew.
-     */
-    public const SERVER_RENEW_ENABLED = 'server_renew_enabled';
-    public const SERVER_RENEW_COST = 'server_renew_cost';
-    public const SERVER_RENEW_DAYS = 'server_renew_days';
-    public const SERVER_RENEW_SEND_MAIL = 'server_renew_send_mail';
 
 }

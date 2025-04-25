@@ -76,7 +76,7 @@
 
 <script setup lang="ts">
 import CardComponent from '@/components/client/ui/Card/CardComponent.vue';
-import Announcements from '@/mythicaldash/Announcements';
+import Announcements from '@/mymythicalid/Announcements';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { BellOff as BellOffIcon } from 'lucide-vue-next';

@@ -6,62 +6,17 @@ import {
     ChevronDown as ChevronDownIcon,
     ServerIcon,
     TicketIcon,
-    Clock as ClockIcon,
-    Gift as GiftIcon,
-    Users as UsersIcon,
-    UserPlus as UserPlusIcon,
-    Link as LinkIcon,
     Home as HomeIcon,
-    ShoppingCart as ShoppingCartIcon,
-    TrophyIcon as LeaderboardIcon,
 } from 'lucide-vue-next';
-import Translation from '@/mythicaldash/Translation';
+import Translation from '@/mymythicalid/Translation';
 import { useSettingsStore } from '@/stores/settings';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 const Settings = useSettingsStore();
 
-// Check if AFK Rewards is enabled
-const isAfkEnabled = computed(() => {
-    return Settings.getSetting('afk_enabled') === 'true';
-});
-
-// Check if Code Redemption is enabled
-const isCodeRedemptionEnabled = computed(() => {
-    return Settings.getSetting('code_redemption_enabled') === 'true';
-});
-
-// Check if J4R is enabled
-const isJ4REnabled = computed(() => {
-    return Settings.getSetting('j4r_enabled') === 'true';
-});
-
-// Check if Referrals is enabled
-const isReferralsEnabled = computed(() => {
-    return Settings.getSetting('referrals_enabled') === 'true';
-});
-
-// Check if Link For Rewards is enabled
-const isL4REnabled = computed(() => {
-    return Settings.getSetting('l4r_enabled') === 'true';
-});
-
-// Check if Store is enabled
-const isStoreEnabled = computed(() => {
-    return Settings.getSetting('store_enabled') === 'true';
-});
-
-const isLeaderboardEnabled = computed(() => {
-    return Settings.getSetting('leaderboard_enabled') === 'true';
-});
-
 const isTicketsEnabled = computed(() => {
     return Settings.getSetting('allow_tickets') === 'true';
-});
-
-const isServersEnabled = computed(() => {
-    return Settings.getSetting('allow_servers') === 'true';
 });
 
 defineProps<{
@@ -87,66 +42,12 @@ interface MenuSection {
     items: MenuItem[];
 }
 
-// Define AFK Rewards menu item
-const afkRewardsMenuItem = {
-    name: t('components.sidebar.afk'),
-    icon: ClockIcon,
-    href: '/earn/afk',
-    active: isActiveRoute(['/earn/afk']),
-};
-
-// Define Code Redemption menu item
-const codeRedemptionMenuItem = {
-    name: t('components.sidebar.code_redemption'),
-    icon: GiftIcon,
-    href: '/earn/redeem',
-    active: isActiveRoute(['/earn/redeem']),
-};
-
-// Define Join For Rewards menu item
-const j4rMenuItem = {
-    name: t('components.sidebar.j4r'),
-    icon: UsersIcon,
-    href: '/earn/j4r',
-    active: isActiveRoute(['/earn/j4r']),
-};
-
-// Define Referrals menu item
-const referralsMenuItem = {
-    name: t('components.sidebar.referrals'),
-    icon: UserPlusIcon,
-    href: '/earn/referrals',
-    active: isActiveRoute(['/earn/referrals']),
-};
-
-// Define Link For Rewards menu item
-const linkForRewardsMenuItem = {
-    name: t('components.sidebar.l4r'),
-    icon: LinkIcon,
-    href: '/earn/links',
-    active: isActiveRoute(['/earn/links']),
-};
-
 // Define menu items
 const dashboardMenuItem = {
     name: t('components.sidebar.dashboard'),
     icon: HomeIcon,
     href: '/dashboard',
     active: isActiveRoute(['/dashboard']),
-};
-
-const storeMenuItem = {
-    name: t('components.sidebar.store'),
-    icon: ShoppingCartIcon,
-    href: '/store',
-    active: isActiveRoute(['/store']),
-};
-
-const leaderboardMenuItem = {
-    name: t('components.sidebar.leaderboard'),
-    icon: LeaderboardIcon,
-    href: '/leaderboard',
-    active: isActiveRoute(['/leaderboard']),
 };
 
 const ticketsMenuItem = {
@@ -171,52 +72,10 @@ const ticketsMenuItem = {
     ],
 };
 
-const serversMenuItem = {
-    name: t('components.sidebar.create'),
-    icon: ServerIcon,
-    href: '/server/create',
-    active: isActiveRoute(['/server/create']),
-};
-
-// Get the Earn section items based on which features are enabled
-const getEarnItems = computed(() => {
-    const items: MenuItem[] = [];
-
-    if (isAfkEnabled.value) {
-        items.push(afkRewardsMenuItem);
-    }
-
-    if (isCodeRedemptionEnabled.value) {
-        items.push(codeRedemptionMenuItem);
-    }
-
-    if (isJ4REnabled.value) {
-        items.push(j4rMenuItem);
-    }
-
-    if (isReferralsEnabled.value) {
-        items.push(referralsMenuItem);
-    }
-
-    if (isL4REnabled.value) {
-        items.push(linkForRewardsMenuItem);
-    }
-
-    return items;
-});
-
 const menuSections = ref<MenuSection[]>([
     {
         title: t('components.sidebar.general'),
-        items: [
-            dashboardMenuItem,
-            ...(isServersEnabled.value ? [serversMenuItem] : []),
-            ...(isStoreEnabled.value ? [storeMenuItem] : []),
-        ],
-    },
-    {
-        title: t('components.sidebar.earn'),
-        items: getEarnItems.value,
+        items: [dashboardMenuItem],
     },
     {
         title: t('components.sidebar.support'),
@@ -228,7 +87,6 @@ const menuSections = ref<MenuSection[]>([
                 href: '/announcements',
                 active: isActiveRoute(['/announcements']),
             },
-            ...(isLeaderboardEnabled.value ? [leaderboardMenuItem] : []),
         ],
     },
 ]);

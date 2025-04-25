@@ -63,11 +63,6 @@
                     <IntegrationSettings :settings="settings" @update="updateSettings" />
                 </div>
 
-                <!-- Earn & Rewards Settings -->
-                <div v-show="activeTab === 'earn'" class="space-y-6">
-                    <EarnSettings :settings="settings" @update="updateSettings" />
-                </div>
-
                 <!-- Legal Settings -->
                 <div v-show="activeTab === 'legal'" class="space-y-6">
                     <LegalSettings :settings="settings" @update="updateSettings" />
@@ -91,7 +86,6 @@ import {
     Mail as MailIcon,
     Shield as ShieldIcon,
     Link as LinkIcon,
-    Briefcase as BriefcaseIcon,
     FileText as FileTextIcon,
     CreditCard as CreditCardIcon,
     LoaderIcon,
@@ -102,7 +96,6 @@ import GeneralSettings from './components/GeneralSettings.vue';
 import MailSettings from './components/MailSettings.vue';
 import SecuritySettings from './components/SecuritySettings.vue';
 import IntegrationSettings from './components/IntegrationSettings.vue';
-import EarnSettings from './components/EarnSettings.vue';
 import BillingSettings from './components/BillingSettings.vue';
 import LegalSettings from './components/LegalSettings.vue';
 
@@ -112,7 +105,6 @@ const tabs = [
     { id: 'mail', name: 'Mail', icon: MailIcon },
     { id: 'security', name: 'Security', icon: ShieldIcon },
     { id: 'integrations', name: 'Integrations', icon: LinkIcon },
-    { id: 'earn', name: 'Earn & Rewards', icon: BriefcaseIcon },
     { id: 'legal', name: 'Legal', icon: FileTextIcon },
     { id: 'billing', name: 'Billing', icon: CreditCardIcon },
 ];

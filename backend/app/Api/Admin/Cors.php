@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,16 +11,16 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\App;
-use MythicalDash\Chat\User\Can;
-use MythicalDash\Chat\User\Session;
+use MyMythicalID\App;
+use MyMythicalID\Chat\User\Can;
+use MyMythicalID\Chat\User\Session;
 
 $router->add('/api/admin/cors', function (): void {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyGET();
     $session = new Session($appInstance);
-    if (Can::canAccessAdminUI($session->getInfo(MythicalDash\Chat\columns\UserColumns::ROLE_ID, false))) {
+    if (Can::canAccessAdminUI($session->getInfo(MyMythicalID\Chat\columns\UserColumns::ROLE_ID, false))) {
         if (isset($_GET['target']) && !empty($_GET['target'])) {
             $target = $_GET['target'];
 
@@ -46,7 +46,7 @@ $router->add('/api/admin/cors', function (): void {
             curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
             // Add appropriate user agent
-            curl_setopt($ch, CURLOPT_USERAGENT, 'MythicalDash-Proxy/1.0');
+            curl_setopt($ch, CURLOPT_USERAGENT, 'MyMythicalID-Proxy/1.0');
 
             // Execute the request
             $response = curl_exec($ch);

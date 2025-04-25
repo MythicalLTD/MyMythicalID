@@ -46,10 +46,10 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import Session from '@/mythicaldash/Session';
-import StorageMonitor from '@/mythicaldash/StorageMonitor';
+import Session from '@/mymythicalid/Session';
+import StorageMonitor from '@/mymythicalid/StorageMonitor';
 import { useSettingsStore } from '@/stores/settings';
-import Dashboard from '@/mythicaldash/admin/Dashboard';
+import Dashboard from '@/mymythicalid/admin/Dashboard';
 
 // Import components
 import MobileMenuButton from '@/components/admin/components/MobileMenuButton.vue';
@@ -60,7 +60,7 @@ import TheFooter from '@/components/admin/components/TheFooter.vue';
 // Import menu configuration
 import { useAdminMenu } from '@/components/admin/composables/useAdminMenu';
 import { useSearchResults } from '@/components/admin/composables/useSearchResults';
-import { MythicalDOM } from '@/mythicaldash/MythicalDOM';
+import { MythicalDOM } from '@/mymythicalid/MythicalDOM';
 
 MythicalDOM.setPageTitle('Admin');
 

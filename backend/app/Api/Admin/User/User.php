@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,24 +11,23 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\App;
-use MythicalDash\Chat\User\Can;
-use MythicalDash\Chat\User\User;
-use MythicalDash\Chat\User\Mails;
-use MythicalDash\Chat\columns\UserColumns;
-use MythicalDash\Chat\User\UserActivities;
-use MythicalDash\CloudFlare\CloudFlareRealIP;
-use MythicalDash\Plugins\Events\Events\UserEvent;
-use MythicalDash\Chat\interface\UserActivitiesTypes;
+use MyMythicalID\App;
+use MyMythicalID\Chat\User\Can;
+use MyMythicalID\Chat\User\User;
+use MyMythicalID\Chat\User\Mails;
+use MyMythicalID\Chat\columns\UserColumns;
+use MyMythicalID\Chat\User\UserActivities;
+use MyMythicalID\CloudFlare\CloudFlareRealIP;
+use MyMythicalID\Chat\interface\UserActivitiesTypes;
 
 $router->get('/api/admin/users', function (): void {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyGET();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
-        $user = User::getListWithFilters(['id', 'username', 'first_name', 'last_name', 'email', 'avatar', 'pterodactyl_user_id', 'role', 'last_seen', 'uuid'], ['first_name', 'last_name']);
+        $user = User::getListWithFilters(['id', 'username', 'first_name', 'last_name', 'email', 'avatar', 'role', 'last_seen', 'uuid'], ['first_name', 'last_name']);
 
         $appInstance->OK('Users data retrieved successfully.', [
             'users' => $user,
@@ -42,7 +41,7 @@ $router->get('/api/admin/user/(.*)/info', function ($userId): void {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyGET();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         if (empty($userId)) {
@@ -61,7 +60,6 @@ $router->get('/api/admin/user/(.*)/info', function ($userId): void {
                     UserColumns::AVATAR,
                     UserColumns::CREDITS,
                     UserColumns::UUID,
-                    UserColumns::PTERODACTYL_USER_ID,
                     UserColumns::ACCOUNT_TOKEN,
                     UserColumns::ROLE_ID,
                     UserColumns::FIRST_IP,
@@ -76,15 +74,6 @@ $router->get('/api/admin/user/(.*)/info', function ($userId): void {
                     UserColumns::LAST_SEEN,
                     UserColumns::FIRST_SEEN,
                     UserColumns::BACKGROUND,
-                    UserColumns::DISK_LIMIT,
-                    UserColumns::MEMORY_LIMIT,
-                    UserColumns::CPU_LIMIT,
-                    UserColumns::SERVER_LIMIT,
-                    UserColumns::BACKUP_LIMIT,
-                    UserColumns::DATABASE_LIMIT,
-                    UserColumns::ALLOCATION_LIMIT,
-                    UserColumns::MINUTES_AFK,
-                    UserColumns::LAST_SEEN_AFK,
                 ],
                 [
                     UserColumns::FIRST_NAME,
@@ -113,7 +102,7 @@ $router->post('/api/admin/user/(.*)/update', function ($userId): void {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         if (empty($userId)) {
@@ -136,10 +125,6 @@ $router->post('/api/admin/user/(.*)/update', function ($userId): void {
                     "Updated user $userId"
                 );
 
-                global $eventManager;
-                $eventManager->emit(UserEvent::onUserUpdate(), [
-                    'user' => $userId,
-                ]);
                 $token = User::getTokenFromUUID($userId);
                 if (User::updateInfo($token, $column, $value, $encrypted)) {
                     $appInstance->OK('User updated successfully.', ['error_code' => 'USER_UPDATED']);
@@ -161,7 +146,7 @@ $router->post('/api/admin/user/(.*)/delete', function ($userId): void {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         if (empty($userId)) {
@@ -176,10 +161,7 @@ $router->post('/api/admin/user/(.*)/delete', function ($userId): void {
                 CloudFlareRealIP::getRealIP(),
                 "Deleted user $userId"
             );
-            global $eventManager;
-            $eventManager->emit(UserEvent::onUserDelete(), [
-                'user' => $userId,
-            ]);
+
             $appInstance->OK('User deleted successfully.', ['error_code' => 'USER_DELETED']);
         } else {
             $appInstance->NotFound('User not found', ['error_code' => 'USER_NOT_FOUND']);
@@ -192,7 +174,7 @@ $router->post('/api/admin/user/(.*)/delete', function ($userId): void {
 $router->get('/api/admin/user/support-pin/(.*)', function ($supportPin): void {
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyGET();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         if (empty($supportPin)) {
             $appInstance->BadRequest('Support pin is required', ['error_code' => 'SUPPORT_PIN_REQUIRED']);

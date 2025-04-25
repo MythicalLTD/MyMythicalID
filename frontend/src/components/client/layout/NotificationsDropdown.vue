@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import Session from '@/mythicaldash/Session';
+import Session from '@/mymythicalid/Session';
 import { AlertTriangle as AlertTriangleIcon, Bell as BellIcon, BellOff as BellOffIcon } from 'lucide-vue-next';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();

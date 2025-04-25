@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,23 +11,23 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-namespace MythicalDash\Chat\User;
+namespace MyMythicalID\Chat\User;
 
-use MythicalDash\App;
+use MyMythicalID\App;
 use Gravatar\Gravatar;
-use MythicalDash\Mail\Mail;
-use MythicalDash\Chat\Database;
-use MythicalDash\Mail\templates\Verify;
-use MythicalDash\Mail\templates\NewLogin;
-use MythicalDash\Chat\columns\UserColumns;
-use MythicalDash\Mail\templates\ResetPassword;
-use MythicalDash\Chat\interface\UserActivitiesTypes;
-use MythicalDash\Chat\columns\EmailVerificationColumns;
-use MythicalDash\Hooks\MythicalSystems\CloudFlare\CloudFlare;
+use MyMythicalID\Mail\Mail;
+use MyMythicalID\Chat\Database;
+use MyMythicalID\Mail\templates\Verify;
+use MyMythicalID\Mail\templates\NewLogin;
+use MyMythicalID\Chat\columns\UserColumns;
+use MyMythicalID\Mail\templates\ResetPassword;
+use MyMythicalID\Chat\interface\UserActivitiesTypes;
+use MyMythicalID\Chat\columns\EmailVerificationColumns;
+use MyMythicalID\Hooks\MythicalSystems\CloudFlare\CloudFlare;
 
 class User extends Database
 {
-    public const TABLE_NAME = 'mythicaldash_users';
+    public const TABLE_NAME = 'mymythicalid_users';
 
     public static function getTableName(): string
     {
@@ -43,9 +43,8 @@ class User extends Database
      * @param string $first_name The first name of the user
      * @param string $last_name The last name of the user
      * @param string $ip The ip of the user
-     * @param int $pterodactylUserId The user id of the user in the pterodactyl panel
      */
-    public static function register(string $username, string $password, string $email, string $first_name, string $last_name, string $ip, int $pterodactylUserId): void
+    public static function register(string $username, string $password, string $email, string $first_name, string $last_name, string $ip): void
     {
         try {
             $appInstance = App::getInstance(true);
@@ -55,7 +54,7 @@ class User extends Database
             /**
              * The UUID generation and logic.
              */
-            $uuidMngr = new \MythicalDash\Hooks\MythicalSystems\User\UUIDManager();
+            $uuidMngr = new \MyMythicalID\Hooks\MythicalSystems\User\UUIDManager();
             $uuid = $uuidMngr->generateUUID();
             $token = App::getInstance(true)->encrypt(date('Y-m-d H:i:s') . $uuid . random_bytes(16) . base64_encode($email));
 
@@ -79,9 +78,9 @@ class User extends Database
              */
             $stmt = $pdoConnection->prepare('
             INSERT INTO ' . self::TABLE_NAME . ' 
-            (username, first_name, last_name, email, password, avatar, background, uuid, pterodactyl_user_id, token, role, first_ip, last_ip, banned, verified, support_pin) 
+            (username, first_name, last_name, email, password, avatar, background, uuid, token, role, first_ip, last_ip, banned, verified, support_pin) 
             VALUES 
-            (:username, :first_name, :last_name, :email, :password, :avatar, :background, :uuid, :pterodactyl_user_id, :token, :role, :first_ip, :last_ip, :banned, :verified, :support_pin)
+            (:username, :first_name, :last_name, :email, :password, :avatar, :background, :uuid, :token, :role, :first_ip, :last_ip, :banned, :verified, :support_pin)
         ');
             $password = App::getInstance(true)->encrypt($password);
 
@@ -94,7 +93,6 @@ class User extends Database
                 ':avatar' => $avatar,
                 ':background' => 'https://cdn.mythical.systems/background.gif',
                 ':uuid' => $uuid,
-                ':pterodactyl_user_id' => $pterodactylUserId,
                 ':token' => $token,
                 ':role' => 1,
                 ':first_ip' => $ip,

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,7 +11,7 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-namespace MythicalDash\Chat;
+namespace MyMythicalID\Chat;
 
 use PDO;
 
@@ -55,7 +55,7 @@ class Database
         /**
          * Load the environment variables.
          */
-        \MythicalDash\App::getInstance(true)->loadEnv();
+        \MyMythicalID\App::getInstance(true)->loadEnv();
         $con = new self($_ENV['DATABASE_HOST'], $_ENV['DATABASE_DATABASE'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD']);
 
         return $con->getPdo();
@@ -299,7 +299,7 @@ class Database
 
     public static function db_Error(string $message): void
     {
-        $app = \MythicalDash\App::getInstance(true);
+        $app = \MyMythicalID\App::getInstance(true);
         $app->getLogger()->error($message, true);
     }
 

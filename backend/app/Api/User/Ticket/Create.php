@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,16 +11,15 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\App;
-use MythicalDash\Chat\User\Session;
-use MythicalDash\Chat\Tickets\Tickets;
-use MythicalDash\Config\ConfigInterface;
-use MythicalDash\Chat\columns\UserColumns;
-use MythicalDash\Chat\Tickets\Departments;
-use MythicalDash\Chat\User\UserActivities;
-use MythicalDash\CloudFlare\CloudFlareRealIP;
-use MythicalDash\Plugins\Events\Events\TicketEvent;
-use MythicalDash\Chat\interface\UserActivitiesTypes;
+use MyMythicalID\App;
+use MyMythicalID\Chat\User\Session;
+use MyMythicalID\Chat\Tickets\Tickets;
+use MyMythicalID\Config\ConfigInterface;
+use MyMythicalID\Chat\columns\UserColumns;
+use MyMythicalID\Chat\Tickets\Departments;
+use MyMythicalID\Chat\User\UserActivities;
+use MyMythicalID\CloudFlare\CloudFlareRealIP;
+use MyMythicalID\Chat\interface\UserActivitiesTypes;
 
 $router->get('/api/user/ticket/create', function () {
     App::init();
@@ -36,7 +35,6 @@ $router->get('/api/user/ticket/create', function () {
 });
 
 $router->post('/api/user/ticket/create', function () {
-    global $eventManager;
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
@@ -89,14 +87,7 @@ $router->post('/api/user/ticket/create', function () {
                 UserActivitiesTypes::$ticket_create,
                 CloudFlareRealIP::getRealIP()
             );
-            $eventManager->emit(TicketEvent::onTicketCreate(), [
-                'ticket_id' => $ticketId,
-                'department_id' => $departmentId,
-                'subject' => $subject,
-                'message' => $message,
-                'priority' => $priority,
-                'user_id' => $uuid,
-            ]);
+
             if ($ticketId == 0) {
                 $appInstance->BadRequest('Failed to create ticket!', ['error_code' => 'FAILED_TO_CREATE_TICKET']);
             } else {

@@ -8,7 +8,7 @@ import Turnstile from 'vue-turnstile';
 import { useSettingsStore } from '@/stores/settings';
 const Settings = useSettingsStore();
 import { useI18n } from 'vue-i18n';
-import { MythicalDOM } from '@/mythicaldash/MythicalDOM';
+import { MythicalDOM } from '@/mymythicalid/MythicalDOM';
 
 const { t } = useI18n();
 const router = useRouter();

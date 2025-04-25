@@ -1,18 +1,15 @@
 {
-    "name": "mythicalsystems/mythicaldash",
-    "description": "The next generation of MythicalDash",
+    "name": "mythicalsystems/mymythicalid",
+    "description": "The next generation of MyMythicalID",
     "type": "project",
-    "homepage": "https://github.com/mythicalltd/myhticaldash",
+    "homepage": "https://github.com/mythicalltd/mymythicalid",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "MythicalDash\\": "app/",
-            "MythicalDash\\Addons\\": "storage/addons/",
-			"MythicalDash\\Cron\\": "storage/cron/php/"
+            "MyMythicalID\\": "app/",
+            "MyMythicalID\\Addons\\": "storage/addons/",
+			"MyMythicalID\\Cron\\": "storage/cron/php/"
         }
-    },
-    "config": {
-        "vendor-dir": "storage/packages"
     },
     "authors": [
         {
@@ -46,7 +43,7 @@
     "support": {
         "wiki": "https://www.mythical.systems",
         "chat": "https://discord.mythical.systems",
-        "issues": "https://github.com/mythicalltd/mythicalldash/issues",
+        "issues": "https://github.com/mythicalltd/mymythicalid/issues",
         "docs": "https://www.mythical.systems",
         "forum": "https://discord.mythical.systems"
     },

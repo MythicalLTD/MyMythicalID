@@ -13,10 +13,6 @@
                 </div>
                 <!-- Main Content -->
                 <div class="lg:col-span-3 space-y-6">
-                    <!-- Resource Cards -->
-                    <ResourceCards />
-                    <!-- Server List -->
-                    <ServerList />
                     <TicketList />
                 </div>
             </div>
@@ -30,12 +26,10 @@ import LayoutDashboard from '@/components/client/LayoutDashboard.vue';
 import SupportPin from '@/components/client/Dashboard/Main/SupportPin.vue';
 import TicketList from '@/components/client/Dashboard/Main/TicketList.vue';
 import Header from '@/components/client/Dashboard/Main/Header.vue';
-import ResourceCards from '@/components/client/Dashboard/Main/ResourceCards.vue';
 import UserProfile from '@/components/client/Dashboard/Main/UserProfile.vue';
 import QuickLinks from '@/components/client/Dashboard/Main/QuickLinks.vue';
 import AnnouncementsPreview from '@/components/client/Dashboard/Main/AnnouncementsPreview.vue';
-import ServerList from '@/components/client/Dashboard/Main/ServerList.vue';
-import { MythicalDOM } from '@/mythicaldash/MythicalDOM';
+import { MythicalDOM } from '@/mymythicalid/MythicalDOM';
 
 import BeforeContent from '@/plugins/components/Dashboard/BeforeContent.vue';
 import AfterContent from '@/plugins/components/Dashboard/AfterContent.vue';

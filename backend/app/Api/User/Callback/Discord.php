@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,22 +11,20 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\App;
-use MythicalDash\Chat\User\User;
-use MythicalDash\Chat\User\Session;
-use MythicalDash\Config\ConfigInterface;
-use MythicalDash\Chat\columns\UserColumns;
-use MythicalDash\Chat\User\UserActivities;
-use MythicalDash\CloudFlare\CloudFlareRealIP;
-use MythicalDash\Chat\interface\UserActivitiesTypes;
-use MythicalDash\Plugins\Events\Events\DiscordEvent;
+use MyMythicalID\App;
+use MyMythicalID\Chat\User\User;
+use MyMythicalID\Chat\User\Session;
+use MyMythicalID\Config\ConfigInterface;
+use MyMythicalID\Chat\columns\UserColumns;
+use MyMythicalID\Chat\User\UserActivities;
+use MyMythicalID\CloudFlare\CloudFlareRealIP;
+use MyMythicalID\Chat\interface\UserActivitiesTypes;
 
 $router->get('/api/user/auth/callback/discord/link', function () {
     App::init();
     $appInstance = App::getInstance(true);
     $config = $appInstance->getConfig();
     $s = new Session($appInstance);
-    global $eventManager;
     if (
         $config->getSetting(ConfigInterface::DISCORD_ENABLED, 'false') === 'false'
         || $config->getSetting(ConfigInterface::DISCORD_CLIENT_ID, '') === ''
@@ -38,7 +36,7 @@ $router->get('/api/user/auth/callback/discord/link', function () {
 
     $appId = $config->getSetting(ConfigInterface::DISCORD_CLIENT_ID, '');
     $appSecret = $config->getSetting(ConfigInterface::DISCORD_CLIENT_SECRET, '');
-    $url = $config->getSetting(ConfigInterface::APP_URL, 'https://mythicaldash-v3.mythical.systems');
+    $url = $config->getSetting(ConfigInterface::APP_URL, 'https://mymythicalid-v3.mythical.systems');
     $redirectUri = $url . '/api/user/auth/callback/discord/link';
 
     if (isset($_GET['code'])) {
@@ -87,9 +85,6 @@ $router->get('/api/user/auth/callback/discord/link', function () {
             $s->setInfo(UserColumns::DISCORD_GLOBAL_NAME, $global_name, false);
             $s->setInfo(UserColumns::DISCORD_EMAIL, $email, false);
             $s->setInfo(UserColumns::DISCORD_LINKED, 'true', false);
-            $eventManager->emit(DiscordEvent::onDiscordLink(), [
-                'user' => $s->getInfo(UserColumns::UUID, false),
-            ]);
             UserActivities::add(
                 $s->getInfo(UserColumns::UUID, false),
                 UserActivitiesTypes::$discord_link,
@@ -110,7 +105,6 @@ $router->get('/api/user/auth/callback/discord/link', function () {
 $router->get('/api/user/auth/callback/discord/unlink', function () {
     App::init();
     $appInstance = App::getInstance(true);
-    global $eventManager;
     $config = $appInstance->getConfig();
     $s = new Session($appInstance);
 
@@ -119,9 +113,6 @@ $router->get('/api/user/auth/callback/discord/unlink', function () {
     $s->setInfo(UserColumns::DISCORD_GLOBAL_NAME, null, false);
     $s->setInfo(UserColumns::DISCORD_EMAIL, null, false);
     $s->setInfo(UserColumns::DISCORD_LINKED, 'false', false);
-    $eventManager->emit(DiscordEvent::onDiscordUnlink(), [
-        'user' => $s->getInfo(UserColumns::UUID, false),
-    ]);
     UserActivities::add(
         $s->getInfo(UserColumns::UUID, false),
         UserActivitiesTypes::$discord_unlink,
@@ -146,10 +137,9 @@ $router->get('/api/user/auth/callback/discord/login', function () {
         exit;
     }
 
-    global $eventManager;
     $appId = $config->getSetting(ConfigInterface::DISCORD_CLIENT_ID, '');
     $appSecret = $config->getSetting(ConfigInterface::DISCORD_CLIENT_SECRET, '');
-    $url = $config->getSetting(ConfigInterface::APP_URL, 'https://mythicaldash-v3.mythical.systems');
+    $url = $config->getSetting(ConfigInterface::APP_URL, 'https://mymythicalid-v3.mythical.systems');
     $redirectUri = $url . '/api/user/auth/callback/discord/login';
 
     if (isset($_GET['code'])) {
@@ -195,9 +185,7 @@ $router->get('/api/user/auth/callback/discord/login', function () {
                 $email = User::getInfo(User::getTokenFromUUID($uuid), UserColumns::EMAIL, false);
                 $password = User::getInfo(User::getTokenFromUUID($uuid), UserColumns::PASSWORD, true);
                 header('Location: ' . $url . '/auth/login?email=' . urlencode(base64_encode($email)) . '&password=' . urlencode(base64_encode($password)) . '&performLogin=true');
-                $eventManager->emit(DiscordEvent::onDiscordLogin(), [
-                    'user' => $uuid,
-                ]);
+
                 UserActivities::add(
                     $uuid,
                     UserActivitiesTypes::$discord_login,

@@ -8,10 +8,9 @@ import SearchModal from '@/components/client/layout/SearchModal.vue';
 import NotificationsDropdown from '@/components/client/layout/NotificationsDropdown.vue';
 import ProfileDropdown from '@/components/client/layout/ProfileDropdown.vue';
 import { SettingsIcon, UsersIcon } from 'lucide-vue-next';
-import Session from '@/mythicaldash/Session';
-import StorageMonitor from '@/mythicaldash/StorageMonitor';
-import MythicalDash from '@/mythicaldash/MythicalDash';
-import { LicenseServer } from '@/mythicaldash/LicenseServer';
+import Session from '@/mymythicalid/Session';
+import StorageMonitor from '@/mymythicalid/StorageMonitor';
+import MythicalDash from '@/mymythicalid/MyMythicalID';
 import ReloadAnimation from '@/components/client/ui/ReloadAnimation.vue';
 
 MythicalDash.download();
@@ -159,18 +158,6 @@ const userInfo = computed(() => ({
     avatar: Session.getInfo('avatar'),
 }));
 
-const showFooter = ref(true);
-
-onMounted(async () => {
-    try {
-        const isValid = await LicenseServer.isLicenseValid();
-        showFooter.value = !isValid;
-    } catch (error) {
-        console.error('Error checking license:', error);
-        showFooter.value = true;
-    }
-});
-
 const reloadUserData = async () => {
     isReloading.value = true;
 
@@ -267,14 +254,6 @@ const reloadUserData = async () => {
                     }"
                     class="bg-[#050508]/95 backdrop-blur-lg border border-[#1a1a2f]/30"
                 />
-
-                <!-- Footer -->
-                <footer v-if="showFooter" class="relative z-10 py-4 px-6 text-center text-sm text-gray-500">
-                    <a href="https://mythical.systems" class="hover:text-indigo-400 transition-colors">
-                        MythicalSystems
-                    </a>
-                    <p>LTD 2020 - {{ new Date().getFullYear() }}</p>
-                </footer>
             </template>
         </div>
     </div>

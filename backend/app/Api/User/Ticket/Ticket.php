@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,19 +11,18 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\App;
-use MythicalDash\Chat\User\User;
-use MythicalDash\Chat\User\Roles;
-use MythicalDash\Chat\User\Session;
-use MythicalDash\Chat\Tickets\Tickets;
-use MythicalDash\Chat\Tickets\Messages;
-use MythicalDash\Chat\columns\UserColumns;
-use MythicalDash\Chat\Tickets\Attachments;
-use MythicalDash\Chat\Tickets\Departments;
-use MythicalDash\Chat\User\UserActivities;
-use MythicalDash\CloudFlare\CloudFlareRealIP;
-use MythicalDash\Plugins\Events\Events\TicketEvent;
-use MythicalDash\Chat\interface\UserActivitiesTypes;
+use MyMythicalID\App;
+use MyMythicalID\Chat\User\User;
+use MyMythicalID\Chat\User\Roles;
+use MyMythicalID\Chat\User\Session;
+use MyMythicalID\Chat\Tickets\Tickets;
+use MyMythicalID\Chat\Tickets\Messages;
+use MyMythicalID\Chat\columns\UserColumns;
+use MyMythicalID\Chat\Tickets\Attachments;
+use MyMythicalID\Chat\Tickets\Departments;
+use MyMythicalID\Chat\User\UserActivities;
+use MyMythicalID\CloudFlare\CloudFlareRealIP;
+use MyMythicalID\Chat\interface\UserActivitiesTypes;
 
 $router->get('/api/user/ticket/(.*)/messages', function ($ticketId) {
     App::init();
@@ -38,7 +37,6 @@ $router->get('/api/user/ticket/(.*)/messages', function ($ticketId) {
             $ticketInfo['department_id'] = $ticketInfo['department'];
             $ticketInfo['department'] = Departments::get((int) $ticketInfo['department']);
             $uuid = $s->getInfo(UserColumns::UUID, false);
-            global $eventManager;
             if ($ticketInfo['user'] !== $s->getInfo(UserColumns::UUID, false) && $s->getInfo(UserColumns::ROLE_ID, false) < 3) {
                 $appInstance->Forbidden('You do not have permission to view this ticket', ['error_code' => 'ERROR_PERMISSION_DENIED']);
 
@@ -82,14 +80,6 @@ $router->get('/api/user/ticket/(.*)/messages', function ($ticketId) {
 
             $attachments = Attachments::getAttachmentsByTicketId($ticketId);
 
-            $eventManager->emit(TicketEvent::onTicketView(), [
-                'ticket_id' => $ticketId,
-                'user_id' => $uuid,
-                'messages' => $messages,
-                'attachments' => $attachments,
-                'ticket' => $ticketInfo,
-            ]);
-
             $appInstance->OK(200, [
                 'messages' => $messages,
                 'ticket' => $ticketInfo,
@@ -110,7 +100,6 @@ $router->post('/api/user/ticket/(.*)/reply', function ($ticketId) {
     $appInstance->allowOnlyPOST();
     $s = new Session($appInstance);
     $ticketId = (int) $ticketId;
-    global $eventManager;
     $uuid = $s->getInfo(UserColumns::UUID, false);
     if (!isset($_POST['message'])) {
         $appInstance->BadRequest('Message is required', ['error_code' => 'ERROR_MESSAGE_REQUIRED']);
@@ -127,11 +116,7 @@ $router->post('/api/user/ticket/(.*)/reply', function ($ticketId) {
             return;
         }
         Messages::createMessage($ticketId, $message, $uuid);
-        $eventManager->emit(TicketEvent::onTicketReply(), [
-            'ticket_id' => $ticketId,
-            'user_id' => $uuid,
-            'message' => $message,
-        ]);
+     
         UserActivities::add(
             $uuid,
             UserActivitiesTypes::$ticket_reply,
@@ -150,7 +135,6 @@ $router->post('/api/user/ticket/(.*)/status', function ($ticketId) {
     $appInstance->allowOnlyPOST();
     $s = new Session($appInstance);
     $ticketId = (int) $ticketId;
-    global $eventManager;
     $uuid = $s->getInfo(UserColumns::UUID, false);
 
     if (!isset($_POST['status'])) {
@@ -175,11 +159,6 @@ $router->post('/api/user/ticket/(.*)/status', function ($ticketId) {
             return;
         }
         Tickets::updateTicketStatus($ticketId, $status);
-        $eventManager->emit(TicketEvent::onTicketUpdate(), [
-            'ticket_id' => $ticketId,
-            'user_id' => $uuid,
-            'status' => $status,
-        ]);
         UserActivities::add(
             $uuid,
             UserActivitiesTypes::$ticket_update,
@@ -198,7 +177,6 @@ $router->post('/api/user/ticket/(.*)/attachments', function ($ticketId) {
     $appInstance->allowOnlyPOST();
     $s = new Session($appInstance);
     $ticketId = (int) $ticketId;
-    global $eventManager;
     $uuid = $s->getInfo(UserColumns::UUID, false);
 
     if (!isset($_FILES['attachments'])) {
@@ -284,11 +262,7 @@ $router->post('/api/user/ticket/(.*)/attachments', function ($ticketId) {
                 Attachments::addAttachment($ticketId, $relativePath);
                 $uploadedFiles[] = $relativePath;
             }
-            $eventManager->emit(TicketEvent::onTicketAttachmentUpload(), [
-                'ticket_id' => $ticketId,
-                'user_id' => $uuid,
-                'attachments' => $uploadedFiles,
-            ]);
+
             $appInstance->OK(200, [
                 'message' => 'Attachments uploaded successfully',
                 'files' => $uploadedFiles,

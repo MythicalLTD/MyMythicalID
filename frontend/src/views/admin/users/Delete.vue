@@ -89,7 +89,7 @@ import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import LayoutDashboard from '@/components/admin/LayoutDashboard.vue';
 import { ArrowLeftIcon, TrashIcon, LoaderIcon, AlertTriangleIcon } from 'lucide-vue-next';
-import Users from '@/mythicaldash/admin/Users';
+import Users from '@/mymythicalid/admin/Users';
 import Swal from 'sweetalert2';
 import { useSound } from '@vueuse/sound';
 import failedAlertSfx from '@/assets/sounds/error.mp3';

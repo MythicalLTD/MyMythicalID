@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,20 +11,19 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\App;
-use MythicalDash\Chat\User\Can;
-use MythicalDash\Chat\columns\UserColumns;
-use MythicalDash\Chat\Tickets\Departments;
-use MythicalDash\Chat\User\UserActivities;
-use MythicalDash\CloudFlare\CloudFlareRealIP;
-use MythicalDash\Chat\interface\UserActivitiesTypes;
-use MythicalDash\Plugins\Events\Events\DepartmentsEvent;
+use MyMythicalID\App;
+use MyMythicalID\Chat\User\Can;
+use MyMythicalID\Chat\columns\UserColumns;
+use MyMythicalID\Chat\Tickets\Departments;
+use MyMythicalID\Chat\User\UserActivities;
+use MyMythicalID\CloudFlare\CloudFlareRealIP;
+use MyMythicalID\Chat\interface\UserActivitiesTypes;
 
 $router->get('/api/admin/ticket/departments', function (): void {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyGET();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         $departments = Departments::getAll();
@@ -41,7 +40,7 @@ $router->post('/api/admin/ticket/departments/create', function (): void {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         if (isset($_POST['name']) && isset($_POST['description']) && isset($_POST['open']) && isset($_POST['close']) && isset($_POST['enabled'])) {
@@ -70,14 +69,6 @@ $router->post('/api/admin/ticket/departments/create', function (): void {
                 CloudFlareRealIP::getRealIP(),
             );
 
-            global $eventManager;
-            $eventManager->emit(DepartmentsEvent::onCreateDepartment(), [
-                'id' => $departmentId,
-                'name' => $name,
-                'description' => $description,
-                'open' => $open,
-                'close' => $close,
-            ]);
 
             $appInstance->OK('Department created successfully.', [
                 'department' => [
@@ -100,7 +91,7 @@ $router->post('/api/admin/ticket/departments/(.*)/update', function (string $id)
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         $departmentId = intval($id);
@@ -129,14 +120,7 @@ $router->post('/api/admin/ticket/departments/(.*)/update', function (string $id)
             UserActivitiesTypes::$admin_ticket_department_update,
             CloudFlareRealIP::getRealIP(),
         );
-        global $eventManager;
-        $eventManager->emit(DepartmentsEvent::onUpdateDepartment(), [
-            'id' => $departmentId,
-            'name' => $name,
-            'description' => $description,
-            'open' => $open,
-            'close' => $close,
-        ]);
+
         $appInstance->OK('Department updated successfully.', [
             'department' => [
                 'id' => $departmentId,
@@ -156,7 +140,7 @@ $router->post('/api/admin/ticket/departments/(.*)/delete', function (string $id)
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         $departmentId = intval($id);
@@ -174,11 +158,6 @@ $router->post('/api/admin/ticket/departments/(.*)/delete', function (string $id)
             UserActivitiesTypes::$admin_ticket_department_delete,
             CloudFlareRealIP::getRealIP(),
         );
-
-        global $eventManager;
-        $eventManager->emit(DepartmentsEvent::onDeleteDepartment(), [
-            'id' => $departmentId,
-        ]);
 
         $departmentId = Departments::delete($departmentId);
         if ($departmentId === false) {

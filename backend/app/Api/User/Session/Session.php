@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,24 +11,18 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\App;
-use MythicalDash\Chat\Database;
-use MythicalDash\Chat\Eggs\Eggs;
-use MythicalDash\Chat\User\User;
-use MythicalDash\Chat\User\Roles;
-use MythicalDash\Chat\User\Session;
-use MythicalDash\Chat\columns\UserColumns;
-use MythicalDash\Chat\Locations\Locations;
-use MythicalDash\Chat\User\UserActivities;
-use MythicalDash\CloudFlare\CloudFlareRealIP;
-use MythicalDash\Hooks\Pterodactyl\Admin\Nodes;
-use MythicalDash\Hooks\Pterodactyl\Admin\Servers;
-use MythicalDash\Plugins\Events\Events\UserEvent;
-use MythicalDash\Chat\interface\UserActivitiesTypes;
+use MyMythicalID\App;
+use MyMythicalID\Chat\Database;
+use MyMythicalID\Chat\User\User;
+use MyMythicalID\Chat\User\Roles;
+use MyMythicalID\Chat\User\Session;
+use MyMythicalID\Chat\columns\UserColumns;
+use MyMythicalID\Chat\User\UserActivities;
+use MyMythicalID\CloudFlare\CloudFlareRealIP;
+use MyMythicalID\Chat\interface\UserActivitiesTypes;
 
 $router->post('/api/user/session/info/update', function (): void {
     App::init();
-    global $eventManager;
     $appInstance = App::getInstance(true);
     $config = $appInstance->getConfig();
 
@@ -61,9 +55,6 @@ $router->post('/api/user/session/info/update', function (): void {
         $session->setInfo(UserColumns::EMAIL, $_POST['email'], false);
         $session->setInfo(UserColumns::AVATAR, $_POST['avatar'], false);
         $session->setInfo(UserColumns::BACKGROUND, $_POST['background'], false);
-        $eventManager->emit(UserEvent::onUserUpdate(), [
-            'user' => $session->getInfo(UserColumns::UUID, false),
-        ]);
         UserActivities::add(
             $session->getInfo(UserColumns::UUID, false),
             UserActivitiesTypes::$user_update,
@@ -77,14 +68,12 @@ $router->post('/api/user/session/info/update', function (): void {
 });
 
 $router->add('/api/user/session/apiKey/reset', function (): void {
-    global $eventManager;
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
     $session = new Session($appInstance);
-    $token = 'mythicaldash_clientapi_' . App::getInstance(true)->encrypt(date('Y-m-d H:i:s') . 'MythicalDash' . random_bytes(16) . base64_encode($appInstance->generateCode()));
+    $token = 'mymythicalid_clientapi_' . App::getInstance(true)->encrypt(date('Y-m-d H:i:s') . 'MyMythicalID' . random_bytes(16) . base64_encode($appInstance->generateCode()));
     $session->setInfo(UserColumns::ACCOUNT_TOKEN, $token, false);
-    $eventManager->emit(UserEvent::resetApiKey(), [$token]);
     UserActivities::add(
         $session->getInfo(UserColumns::UUID, false),
         UserActivitiesTypes::$user_reset_api_key,
@@ -97,13 +86,11 @@ $router->add('/api/user/session/apiKey/reset', function (): void {
 $router->add('/api/user/session/newPin', function (): void {
     App::init();
     $appInstance = App::getInstance(true);
-    global $eventManager;
     $appInstance->allowOnlyPOST();
     $session = new Session($appInstance);
     $pin = $appInstance->generatePin();
     try {
         $session->setInfo(UserColumns::SUPPORT_PIN, $pin, false);
-        $eventManager->emit(UserEvent::newSupportPin(), [$pin]);
         UserActivities::add(
             $session->getInfo(UserColumns::UUID, false),
             UserActivitiesTypes::$user_new_support_pin,
@@ -124,11 +111,11 @@ $router->get('/api/user/session', function (): void {
     $session = new Session($appInstance);
     $accountToken = $session->SESSION_KEY;
     try {
-        $stats_tickets = Database::getTableColumnCount('mythicaldash_tickets', [
+        $stats_tickets = Database::getTableColumnCount('mymythicalid_tickets', [
             'user' => User::getInfo($accountToken, UserColumns::UUID, false),
         ]);
 
-        $stats_servers = Database::getTableColumnCount('mythicaldash_servers', [
+        $stats_servers = Database::getTableColumnCount('mymythicalid_servers', [
             'user' => User::getInfo($accountToken, UserColumns::UUID, false),
         ]);
 
@@ -153,16 +140,6 @@ $router->get('/api/user/session', function (): void {
             UserColumns::LAST_SEEN,
             UserColumns::FIRST_SEEN,
             UserColumns::BACKGROUND,
-            UserColumns::MINUTES_AFK,
-            UserColumns::LAST_SEEN_AFK,
-            UserColumns::DISK_LIMIT,
-            UserColumns::MEMORY_LIMIT,
-            UserColumns::CPU_LIMIT,
-            UserColumns::SERVER_LIMIT,
-            UserColumns::BACKUP_LIMIT,
-            UserColumns::DATABASE_LIMIT,
-            UserColumns::ALLOCATION_LIMIT,
-            UserColumns::PTERODACTYL_USER_ID,
 
             UserColumns::DISCORD_LINKED,
             UserColumns::DISCORD_USERNAME,
@@ -206,52 +183,5 @@ $router->get('/api/user/session/activities', function (): void {
     $accountToken = $session->SESSION_KEY;
     $appInstance->OK('User activities', [
         'activities' => UserActivities::get(User::getInfo($accountToken, UserColumns::UUID, false)),
-    ]);
-});
-
-$router->get('/api/user/session/pterodactyl/resources', function (): void {
-    App::init();
-    $appInstance = App::getInstance(true);
-    $appInstance->allowOnlyGET();
-    $session = new Session($appInstance);
-    $accountToken = $session->SESSION_KEY;
-
-    $pterodactylUserId = User::getInfo($accountToken, UserColumns::PTERODACTYL_USER_ID, false);
-
-    $resources = Servers::getUserTotalResourcesUsage($pterodactylUserId);
-
-    $appInstance->OK('User resources', [
-        'resources' => $resources,
-    ]);
-});
-
-$router->get('/api/user/session/servers', function (): void {
-    App::init();
-    $appInstance = App::getInstance(true);
-    $appInstance->allowOnlyGET();
-    $session = new Session($appInstance);
-    $accountToken = $session->SESSION_KEY;
-
-    $pterodactylUserId = User::getInfo($accountToken, UserColumns::PTERODACTYL_USER_ID, false);
-
-    $servers = Servers::getUserServersList($pterodactylUserId);
-    foreach ($servers as &$server) {
-        $nodeId = $server['node'];
-        $locationId = Nodes::getLocationIdFromNode($nodeId);
-        $location = Locations::getLocationByPterodactylLocationId($locationId);
-        $server['location'] = $location;
-
-        $eggId = $server['egg'];
-        $egg = Eggs::getByPterodactylEggId($eggId);
-        $server['service'] = $egg;
-
-        $nestId = $server['nest'];
-        $nest = MythicalDash\Chat\Eggs\EggCategories::getByPterodactylNestId($nestId);
-        $server['category'] = $nest;
-    }
-    unset($server); // Unset the reference to avoid potential issues
-
-    $appInstance->OK('User servers', [
-        'servers' => $servers,
     ]);
 });

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,15 +11,14 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\App;
-use MythicalDash\Hooks\GitHub;
-use MythicalDash\Chat\Database;
-use MythicalDash\Chat\User\Can;
-use MythicalDash\Chat\User\Session;
-use MythicalDash\Chat\columns\UserColumns;
-use MythicalDash\Chat\User\UserActivities;
+use MyMythicalID\App;
+use MyMythicalID\Hooks\GitHub;
+use MyMythicalID\Chat\Database;
+use MyMythicalID\Chat\User\Can;
+use MyMythicalID\Chat\User\Session;
+use MyMythicalID\Chat\columns\UserColumns;
+use MyMythicalID\Chat\User\UserActivities;
 
-global $eventManager;
 
 $router->get('/api/admin', function (): void {
     App::init();
@@ -31,20 +30,20 @@ $router->get('/api/admin', function (): void {
             $github_data = new GitHub();
             $github_data = $github_data->getRepoData();
             $activity = UserActivities::getAll(150);
-            $userCount = Database::getTableRowCount('mythicaldash_users');
-            $addonsCount = Database::getTableRowCount('mythicaldash_addons');
-            $rolesCount = Database::getTableRowCount('mythicaldash_roles');
-            $locationsCount = Database::getTableRowCount('mythicaldash_locations');
-            $ticketsCount = Database::getTableRowCount('mythicaldash_tickets');
-            $eggsCount = Database::getTableRowCount('mythicaldash_eggs');
-            $departmentsCount = Database::getTableRowCount('mythicaldash_departments');
-            $announcementsCount = Database::getTableRowCount('mythicaldash_announcements');
-            $serverQueueCount = Database::getTableRowCount('mythicaldash_servers_queue');
-            $mailTemplatesCount = Database::getTableRowCount('mythicaldash_mail_templates');
-            $settingsCount = Database::getTableRowCount('mythicaldash_settings', false);
-            $redeemCodesCount = Database::getTableRowCount('mythicaldash_redeem_codes');
-            $serversCount = Database::getTableRowCount('mythicaldash_servers');
-            $pluginsCount = Database::getTableRowCount('mythicaldash_addons');
+            $userCount = Database::getTableRowCount('mymythicalid_users');
+            $addonsCount = Database::getTableRowCount('mymythicalid_addons');
+            $rolesCount = Database::getTableRowCount('mymythicalid_roles');
+            $locationsCount = Database::getTableRowCount('mymythicalid_locations');
+            $ticketsCount = Database::getTableRowCount('mymythicalid_tickets');
+            $eggsCount = Database::getTableRowCount('mymythicalid_eggs');
+            $departmentsCount = Database::getTableRowCount('mymythicalid_departments');
+            $announcementsCount = Database::getTableRowCount('mymythicalid_announcements');
+            $serverQueueCount = Database::getTableRowCount('mymythicalid_servers_queue');
+            $mailTemplatesCount = Database::getTableRowCount('mymythicalid_mail_templates');
+            $settingsCount = Database::getTableRowCount('mymythicalid_settings', false);
+            $redeemCodesCount = Database::getTableRowCount('mymythicalid_redeem_codes');
+            $serversCount = Database::getTableRowCount('mymythicalid_servers');
+            $pluginsCount = Database::getTableRowCount('mymythicalid_addons');
 
             $appInstance->OK('Dashboard data retrieved successfully.', [
                 'core' => [

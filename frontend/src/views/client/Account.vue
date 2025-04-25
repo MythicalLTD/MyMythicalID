@@ -55,7 +55,7 @@ import ActivitiesTab from '@/components/client/Dashboard/Account/Activities.vue'
 import ApiKey from '@/components/client/Dashboard/Account/ApiKey.vue';
 import LinkedAccounts from '@/components/client/Dashboard/Account/LinkedAccounts.vue';
 import LayoutAccount from '@/components/client/Dashboard/Account/Layout.vue';
-import { MythicalDOM } from '@/mythicaldash/MythicalDOM';
+import { MythicalDOM } from '@/mymythicalid/MythicalDOM';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();

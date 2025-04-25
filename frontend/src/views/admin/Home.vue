@@ -256,7 +256,7 @@ import {
 } from 'lucide-vue-next';
 import LayoutDashboard from '@/components/admin/LayoutDashboard.vue';
 import { useSettingsStore } from '@/stores/settings';
-import Dashboard from '@/mythicaldash/admin/Dashboard';
+import Dashboard from '@/mymythicalid/admin/Dashboard';
 import { RouterLink } from 'vue-router';
 
 const Settings = useSettingsStore();

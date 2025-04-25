@@ -12,8 +12,8 @@ import { useRouter } from 'vue-router';
 import successAlertSfx from '@/assets/sounds/success.mp3';
 import failedAlertSfx from '@/assets/sounds/error.mp3';
 import { useSound } from '@vueuse/sound';
-import Auth from '@/mythicaldash/Auth';
-import { MythicalDOM } from '@/mythicaldash/MythicalDOM';
+import Auth from '@/mymythicalid/Auth';
+import { MythicalDOM } from '@/mymythicalid/MythicalDOM';
 
 const { play: playError } = useSound(failedAlertSfx);
 const { play: playSuccess } = useSound(successAlertSfx);
@@ -28,15 +28,9 @@ const form = reactive({
     email: '',
     password: '',
     turnstileResponse: '',
-    referralCode: '',
 });
 
-if (router.currentRoute.value.query.ref) {
-    form.referralCode = router.currentRoute.value.query.ref as string;
-}
-
 MythicalDOM.setPageTitle(t('auth.pages.register.page.title'));
-const referralsEnabled = Settings.getSetting('referrals_enabled');
 const handleSubmit = async () => {
     loading.value = true;
     try {
@@ -47,7 +41,6 @@ const handleSubmit = async () => {
             form.username,
             form.password,
             form.turnstileResponse,
-            form.referralCode,
         );
 
         if (!response.success) {
@@ -151,14 +144,6 @@ const handleSubmit = async () => {
                 :placeholder="t('auth.pages.register.page.form.password.placeholder')"
                 required
             />
-            <div v-if="referralsEnabled">
-                <FormInput
-                    id="referralCode"
-                    :label="t('auth.pages.register.page.form.referralCode.label')"
-                    v-model="form.referralCode"
-                    :placeholder="t('auth.pages.register.page.form.referralCode.placeholder')"
-                />
-            </div>
             <button
                 type="submit"
                 class="w-full mt-6 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"

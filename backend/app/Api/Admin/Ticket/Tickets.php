@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,17 +11,17 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\App;
-use MythicalDash\Chat\User\Can;
-use MythicalDash\Chat\User\User;
-use MythicalDash\Chat\Tickets\Tickets;
-use MythicalDash\Chat\columns\UserColumns;
+use MyMythicalID\App;
+use MyMythicalID\Chat\User\Can;
+use MyMythicalID\Chat\User\User;
+use MyMythicalID\Chat\Tickets\Tickets;
+use MyMythicalID\Chat\columns\UserColumns;
 
 $router->get('/api/admin/tickets', function (): void {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyGET();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         $tickets = Tickets::getAllTickets(9500);

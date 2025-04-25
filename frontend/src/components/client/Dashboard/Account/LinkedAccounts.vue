@@ -9,7 +9,7 @@ import {
     Link as LinkIcon,
     AlertCircle as AlertIcon,
 } from 'lucide-vue-next';
-import Session from '@/mythicaldash/Session';
+import Session from '@/mymythicalid/Session';
 import { useI18n } from 'vue-i18n';
 import { useSettingsStore } from '@/stores/settings';
 

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,13 +11,13 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-namespace MythicalDash\Chat\Mails;
+namespace MyMythicalID\Chat\Mails;
 
-use MythicalDash\Chat\Database;
+use MyMythicalID\Chat\Database;
 
 class MailTemplates extends Database
 {
-    public const TABLE_NAME = 'mythicaldash_mail_templates';
+    public const TABLE_NAME = 'mymythicalid_mail_templates';
 
     /**
      * Get the table name for mail templates.

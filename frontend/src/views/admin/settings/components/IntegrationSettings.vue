@@ -3,142 +3,6 @@
         <h2 class="text-xl font-semibold text-white mb-4">Integration Settings</h2>
 
         <div class="space-y-6">
-            <!-- Pterodactyl Integration -->
-            <div class="bg-gray-800/30 p-5 rounded-lg border border-gray-700">
-                <div class="flex items-center mb-4">
-                    <div class="flex-1">
-                        <h3 class="text-lg font-medium text-white flex items-center">
-                            <FeatherIcon class="w-5 h-5 mr-2 text-pink-400" />
-                            Pterodactyl Panel
-                        </h3>
-                        <p class="text-sm text-gray-400">Connect to your Pterodactyl Panel for server management.</p>
-                    </div>
-                    <div>
-                        <span
-                            :class="[
-                                'px-2 py-1 text-xs rounded-md',
-                                pterodactylConnected ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400',
-                            ]"
-                        >
-                            {{ pterodactylConnected ? 'Connected' : 'Not Connected' }}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Panel URL -->
-                <div class="mb-4">
-                    <label for="pterodactyl_base_url" class="block text-sm font-medium text-gray-400 mb-1"
-                        >Panel URL</label
-                    >
-                    <input
-                        id="pterodactyl_base_url"
-                        type="url"
-                        v-model="formData.pterodactyl_base_url"
-                        @change="updateSetting('pterodactyl_base_url', formData.pterodactyl_base_url)"
-                        class="bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-pink-500"
-                        placeholder="https://panel.yourdomain.com"
-                    />
-                    <p class="mt-1 text-xs text-gray-500">
-                        The base URL of your Pterodactyl Panel. Must include http:// or https://.
-                    </p>
-                </div>
-
-                <!-- API Key -->
-                <div class="mb-4">
-                    <label for="pterodactyl_api_key" class="block text-sm font-medium text-gray-400 mb-1"
-                        >API Key</label
-                    >
-                    <div class="relative">
-                        <input
-                            id="pterodactyl_api_key"
-                            :type="showApiKey ? 'text' : 'password'"
-                            v-model="formData.pterodactyl_api_key"
-                            @change="updateSetting('pterodactyl_api_key', formData.pterodactyl_api_key)"
-                            class="bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-2 pr-10 w-full focus:outline-none focus:ring-2 focus:ring-pink-500"
-                            placeholder="ptlc_••••••••••••••••••••••••••••••"
-                        />
-                        <button
-                            type="button"
-                            @click="showApiKey = !showApiKey"
-                            class="absolute inset-y-0 right-0 pr-3 flex items-center"
-                        >
-                            <EyeIcon v-if="showApiKey" class="h-5 w-5 text-gray-400" />
-                            <EyeOffIcon v-else class="h-5 w-5 text-gray-400" />
-                        </button>
-                    </div>
-                    <p class="mt-1 text-xs text-gray-500">
-                        Enter your Pterodactyl API key. This should be a full access Application API key, not a Client
-                        API key.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Pelican Integration -->
-            <div class="bg-gray-800/30 p-5 rounded-lg border border-gray-700">
-                <div class="flex items-center mb-4">
-                    <div class="flex-1">
-                        <h3 class="text-lg font-medium text-white flex items-center">
-                            <FeatherIcon class="w-5 h-5 mr-2 text-blue-400" />
-                            Pelican Panel
-                        </h3>
-                        <p class="text-sm text-gray-400">Connect to your Pelican Panel for server management.</p>
-                    </div>
-                    <div>
-                        <span
-                            :class="[
-                                'px-2 py-1 text-xs rounded-md',
-                                pelicanConnected ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400',
-                            ]"
-                        >
-                            {{ pelicanConnected ? 'Connected' : 'Not Connected' }}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Panel URL -->
-                <div class="mb-4">
-                    <label for="pelican_base_url" class="block text-sm font-medium text-gray-400 mb-1">Panel URL</label>
-                    <input
-                        id="pelican_base_url"
-                        type="url"
-                        disabled
-                        v-model="formData.pelican_base_url"
-                        @change="updateSetting('pelican_base_url', formData.pelican_base_url)"
-                        class="bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-pink-500"
-                        placeholder="https://pelican.yourdomain.com"
-                    />
-                    <p class="mt-1 text-xs text-gray-500">
-                        The base URL of your Pelican Panel. Must include http:// or https://.
-                    </p>
-                </div>
-
-                <!-- API Key -->
-                <div class="mb-4">
-                    <label for="pelican_api_key" class="block text-sm font-medium text-gray-400 mb-1">API Key</label>
-                    <div class="relative">
-                        <input
-                            id="pelican_api_key"
-                            :type="showPelicanApiKey ? 'text' : 'password'"
-                            v-model="formData.pelican_api_key"
-                            disabled
-                            @change="updateSetting('pelican_api_key', formData.pelican_api_key)"
-                            class="bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-2 pr-10 w-full focus:outline-none focus:ring-2 focus:ring-pink-500"
-                            placeholder="plc_••••••••••••••••••••••••••••••"
-                        />
-                        <button
-                            type="button"
-                            @click="showPelicanApiKey = !showPelicanApiKey"
-                            class="absolute inset-y-0 right-0 pr-3 flex items-center"
-                        >
-                            <EyeIcon v-if="showPelicanApiKey" class="h-5 w-5 text-gray-400" />
-                            <EyeOffIcon v-else class="h-5 w-5 text-gray-400" />
-                        </button>
-                    </div>
-                    <p class="mt-1 text-xs text-gray-500">
-                        Enter your Pelican API key. This should be a full access Application API key.
-                    </p>
-                </div>
-            </div>
             <!-- GitHub Integration -->
             <div class="bg-gray-800/30 p-5 rounded-lg border border-gray-700">
                 <div class="flex items-center mb-4">
@@ -494,15 +358,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, defineEmits } from 'vue';
-import {
-    EyeIcon,
-    EyeOffIcon,
-    FeatherIcon,
-    ChevronRightIcon,
-    Settings as SettingsIcon,
-    GithubIcon,
-} from 'lucide-vue-next';
+import { ref, watch, defineEmits } from 'vue';
+import { FeatherIcon, ChevronRightIcon, Settings as SettingsIcon, GithubIcon } from 'lucide-vue-next';
 import { useSettingsStore } from '@/stores/settings';
 const Settings = useSettingsStore();
 interface Props {
@@ -516,10 +373,6 @@ const emit = defineEmits(['update']);
 
 // Form state
 const formData = ref({
-    pterodactyl_base_url: '',
-    pterodactyl_api_key: '',
-    pelican_base_url: '',
-    pelican_api_key: '',
     discord_enabled: 'false',
     discord_server_id: '',
     discord_client_id: '',
@@ -542,30 +395,12 @@ const formData = ref({
     github_link_allowed: 'false',
 });
 
-// UI state
-const showApiKey = ref(false);
-const showPelicanApiKey = ref(false);
-
-// Computed property to check if Pterodactyl is connected
-const pterodactylConnected = computed(() => {
-    return formData.value.pterodactyl_base_url !== '';
-});
-
-// Computed property to check if Pelican is connected
-const pelicanConnected = computed(() => {
-    return formData.value.pelican_base_url !== '';
-});
-
 // Initialize form with settings values
 watch(
     () => props.settings,
     (newSettings) => {
         if (newSettings) {
             formData.value = {
-                pterodactyl_base_url: newSettings['pterodactyl_base_url'] || '',
-                pterodactyl_api_key: newSettings['pterodactyl_api_key'] || '',
-                pelican_base_url: newSettings['pelican_base_url'] || '',
-                pelican_api_key: newSettings['pelican_api_key'] || '',
                 discord_enabled: newSettings['discord_enabled'] || 'false',
                 discord_server_id: newSettings['discord_server_id'] || '',
                 discord_client_id: newSettings['discord_client_id'] || '',

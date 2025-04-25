@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,12 +11,12 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\App;
-use MythicalDash\Chat\User\Session;
-use MythicalDash\Chat\columns\UserColumns;
+use MyMythicalID\App;
+use MyMythicalID\Chat\User\Session;
+use MyMythicalID\Chat\columns\UserColumns;
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -28,7 +28,7 @@ use MythicalDash\Chat\columns\UserColumns;
 
 // Route handlers
 $router->post('/api/webhooks/paypal', function () {
-    $paypal = new MythicalDash\Services\PayPal\PayPalIPN();
+    $paypal = new MyMythicalID\Services\PayPal\PayPalIPN();
     $paypal->handleIPN();
 });
 
@@ -42,7 +42,7 @@ $router->get('/api/paypal/process', function () {
             throw new InvalidArgumentException('Missing coins parameter');
         }
 
-        $paypal = new MythicalDash\Services\PayPal\PayPalIPN();
+        $paypal = new MyMythicalID\Services\PayPal\PayPalIPN();
         $redirectUrl = $paypal->createPayment(
             (float) $_GET['coins'],
             $session->getInfo(UserColumns::UUID, false)

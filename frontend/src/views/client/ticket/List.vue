@@ -6,9 +6,9 @@ import { format } from 'date-fns';
 import LayoutDashboard from '@/components/client/LayoutDashboard.vue';
 import TableTanstack from '@/components/client/ui/Table/TableTanstack.vue';
 import Button from '@/components/client/ui/Button.vue';
-import Tickets from '@/mythicaldash/Tickets';
+import Tickets from '@/mymythicalid/Tickets';
 import { AlertCircle, Plus, Ticket } from 'lucide-vue-next';
-import { MythicalDOM } from '@/mythicaldash/MythicalDOM';
+import { MythicalDOM } from '@/mymythicalid/MythicalDOM';
 
 const router = useRouter();
 const { t } = useI18n();

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,12 +11,12 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-namespace MythicalDash\Chat\User;
+namespace MyMythicalID\Chat\User;
 
-use MythicalDash\App;
-use MythicalDash\Chat\Database;
-use MythicalDash\Chat\columns\UserColumns;
-use MythicalDash\CloudFlare\CloudFlareRealIP;
+use MyMythicalID\App;
+use MyMythicalID\Chat\Database;
+use MyMythicalID\Chat\columns\UserColumns;
+use MyMythicalID\CloudFlare\CloudFlareRealIP;
 
 class Session extends Database
 {

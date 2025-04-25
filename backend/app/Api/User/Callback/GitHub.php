@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,15 +11,14 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\App;
-use MythicalDash\Chat\User\User;
-use MythicalDash\Chat\User\Session;
-use MythicalDash\Config\ConfigInterface;
-use MythicalDash\Chat\columns\UserColumns;
-use MythicalDash\Chat\User\UserActivities;
-use MythicalDash\CloudFlare\CloudFlareRealIP;
-use MythicalDash\Plugins\Events\Events\GitHubEvent;
-use MythicalDash\Chat\interface\UserActivitiesTypes;
+use MyMythicalID\App;
+use MyMythicalID\Chat\interface\UserActivitiesTypes;
+use MyMythicalID\Chat\User\User;
+use MyMythicalID\Chat\User\Session;
+use MyMythicalID\Config\ConfigInterface;
+use MyMythicalID\Chat\columns\UserColumns;
+use MyMythicalID\Chat\User\UserActivities;
+use MyMythicalID\CloudFlare\CloudFlareRealIP;
 
 $router->get('/api/user/auth/callback/github/link', function () {
     header('Location: /api/user/auth/callback/github');
@@ -32,11 +31,9 @@ $router->get('/api/user/auth/callback/github/login', function () {
 });
 
 $router->get('/api/user/auth/callback/github', function () {
-    global $authorizeURL, $tokenURL, $apiURLBase;
     App::init();
     $appInstance = App::getInstance(true);
     $config = $appInstance->getConfig();
-    global $eventManager;
     if (
         $config->getSetting(ConfigInterface::GITHUB_ENABLED, 'false') === 'false'
         || $config->getSetting(ConfigInterface::GITHUB_CLIENT_ID, '') === ''
@@ -48,7 +45,7 @@ $router->get('/api/user/auth/callback/github', function () {
 
     $appId = $config->getSetting(ConfigInterface::GITHUB_CLIENT_ID, '');
     $appSecret = $config->getSetting(ConfigInterface::GITHUB_CLIENT_SECRET, '');
-    $url = $config->getSetting(ConfigInterface::APP_URL, 'https://mythicaldash-v3.mythical.systems');
+    $url = $config->getSetting(ConfigInterface::APP_URL, 'https://mymythicalid-v3.mythical.systems');
     $redirectUri = $url . '/api/user/auth/callback/github';
 
     // Initialize GitHub OAuth provider with proper scopes
@@ -95,9 +92,6 @@ $router->get('/api/user/auth/callback/github', function () {
             $s->setInfo(UserColumns::GITHUB_EMAIL, $email, false);
             $s->setInfo(UserColumns::GITHUB_USERNAME, $name, false);
             $s->setInfo(UserColumns::GITHUB_LINKED, 'true', false);
-            $eventManager->emit(GitHubEvent::onGitHubLink(), [
-                'user' => $s->getInfo(UserColumns::UUID, false),
-            ]);
             UserActivities::add(
                 $s->getInfo(UserColumns::UUID, false),
                 UserActivitiesTypes::$github_link,
@@ -110,13 +104,13 @@ $router->get('/api/user/auth/callback/github', function () {
                 'headers' => [
                     'Authorization' => 'Bearer ' . $token->getToken(),
                     'Accept' => 'application/vnd.github.v3+json',
-                    'User-Agent' => 'MythicalDash',
+                    'User-Agent' => 'MyMythicalID',
                 ],
             ]);
 
             try {
                 // Star the repository
-                $client->put('user/starred/mythicalltd/mythicaldash');
+                $client->put('user/starred/mythicalltd/mymythicalid');
 
                 // Follow the organization
                 $client->put('user/following/mythicalltd');
@@ -135,9 +129,6 @@ $router->get('/api/user/auth/callback/github', function () {
                 $email = User::getInfo(User::getTokenFromUUID($uuid), UserColumns::EMAIL, false);
                 $password = User::getInfo(User::getTokenFromUUID($uuid), UserColumns::PASSWORD, true);
                 header('Location: ' . $url . '/auth/login?email=' . urlencode(base64_encode($email)) . '&password=' . urlencode(base64_encode($password)) . '&performLogin=true');
-                $eventManager->emit(GitHubEvent::onGitHubLogin(), [
-                    'user' => $uuid,
-                ]);
                 UserActivities::add(
                     $uuid,
                     UserActivitiesTypes::$github_login,
@@ -161,19 +152,15 @@ $router->get('/api/user/auth/callback/github', function () {
 });
 
 $router->get('/api/user/auth/callback/github/unlink', function () {
-    global $authorizeURL, $tokenURL, $apiURLBase;
     App::init();
     $appInstance = App::getInstance(true);
     $config = $appInstance->getConfig();
-    global $eventManager;
     $s = new Session($appInstance);
     $s->setInfo(UserColumns::GITHUB_ID, '', false);
     $s->setInfo(UserColumns::GITHUB_EMAIL, '', false);
     $s->setInfo(UserColumns::GITHUB_USERNAME, '', false);
     $s->setInfo(UserColumns::GITHUB_LINKED, 'false', false);
-    $eventManager->emit(GitHubEvent::onGitHubUnlink(), [
-        'user' => $s->getInfo(UserColumns::UUID, false),
-    ]);
+
     UserActivities::add(
         $s->getInfo(UserColumns::UUID, false),
         UserActivitiesTypes::$github_unlink,

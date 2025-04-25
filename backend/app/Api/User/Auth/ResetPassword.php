@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,20 +11,18 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\App;
-use MythicalDash\Chat\User\User;
-use MythicalDash\Chat\User\Verification;
-use MythicalDash\Config\ConfigInterface;
-use MythicalDash\Chat\columns\UserColumns;
-use MythicalDash\Chat\User\UserActivities;
-use MythicalDash\CloudFlare\CloudFlareRealIP;
-use MythicalDash\Plugins\Events\Events\AuthEvent;
-use MythicalDash\Chat\interface\UserActivitiesTypes;
-use MythicalDash\Chat\columns\EmailVerificationColumns;
-use MythicalDash\Hooks\MythicalSystems\CloudFlare\Turnstile;
+use MyMythicalID\App;
+use MyMythicalID\Chat\User\User;
+use MyMythicalID\Chat\User\Verification;
+use MyMythicalID\Config\ConfigInterface;
+use MyMythicalID\Chat\columns\UserColumns;
+use MyMythicalID\Chat\User\UserActivities;
+use MyMythicalID\CloudFlare\CloudFlareRealIP;
+use MyMythicalID\Chat\interface\UserActivitiesTypes;
+use MyMythicalID\Chat\columns\EmailVerificationColumns;
+use MyMythicalID\Hooks\MythicalSystems\CloudFlare\Turnstile;
 
 $router->get('/api/user/auth/reset', function (): void {
-    global $eventManager;
     App::init();
     $appInstance = App::getInstance(true);
     $config = $appInstance->getConfig();
@@ -35,43 +33,35 @@ $router->get('/api/user/auth/reset', function (): void {
         $code = $_GET['code'];
 
         if (Verification::verify($code, EmailVerificationColumns::$type_password)) {
-            $eventManager->emit(AuthEvent::onAuthResetPasswordSuccess(), ['code' => $code]);
             $appInstance->OK('Code is valid', ['reset_code' => $code]);
         } else {
-            $eventManager->emit(AuthEvent::onAuthResetPasswordFailed(), ['code' => $code]);
             $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_CODE']);
         }
     } else {
-        $eventManager->emit(AuthEvent::onAuthResetPasswordFailed(), ['code' => 'UNKNOWN']);
         $appInstance->BadRequest('Bad Request', ['error_code' => 'MISSING_CODE']);
     }
 });
 
 $router->post('/api/user/auth/reset', function (): void {
     App::init();
-    global $eventManager;
     $appInstance = App::getInstance(true);
     $config = $appInstance->getConfig();
 
     $appInstance->allowOnlyPOST();
 
     if (!isset($_POST['email_code']) || $_POST['email_code'] == '') {
-        $eventManager->emit(AuthEvent::onAuthResetPasswordFailed(), ['code' => 'UNKNOWN']);
         $appInstance->BadRequest('Bad Request', ['error_code' => 'MISSING_CODE']);
     }
 
     if (!isset($_POST['password']) || $_POST['password'] == '') {
-        $eventManager->emit(AuthEvent::onAuthResetPasswordFailed(), ['code' => 'UNKNOWN']);
         $appInstance->BadRequest('Bad Request', ['error_code' => 'MISSING_PASSWORD']);
     }
 
     if (!isset($_POST['confirmPassword']) || $_POST['confirmPassword'] == '') {
-        $eventManager->emit(AuthEvent::onAuthResetPasswordFailed(), ['code' => 'UNKNOWN']);
         $appInstance->BadRequest('Bad Request', ['error_code' => 'MISSING_PASSWORD_CONFIRM']);
     }
 
     if ($_POST['password'] != $_POST['confirmPassword']) {
-        $eventManager->emit(AuthEvent::onAuthResetPasswordFailed(), ['code' => 'UNKNOWN']);
         $appInstance->BadRequest('Bad Request', ['error_code' => 'PASSWORDS_DO_NOT_MATCH']);
     }
 
@@ -85,12 +75,10 @@ $router->post('/api/user/auth/reset', function (): void {
      */
     if ($appInstance->getConfig()->getSetting(ConfigInterface::TURNSTILE_ENABLED, 'false') == 'true') {
         if (!isset($_POST['turnstileResponse']) || $_POST['turnstileResponse'] == '') {
-            $eventManager->emit(AuthEvent::onAuthResetPasswordFailed(), ['code' => 'UNKNOWN']);
             $appInstance->BadRequest('Bad Request', ['error_code' => 'TURNSTILE_FAILED']);
         }
         $cfTurnstileResponse = $_POST['turnstileResponse'];
         if (!Turnstile::validate($cfTurnstileResponse, CloudFlareRealIP::getRealIP(), $config->getSetting(ConfigInterface::TURNSTILE_KEY_PRIV, 'XXXX'))) {
-            $eventManager->emit(AuthEvent::onAuthResetPasswordFailed(), ['code' => 'UNKNOWN']);
             $appInstance->BadRequest('Invalid TurnStile Key', ['error_code' => 'TURNSTILE_FAILED']);
         }
     }
@@ -98,17 +86,14 @@ $router->post('/api/user/auth/reset', function (): void {
     if (Verification::verify($code, EmailVerificationColumns::$type_password)) {
         $uuid = Verification::getUserUUID($code);
         if ($uuid == null || $uuid == '') {
-            $eventManager->emit(AuthEvent::onAuthResetPasswordFailed(), ['code' => 'UNKNOWN']);
             $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_CODE']);
         }
         $userToken = User::getTokenFromUUID($uuid);
         if ($userToken == null || $userToken == '') {
-            $eventManager->emit(AuthEvent::onAuthResetPasswordFailed(), ['code' => 'UNKNOWN']);
             $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_CODE']);
         }
         try {
             $userInfoArray = User::getInfoArray($userToken, [
-                UserColumns::PTERODACTYL_USER_ID,
                 UserColumns::VERIFIED,
                 UserColumns::BANNED,
                 UserColumns::DELETED,
@@ -136,32 +121,16 @@ $router->post('/api/user/auth/reset', function (): void {
             Verification::delete($code);
             $token = App::getInstance(true)->encrypt(date('Y-m-d H:i:s') . $uuid . random_bytes(16) . base64_encode($code));
             User::updateInfo($userToken, UserColumns::ACCOUNT_TOKEN, $token, true);
-            try {
-                MythicalDash\Hooks\Pterodactyl\Admin\User::performLogin(
-                    $userInfoArray[UserColumns::PTERODACTYL_USER_ID],
-                    $userInfoArray[UserColumns::EMAIL],
-                    $userInfoArray[UserColumns::USERNAME],
-                    $userInfoArray[UserColumns::FIRST_NAME],
-                    $userInfoArray[UserColumns::LAST_NAME],
-                    $userInfoArray[UserColumns::PASSWORD]
-                );
-                UserActivities::add(
-                    $userInfoArray[UserColumns::UUID],
-                    UserActivitiesTypes::$change_password,
-                    CloudFlareRealIP::getRealIP()
-                );
-            } catch (Exception $e) {
-                $appInstance->getLogger()->error('[Pterodactyl/Admin/User#performLogin:1] Failed to login user in Pterodactyl: ' . $e->getMessage());
-                $appInstance->InternalServerError('Internal Server Error', ['error_code' => 'PTERODACTYL_ERROR']);
-            }
-            $eventManager->emit(AuthEvent::onAuthResetPasswordSuccess(), ['code' => $code]);
+            UserActivities::add(
+				$userInfoArray[UserColumns::UUID],
+				UserActivitiesTypes::$change_password,
+				CloudFlareRealIP::getRealIP()
+			);
             $appInstance->OK('Password has been reset', []);
         } else {
-            $eventManager->emit(AuthEvent::onAuthResetPasswordFailed(), ['code' => 'UNKNOWN']);
             $appInstance->BadRequest('Failed to reset password', ['error_code' => 'FAILED_TO_RESET_PASSWORD']);
         }
     } else {
-        $eventManager->emit(AuthEvent::onAuthResetPasswordFailed(), ['code' => 'UNKNOWN']);
         $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_CODE']);
     }
 });

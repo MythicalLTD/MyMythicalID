@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,20 +11,18 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\App;
-use MythicalDash\Chat\User\User;
+use MyMythicalID\App;
+use MyMythicalID\Chat\User\User;
 use PragmaRX\Google2FA\Google2FA;
-use MythicalDash\Chat\User\Session;
-use MythicalDash\Config\ConfigInterface;
-use MythicalDash\Chat\columns\UserColumns;
-use MythicalDash\Chat\User\UserActivities;
-use MythicalDash\CloudFlare\CloudFlareRealIP;
-use MythicalDash\Plugins\Events\Events\AuthEvent;
-use MythicalDash\Chat\interface\UserActivitiesTypes;
-use MythicalDash\Hooks\MythicalSystems\CloudFlare\Turnstile;
+use MyMythicalID\Chat\User\Session;
+use MyMythicalID\Config\ConfigInterface;
+use MyMythicalID\Chat\columns\UserColumns;
+use MyMythicalID\Chat\User\UserActivities;
+use MyMythicalID\CloudFlare\CloudFlareRealIP;
+use MyMythicalID\Chat\interface\UserActivitiesTypes;
+use MyMythicalID\Hooks\MythicalSystems\CloudFlare\Turnstile;
 
 $router->get('/api/user/auth/2fa/setup', function (): void {
-    global $eventManager;
     App::init();
     $appInstance = App::getInstance(true);
 
@@ -42,7 +40,6 @@ $router->post('/api/user/auth/2fa/setup', function (): void {
     $appInstance = App::getInstance(true);
     $config = $appInstance->getConfig();
     $appInstance->allowOnlyPOST();
-    global $eventManager;
     /**
      * Process the turnstile response.
      *
@@ -50,12 +47,10 @@ $router->post('/api/user/auth/2fa/setup', function (): void {
      */
     if ($appInstance->getConfig()->getSetting(ConfigInterface::TURNSTILE_ENABLED, 'false') == 'true') {
         if (!isset($_POST['turnstileResponse']) || $_POST['turnstileResponse'] == '') {
-            $eventManager->emit(AuthEvent::onAuth2FAVerifyFailed(), ['error_code' => 'TURNSTILE_FAILED']);
             $appInstance->BadRequest('Bad Request', ['error_code' => 'TURNSTILE_FAILED']);
         }
         $cfTurnstileResponse = $_POST['turnstileResponse'];
         if (!Turnstile::validate($cfTurnstileResponse, CloudFlareRealIP::getRealIP(), $config->getSetting(ConfigInterface::TURNSTILE_KEY_PRIV, 'XXXX'))) {
-            $eventManager->emit(AuthEvent::onAuth2FAVerifyFailed(), ['error_code' => 'TURNSTILE_FAILED']);
             $appInstance->BadRequest('Invalid TurnStile Key', ['error_code' => 'TURNSTILE_FAILED']);
         }
     }
@@ -74,7 +69,6 @@ $router->post('/api/user/auth/2fa/setup', function (): void {
         User::updateInfo($_COOKIE['user_token'], UserColumns::TWO_FA_ENABLED, 'true', false);
         User::updateInfo($_COOKIE['user_token'], UserColumns::TWO_FA_BLOCKED, 'false', false);
 
-        $eventManager->emit(AuthEvent::onAuth2FAVerifySuccess(), ['secret' => $secret]);
         UserActivities::add(
             User::getInfo($_COOKIE['user_token'], UserColumns::UUID, false),
             UserActivitiesTypes::$two_factor_verify,
@@ -82,7 +76,6 @@ $router->post('/api/user/auth/2fa/setup', function (): void {
         );
         $appInstance->OK('Code valid go on!', ['secret' => $secret]);
     } else {
-        $eventManager->emit(AuthEvent::onAuth2FAVerifyFailed(), ['error_code' => 'INVALID_CODE']);
         $appInstance->Unauthorized('Code invalid', ['error_code' => 'INVALID_CODE']);
     }
 });

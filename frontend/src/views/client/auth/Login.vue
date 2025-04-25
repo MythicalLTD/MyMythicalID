@@ -11,9 +11,9 @@ const Settings = useSettingsStore();
 import { useSound } from '@vueuse/sound';
 import failedAlertSfx from '@/assets/sounds/error.mp3';
 import successAlertSfx from '@/assets/sounds/success.mp3';
-import Auth from '@/mythicaldash/Auth';
+import Auth from '@/mymythicalid/Auth';
 import { useI18n } from 'vue-i18n';
-import { MythicalDOM } from '@/mythicaldash/MythicalDOM';
+import { MythicalDOM } from '@/mymythicalid/MythicalDOM';
 
 const { t } = useI18n();
 const { play: playError } = useSound(failedAlertSfx);

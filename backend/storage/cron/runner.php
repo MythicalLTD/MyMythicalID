@@ -1,6 +1,6 @@
 <?php
 
-use MythicalDash\Plugins\PluginManager;
+use MyMythicalID\Plugins\PluginManager;
 define('APP_STARTUP', microtime(true));
 define('APP_START', microtime(true));
 define('APP_PUBLIC', __DIR__);
@@ -17,24 +17,23 @@ define('SYSTEM_OS_NAME', gethostname() . '/' . PHP_OS_FAMILY);
 define('SYSTEM_KERNEL_NAME', php_uname('s'));
 define('TELEMETRY', true);
 define('APP_VERSION', '3.0.0.1-remastered');
-define('APP_UPSTREAM', 'github.com/mythicalltd/mythicaldash');
+define('APP_UPSTREAM', 'github.com/mythicalltd/mymythicalid');
 
 require(__DIR__ . '/../packages/autoload.php');
 
-use MythicalDash\Cli\App;
-use MythicalDash\App as NormalApp;
+use MyMythicalID\Cli\App;
+use MyMythicalID\App as NormalApp;
 
-$pluginManager = new PluginManager();
 $app = new NormalApp(false,true);
 
-App::sendOutputWithNewLine('&7Starting MythicalDash cron runner.');
+App::sendOutputWithNewLine('&7Starting MyMythicalID cron runner.');
 
 // Run main cronjobs
 foreach (glob(__DIR__ . '/php/*.php') as $file) {
 	App::sendOutputWithNewLine("");
 	App::sendOutputWithNewLine("|----");
 	require_once $file;
-	$className = 'MythicalDash\Cron\\' . basename($file, '.php');
+	$className = 'MyMythicalID\Cron\\' . basename($file, '.php');
 	try {
 		if (class_exists($className)) {
 			$worker = new $className();
@@ -46,37 +45,6 @@ foreach (glob(__DIR__ . '/php/*.php') as $file) {
 		}
 	} catch (\Exception $e) {
 		App::sendOutputWithNewLine('&7Error running &d' . $className . '&7: &c' . $e->getMessage());
-	}
-}
-
-// Run addon cronjobs
-$addonsDir = APP_ADDONS_DIR;
-if (is_dir($addonsDir)) {
-	$plugins = array_diff(scandir($addonsDir), ['.', '..']);
-	foreach ($plugins as $plugin) {
-		$cronDir = $addonsDir . '/' . $plugin . '/Cron';
-		if (!is_dir($cronDir)) {
-			continue;
-		}
-
-		foreach (glob($cronDir . '/*.php') as $file) {
-			App::sendOutputWithNewLine("");
-			App::sendOutputWithNewLine("|----");
-			require_once $file;
-			$className = 'MythicalDash\Addons\\' . $plugin . '\Cron\\' . basename($file, '.php');
-			try {
-				if (class_exists($className)) {
-					$worker = new $className();
-					App::sendOutputWithNewLine('&7Running &d' . $className. '&7.');
-					$worker->run();
-					App::sendOutputWithNewLine('&7Finished running &d' . $className . '&7.');
-				} else {
-					App::sendOutputWithNewLine('&7Class &d' . $className . '&7 not found');
-				}
-			} catch (\Exception $e) {
-				App::sendOutputWithNewLine('&7Error running &d' . $className . '&7: &c' . $e->getMessage());
-			}
-		}
 	}
 }
 

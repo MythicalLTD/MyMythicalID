@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import CardComponent from '@/components/client/ui/Card/CardComponent.vue';
-import Session from '@/mythicaldash/Session';
+import Session from '@/mymythicalid/Session';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { Settings as SettingsIcon, ChevronRight as ChevronRightIcon } from 'lucide-vue-next';

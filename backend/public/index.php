@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,7 +11,8 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\App;
+use MyMythicalID\App;
+
 
 /**
  * Define the environment path.
@@ -31,7 +32,7 @@ define('SYSTEM_OS_NAME', gethostname() . '/' . PHP_OS_FAMILY);
 define('SYSTEM_KERNEL_NAME', php_uname('s'));
 define('TELEMETRY', true);
 define('APP_VERSION', '3.0.0.1-remastered');
-define('APP_UPSTREAM', 'github.com/mythicalltd/mythicaldash');
+define('APP_UPSTREAM', 'github.com/mythicalltd/mymythicalid');
 
 if (APP_DEBUG) {
     define('RATE_LIMIT', 500000);

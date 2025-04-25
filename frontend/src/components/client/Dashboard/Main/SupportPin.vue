@@ -44,8 +44,8 @@
 
 <script setup lang="ts">
 import CardComponent from '@/components/client/ui/Card/CardComponent.vue';
-import Auth from '@/mythicaldash/Auth';
-import Session from '@/mythicaldash/Session';
+import Auth from '@/mymythicalid/Auth';
+import Session from '@/mymythicalid/Session';
 import Swal from 'sweetalert2';
 import { useI18n } from 'vue-i18n';
 import { RefreshCcw as RefreshCcwIcon, Copy as CopyIcon, ShieldCheck as ShieldCheckIcon } from 'lucide-vue-next';

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,12 +11,12 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-namespace MythicalDash\Mail\services;
+namespace MyMythicalID\Mail\services;
 
-use MythicalDash\App;
-use MythicalDash\Chat\Database;
-use MythicalDash\Config\ConfigFactory;
-use MythicalDash\Config\ConfigInterface;
+use MyMythicalID\App;
+use MyMythicalID\Chat\Database;
+use MyMythicalID\Config\ConfigFactory;
+use MyMythicalID\Config\ConfigInterface;
 
 class SMTPServer
 {

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,13 +11,13 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-namespace MythicalDash\Chat\Announcements;
+namespace MyMythicalID\Chat\Announcements;
 
-use MythicalDash\Chat\Database;
+use MyMythicalID\Chat\Database;
 
 class AnnouncementsAssets extends Database
 {
-    public const TABLE_NAME = 'mythicaldash_announcements_assets';
+    public const TABLE_NAME = 'mymythicalid_announcements_assets';
 
     /**
      * Create a new announcement asset.

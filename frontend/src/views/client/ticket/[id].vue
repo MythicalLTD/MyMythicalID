@@ -20,12 +20,12 @@ import {
     Image as ImageIcon,
     X as XIcon,
 } from 'lucide-vue-next';
-import Tickets from '@/mythicaldash/Tickets';
+import Tickets from '@/mymythicalid/Tickets';
 import Swal from 'sweetalert2';
 import { useSettingsStore } from '@/stores/settings';
 const Settings = useSettingsStore();
 import { useI18n } from 'vue-i18n';
-import { MythicalDOM } from '@/mythicaldash/MythicalDOM';
+import { MythicalDOM } from '@/mymythicalid/MythicalDOM';
 const { t } = useI18n();
 
 MythicalDOM.setPageTitle(t('tickets.pages.ticket.title'));

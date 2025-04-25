@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,13 +11,13 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-namespace MythicalDash\Chat\Tickets;
+namespace MyMythicalID\Chat\Tickets;
 
-use MythicalDash\Chat\Database;
+use MyMythicalID\Chat\Database;
 
 class Departments extends Database
 {
-    public const TABLE_NAME = 'mythicaldash_departments';
+    public const TABLE_NAME = 'mymythicalid_departments';
 
     /**
      * Get the table name for departments.

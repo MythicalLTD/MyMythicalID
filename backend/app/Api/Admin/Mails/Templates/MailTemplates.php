@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,20 +11,19 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\App;
-use MythicalDash\Chat\User\Can;
-use MythicalDash\Chat\columns\UserColumns;
-use MythicalDash\Chat\Mails\MailTemplates;
-use MythicalDash\Chat\User\UserActivities;
-use MythicalDash\CloudFlare\CloudFlareRealIP;
-use MythicalDash\Chat\interface\UserActivitiesTypes;
-use MythicalDash\Plugins\Events\Events\MailTemplatesEvent;
+use MyMythicalID\App;
+use MyMythicalID\Chat\User\Can;
+use MyMythicalID\Chat\columns\UserColumns;
+use MyMythicalID\Chat\Mails\MailTemplates;
+use MyMythicalID\Chat\User\UserActivities;
+use MyMythicalID\CloudFlare\CloudFlareRealIP;
+use MyMythicalID\Chat\interface\UserActivitiesTypes;
 
 $router->get('/api/admin/mail/mail-templates', function (): void {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyGET();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         $mailTemplates = MailTemplates::getAll();
@@ -38,7 +37,7 @@ $router->post('/api/admin/mail/mail-templates/create', function (): void {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         if (isset($_POST['name']) && isset($_POST['content']) && isset($_POST['active'])) {
@@ -84,13 +83,6 @@ $router->post('/api/admin/mail/mail-templates/create', function (): void {
 
             $mailTemplates = MailTemplates::create($name, $content, $active);
             if ($mailTemplates) {
-                global $eventManager;
-                $eventManager->emit(MailTemplatesEvent::onCreateMailTemplate(), [
-                    'id' => $mailTemplates,
-                    'name' => $name,
-                    'content' => $content,
-                    'active' => $active,
-                ]);
                 UserActivities::add(
                     $session->getInfo(UserColumns::UUID, false),
                     UserActivitiesTypes::$mail_template_create,
@@ -113,7 +105,7 @@ $router->post('/api/admin/mail/mail-templates/(.*)/update', function (string $id
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         if (isset($_POST['name']) && isset($_POST['content']) && isset($_POST['active'])) {
@@ -166,13 +158,6 @@ $router->post('/api/admin/mail/mail-templates/(.*)/update', function (string $id
 
             $mailTemplates = MailTemplates::update($id, $name, $content, $active);
             if ($mailTemplates) {
-                global $eventManager;
-                $eventManager->emit(MailTemplatesEvent::onUpdateMailTemplate(), [
-                    'id' => $id,
-                    'name' => $name,
-                    'content' => $content,
-                    'active' => $active,
-                ]);
                 UserActivities::add(
                     $session->getInfo(UserColumns::UUID, false),
                     UserActivitiesTypes::$mail_template_update,
@@ -195,7 +180,7 @@ $router->post('/api/admin/mail/mail-templates/(.*)/delete', function (string $id
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
-    $session = new MythicalDash\Chat\User\Session($appInstance);
+    $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         if (!MailTemplates::exists($id)) {
@@ -204,10 +189,7 @@ $router->post('/api/admin/mail/mail-templates/(.*)/delete', function (string $id
             return;
         }
 
-        global $eventManager;
-        $eventManager->emit(MailTemplatesEvent::onDeleteMailTemplate(), [
-            'id' => $id,
-        ]);
+
         UserActivities::add(
             $session->getInfo(UserColumns::UUID, false),
             UserActivitiesTypes::$mail_template_delete,

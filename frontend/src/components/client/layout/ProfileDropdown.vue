@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { LicenseServer } from '@/mythicaldash/LicenseServer';
 import { LogOutIcon } from 'lucide-vue-next';
-import { onMounted, ref } from 'vue';
 
 interface Props {
     isOpen: boolean;
@@ -29,18 +27,6 @@ withDefaults(defineProps<Props>(), {
         coins: '0',
         servers: '0',
     }),
-});
-
-const showAd = ref(true);
-
-onMounted(async () => {
-    try {
-        const isValid = await LicenseServer.isLicenseValid();
-        showAd.value = !isValid;
-    } catch (error) {
-        console.error('Error checking license:', error);
-        showAd.value = true;
-    }
 });
 
 const handleLogout = () => {
@@ -136,14 +122,6 @@ const handleLogout = () => {
                     </div>
                     <span class="text-sm">{{ $t('components.profile.logout') }}</span>
                 </button>
-            </div>
-
-            <!-- Footer -->
-            <div v-if="showAd" class="p-3 bg-[#1a1a2e]/30 text-center text-xs text-gray-500">
-                <p>
-                    Made with ❤️ by
-                    <a href="https://mythical.systems" target="_blank" class="text-indigo-400">MythicalSystems</a>
-                </p>
             </div>
         </div>
     </Transition>

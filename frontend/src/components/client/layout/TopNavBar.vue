@@ -129,7 +129,7 @@ import {
 import { useSettingsStore } from '@/stores/settings';
 const Settings = useSettingsStore();
 import { useI18n } from 'vue-i18n';
-import Session from '@/mythicaldash/Session';
+import Session from '@/mymythicalid/Session';
 import SocialMediaLinks from './SocialMediaLinks.vue';
 
 const role =

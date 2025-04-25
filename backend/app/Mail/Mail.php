@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,13 +11,13 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-namespace MythicalDash\Mail;
+namespace MyMythicalID\Mail;
 
-use MythicalDash\App;
-use MythicalDash\Chat\Database;
-use MythicalDash\Config\ConfigFactory;
-use MythicalDash\Config\ConfigInterface;
-use MythicalDash\Mail\services\SMTPServer;
+use MyMythicalID\App;
+use MyMythicalID\Chat\Database;
+use MyMythicalID\Config\ConfigFactory;
+use MyMythicalID\Config\ConfigInterface;
+use MyMythicalID\Mail\services\SMTPServer;
 
 class Mail
 {
@@ -66,7 +66,7 @@ class Mail
         $config = new ConfigFactory(Database::getPdoConnection());
 
         $template = str_replace('${app_name}', $config->getSetting(ConfigInterface::APP_NAME, 'MythicalSystems'), $template);
-        $template = str_replace('${app_url}', $config->getSetting(ConfigInterface::APP_URL, 'https://mythicaldash-v3.mythical.systems'), $template);
+        $template = str_replace('${app_url}', $config->getSetting(ConfigInterface::APP_URL, 'https://mymythicalid-v3.mythical.systems'), $template);
         $template = str_replace('${app_logo}', $config->getSetting(ConfigInterface::APP_LOGO, 'https://github.com/mythicalltd.png'), $template);
         $template = str_replace('${app_lang}', $config->getSetting(ConfigInterface::APP_LANG, 'en_US'), $template);
         $template = str_replace('${app_timezone}', $config->getSetting(ConfigInterface::APP_TIMEZONE, 'UTC'), $template);

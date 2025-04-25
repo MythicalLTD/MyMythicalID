@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,10 +11,10 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\Plugins\PluginManager;
+use MyMythicalID\Plugins\PluginManager;
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -25,10 +25,10 @@ use MythicalDash\Plugins\PluginManager;
  */
 
 try {
-    if (file_exists(APP_DIR . 'storage/packages')) {
-        require APP_DIR . 'storage/packages/autoload.php';
+    if (file_exists(APP_DIR . 'vendor')) {
+        require APP_DIR . 'vendor/autoload.php';
     } else {
-        throw new Exception('Packages not installed looked at this path: ' . APP_DIR . 'storage/packages');
+        throw new Exception('Packages not installed looked at this path: ' . APP_DIR . 'vendor');
     }
 } catch (Exception $e) {
     echo $e->getMessage();
@@ -36,11 +36,10 @@ try {
     exit;
 }
 
-if (!defined('IS_CLI')) {
-    ini_set('expose_php', 'off');
-    header_remove('X-Powered-By');
-    header_remove('Server');
-}
+ini_set('expose_php', 'off');
+header_remove('X-Powered-By');
+header_remove('Server');
+
 
 if (!is_writable(__DIR__)) {
     $error = 'Please make sure the root directory is writable.';
@@ -49,18 +48,4 @@ if (!is_writable(__DIR__)) {
 
 if (!is_writable(__DIR__ . '/../storage')) {
     exit(json_encode(['error' => 'Please make sure the storage directory is writable.', 'code' => 500, 'message' => 'Please make sure the storage directory is writable.', 'success' => false]));
-}
-
-if (file_exists(APP_DIR . 'storage/.env')) {
-    /**
-     * Initialize the plugin manager.
-     */
-    $pluginManager = new PluginManager();
-    $eventManager = $pluginManager->getEventManager();
-
-    /**
-     * @global \MythicalDash\Plugins\PluginManager $pluginManager
-     * @global \MythicalDash\Plugins\Events\PluginEvent $eventManager
-     */
-    global $pluginManager, $eventManager;
 }

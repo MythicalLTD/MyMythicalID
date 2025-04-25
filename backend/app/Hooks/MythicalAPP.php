@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,9 +11,9 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-namespace MythicalDash\Hooks;
+namespace MyMythicalID\Hooks;
 
-class MythicalAPP extends MythicalSystems\Api\Api
+class MythicalAPP extends \MyMythicalID\Hooks\MythicalSystems\Api\Api
 {
     /**
      * Return a 200 response.

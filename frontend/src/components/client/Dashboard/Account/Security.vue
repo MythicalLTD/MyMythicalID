@@ -2,9 +2,9 @@
 import { ref, onMounted } from 'vue';
 import Button from '@/components/client/ui/Button.vue';
 import { useRouter } from 'vue-router';
-import Session from '@/mythicaldash/Session';
+import Session from '@/mymythicalid/Session';
 import { useI18n } from 'vue-i18n';
-import { MythicalDOM } from '@/mythicaldash/MythicalDOM';
+import { MythicalDOM } from '@/mymythicalid/MythicalDOM';
 import {
     Shield as ShieldIcon,
     Key as KeyIcon,

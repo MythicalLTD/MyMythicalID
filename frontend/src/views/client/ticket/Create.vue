@@ -6,14 +6,14 @@ import SelectInput from '@/components/client/ui/TextForms/SelectInput.vue';
 import { ref, onMounted } from 'vue';
 import TextInput from '@/components/client/ui/TextForms/TextInput.vue';
 import TextArea from '@/components/client/ui/TextForms/TextArea.vue';
-import Tickets from '@/mythicaldash/Tickets';
+import Tickets from '@/mymythicalid/Tickets';
 import Swal from 'sweetalert2';
 import failedAlertSfx from '@/assets/sounds/error.mp3';
 import successAlertSfx from '@/assets/sounds/success.mp3';
 import { useI18n } from 'vue-i18n';
 import { useSound } from '@vueuse/sound';
 import { useRouter } from 'vue-router';
-import { MythicalDOM } from '@/mythicaldash/MythicalDOM';
+import { MythicalDOM } from '@/mymythicalid/MythicalDOM';
 import { useSettingsStore } from '@/stores/settings';
 
 const Settings = useSettingsStore();

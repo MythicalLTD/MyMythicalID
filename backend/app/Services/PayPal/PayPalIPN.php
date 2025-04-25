@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,16 +11,16 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-namespace MythicalDash\Services\PayPal;
+namespace MyMythicalID\Services\PayPal;
 
-use MythicalDash\App;
+use MyMythicalID\App;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
-use MythicalDash\Chat\User\User;
-use MythicalDash\Chat\Gateways\PayPalDB;
-use MythicalDash\Config\ConfigInterface;
+use MyMythicalID\Chat\User\User;
+use MyMythicalID\Chat\Gateways\PayPalDB;
+use MyMythicalID\Config\ConfigInterface;
 use GuzzleHttp\Exception\GuzzleException;
-use MythicalDash\Chat\columns\UserColumns;
+use MyMythicalID\Chat\columns\UserColumns;
 
 class PayPalIPN
 {
@@ -40,7 +40,7 @@ class PayPalIPN
         $this->app = App::getInstance(true);
         $this->isSandbox = $this->app->getConfig()->getSetting(ConfigInterface::PAYPAL_IS_SANDBOX, 'false') === 'true';
         $this->businessEmail = $this->app->getConfig()->getSetting(ConfigInterface::PAYPAL_CLIENT_ID, '');
-        $this->appUrl = $this->app->getConfig()->getSetting(ConfigInterface::APP_URL, 'https://mythicaldash-v3.mythical.systems');
+        $this->appUrl = $this->app->getConfig()->getSetting(ConfigInterface::APP_URL, 'https://mymythicalid-v3.mythical.systems');
 
         $this->client = new Client([
             'timeout' => 30,
@@ -48,7 +48,7 @@ class PayPalIPN
             'verify' => true,
             'http_errors' => false,
             'headers' => [
-                'User-Agent' => 'MythicalDash-PayPal/1.0',
+                'User-Agent' => 'MyMythicalID-PayPal/1.0',
                 'Connection' => 'Close',
             ],
         ]);
@@ -95,7 +95,7 @@ class PayPalIPN
                 'return' => "{$this->appUrl}/api/paypal/finish",
                 'cancel_return' => "{$this->appUrl}/dashboard",
                 'notify_url' => "{$this->appUrl}/api/webhooks/paypal",
-                'bn' => 'MythicalDash_BuyNow_WPS_US',
+                'bn' => 'MyMythicalID_BuyNow_WPS_US',
             ];
 
             return ($this->isSandbox ? self::SANDBOX_URL : self::LIVE_URL) .
@@ -125,7 +125,7 @@ class PayPalIPN
                 [
                     RequestOptions::FORM_PARAMS => $verifyData,
                     RequestOptions::HEADERS => [
-                        'User-Agent' => 'MythicalDash-PayPal-IPN/1.0',
+                        'User-Agent' => 'MyMythicalID-PayPal-IPN/1.0',
                         'Connection' => 'Close',
                     ],
                 ]

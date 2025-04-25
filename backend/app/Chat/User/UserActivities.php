@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,14 +11,14 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-namespace MythicalDash\Chat\User;
+namespace MyMythicalID\Chat\User;
 
-use MythicalDash\Chat\Database;
-use MythicalDash\Chat\interface\UserActivitiesTypes;
+use MyMythicalID\Chat\Database;
+use MyMythicalID\Chat\interface\UserActivitiesTypes;
 
 class UserActivities extends Database
 {
-    public const TABLE_NAME = 'mythicaldash_users_activities';
+    public const TABLE_NAME = 'mymythicalid_users_activities';
 
     public static function getTableName(): string
     {
@@ -106,6 +106,6 @@ class UserActivities extends Database
      */
     public static function getTable(): string
     {
-        return 'mythicaldash_users_activities';
+        return 'mymythicalid_users_activities';
     }
 }

@@ -11,7 +11,7 @@ import {
 import { TextInput } from '@/components/client/ui/TextForms';
 import Button from '@/components/client/ui/Button.vue';
 import CardComponent from '@/components/client/ui/Card/CardComponent.vue';
-import Session from '@/mythicaldash/Session';
+import Session from '@/mymythicalid/Session';
 import { useI18n } from 'vue-i18n';
 
 const apiKey = ref<string>('');

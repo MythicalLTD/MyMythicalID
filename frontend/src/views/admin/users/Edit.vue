@@ -8,14 +8,13 @@ import {
     LoaderIcon,
     TrashIcon,
     UserIcon,
-    ServerIcon,
     SettingsIcon,
     DatabaseIcon,
     ClockIcon,
     MailIcon as EnvelopeIcon,
     ExternalLink as ExternalLinkIcon,
 } from 'lucide-vue-next';
-import Users from '@/mythicaldash/admin/Users';
+import Users from '@/mymythicalid/admin/Users';
 import Swal from 'sweetalert2';
 import { useSound } from '@vueuse/sound';
 import failedAlertSfx from '@/assets/sounds/error.mp3';
@@ -41,7 +40,6 @@ interface User {
     email: string;
     avatar: string;
     credits: string;
-    pterodactyl_user_id: string;
     token: string;
     role: string;
     first_ip: string;
@@ -56,15 +54,6 @@ interface User {
     last_seen: string;
     first_seen: string;
     background: string;
-    disk_limit: string;
-    memory_limit: string;
-    cpu_limit: string;
-    server_limit: string;
-    backup_limit: string;
-    database_limit: string;
-    allocation_limit: string;
-    minutes_afk: string;
-    last_seen_afk: string;
     [key: string]: string | number | null; // Index signature for dynamic access
 }
 
@@ -77,7 +66,6 @@ interface FormData {
     last_name: string;
     avatar: string;
     credits: number;
-    pterodactyl_user_id: number;
     role: number;
     banned: string;
     support_pin: string;
@@ -85,14 +73,8 @@ interface FormData {
     two_fa_enabled: string;
     two_fa_blocked: string;
     background: string;
-    disk_limit: number;
-    memory_limit: number;
-    cpu_limit: number;
-    server_limit: number;
-    backup_limit: number;
-    database_limit: number;
-    allocation_limit: number;
 }
+
 interface ActivityLog {
     id: number;
     user: string;
@@ -263,7 +245,6 @@ const activeTab = ref('basic');
 // Tabs for different categories
 const tabs: Tab[] = [
     { id: 'basic', name: 'Basic Info', icon: UserIcon },
-    { id: 'resources', name: 'Resource Limits', icon: ServerIcon },
     { id: 'account', name: 'Account Settings', icon: SettingsIcon },
     { id: 'system', name: 'System Info', icon: DatabaseIcon },
     { id: 'activity', name: 'Activity Logs', icon: ClockIcon },
@@ -291,7 +272,6 @@ const formData = ref<FormData>({
     last_name: '',
     avatar: '',
     credits: 0,
-    pterodactyl_user_id: 0,
     role: 1,
     banned: 'NO',
     support_pin: '',
@@ -299,13 +279,6 @@ const formData = ref<FormData>({
     two_fa_enabled: 'false',
     two_fa_blocked: 'false',
     background: '',
-    disk_limit: 0,
-    memory_limit: 0,
-    cpu_limit: 0,
-    server_limit: 0,
-    backup_limit: 0,
-    database_limit: 0,
-    allocation_limit: 0,
 });
 
 // Track saving state for each field
@@ -365,7 +338,6 @@ const fetchUser = async (): Promise<void> => {
                 last_name: user.value.last_name || '',
                 avatar: user.value.avatar || '',
                 credits: parseInt(user.value.credits) || 0,
-                pterodactyl_user_id: parseInt(user.value.pterodactyl_user_id) || 0,
                 role: parseInt(user.value.role) || 1,
                 banned: user.value.banned || 'NO',
                 support_pin: user.value.support_pin || '',
@@ -373,13 +345,6 @@ const fetchUser = async (): Promise<void> => {
                 two_fa_enabled: user.value.two_fa_enabled || 'false',
                 two_fa_blocked: user.value.two_fa_blocked || 'false',
                 background: user.value.background || '',
-                disk_limit: parseInt(user.value.disk_limit) || 0,
-                memory_limit: parseInt(user.value.memory_limit) || 0,
-                cpu_limit: parseInt(user.value.cpu_limit) || 0,
-                server_limit: parseInt(user.value.server_limit) || 0,
-                backup_limit: parseInt(user.value.backup_limit) || 0,
-                database_limit: parseInt(user.value.database_limit) || 0,
-                allocation_limit: parseInt(user.value.allocation_limit) || 0,
             };
         } else {
             playError();
@@ -649,73 +614,10 @@ onMounted(() => {
                         </div>
                     </div>
 
-                    <!-- Resource Limits -->
-                    <div v-if="activeTab === 'resources'" class="space-y-6">
-                        <h3 class="text-lg font-medium text-white">Resource Limits</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <FormField
-                                label="Memory Limit (MB)"
-                                v-model="formData.memory_limit"
-                                type="number"
-                                :saving="saving.memory_limit"
-                                @save="saveField('memory_limit', formData.memory_limit)"
-                            />
-                            <FormField
-                                label="CPU Limit (%)"
-                                v-model="formData.cpu_limit"
-                                type="number"
-                                :saving="saving.cpu_limit"
-                                @save="saveField('cpu_limit', formData.cpu_limit)"
-                            />
-                            <FormField
-                                label="Disk Limit (MB)"
-                                v-model="formData.disk_limit"
-                                type="number"
-                                :saving="saving.disk_limit"
-                                @save="saveField('disk_limit', formData.disk_limit)"
-                            />
-                            <FormField
-                                label="Server Limit"
-                                v-model="formData.server_limit"
-                                type="number"
-                                :saving="saving.server_limit"
-                                @save="saveField('server_limit', formData.server_limit)"
-                            />
-                            <FormField
-                                label="Backup Limit"
-                                v-model="formData.backup_limit"
-                                type="number"
-                                :saving="saving.backup_limit"
-                                @save="saveField('backup_limit', formData.backup_limit)"
-                            />
-                            <FormField
-                                label="Database Limit"
-                                v-model="formData.database_limit"
-                                type="number"
-                                :saving="saving.database_limit"
-                                @save="saveField('database_limit', formData.database_limit)"
-                            />
-                            <FormField
-                                label="Allocation Limit"
-                                v-model="formData.allocation_limit"
-                                type="number"
-                                :saving="saving.allocation_limit"
-                                @save="saveField('allocation_limit', formData.allocation_limit)"
-                            />
-                        </div>
-                    </div>
-
                     <!-- Account Settings -->
                     <div v-if="activeTab === 'account'" class="space-y-6">
                         <h3 class="text-lg font-medium text-white">Account Settings</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <FormField
-                                label="Pterodactyl User ID"
-                                v-model="formData.pterodactyl_user_id"
-                                type="number"
-                                readonly
-                                disabled
-                            />
                             <FormField
                                 label="Background URL"
                                 v-model="formData.background"
@@ -864,14 +766,6 @@ onMounted(() => {
                             <div class="bg-gray-700 rounded-lg p-3">
                                 <span class="text-gray-400">Last Seen:</span>
                                 <span class="text-white ml-2">{{ formatDate(user.last_seen) }}</span>
-                            </div>
-                            <div class="bg-gray-700 rounded-lg p-3">
-                                <span class="text-gray-400">Minutes AFK:</span>
-                                <span class="text-white ml-2">{{ user.minutes_afk }}</span>
-                            </div>
-                            <div class="bg-gray-700 rounded-lg p-3">
-                                <span class="text-gray-400">Last Seen AFK:</span>
-                                <span class="text-white ml-2">{{ user.last_seen_afk || 'Never' }}</span>
                             </div>
                             <div class="bg-gray-700 rounded-lg p-3 md:col-span-2">
                                 <span class="text-gray-400">UUID:</span>

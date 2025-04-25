@@ -3,11 +3,11 @@ import { reactive, ref, onMounted, computed } from 'vue';
 import TextInput from '@/components/client/ui/TextForms/TextInput.vue';
 import Button from '@/components/client/ui/Button.vue';
 import LoadingAnimation from '@/components/client/ui/LoadingAnimation.vue';
-import Session from '@/mythicaldash/Session';
+import Session from '@/mymythicalid/Session';
 import { useI18n } from 'vue-i18n';
 import Swal from 'sweetalert2';
-import Auth from '@/mythicaldash/Auth';
-import { MythicalDOM } from '@/mythicaldash/MythicalDOM';
+import Auth from '@/mymythicalid/Auth';
+import { MythicalDOM } from '@/mymythicalid/MythicalDOM';
 import {
     User as UserIcon,
     Mail as MailIcon,

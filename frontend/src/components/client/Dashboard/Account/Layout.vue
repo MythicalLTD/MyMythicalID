@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Session from '@/mythicaldash/Session';
+import Session from '@/mymythicalid/Session';
 import { computed } from 'vue';
 import { CheckCircle, AlertCircle, Clock, MapPin } from 'lucide-vue-next';
 import { useI18n } from 'vue-i18n';

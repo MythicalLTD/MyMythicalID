@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * # MythicalSystems License v2.0
@@ -11,12 +11,12 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MythicalDash\App;
-use MythicalDash\Chat\User\User;
-use MythicalDash\Chat\User\Session;
-use MythicalDash\Chat\Gateways\StripeDB;
-use MythicalDash\Config\ConfigInterface;
-use MythicalDash\Chat\columns\UserColumns;
+use MyMythicalID\App;
+use MyMythicalID\Chat\User\User;
+use MyMythicalID\Chat\User\Session;
+use MyMythicalID\Chat\Gateways\StripeDB;
+use MyMythicalID\Config\ConfigInterface;
+use MyMythicalID\Chat\columns\UserColumns;
 
 $router->add('/api/webhooks/stripe', function () {
     App::init();
@@ -83,8 +83,8 @@ $router->add('/api/stripe/process', function (): void {
                 $checkout_session = Stripe\Checkout\Session::create([
                     'mode' => 'payment',
                     'customer_email' => $session->getInfo(UserColumns::EMAIL, false),
-                    'success_url' =>  $appInstance->getConfig()->getSetting(ConfigInterface::APP_URL, 'https://mythicaldash-v3.mythical.systems') . '/api/stripe/processed?code=' . $code,
-                    'cancel_url' => $appInstance->getConfig()->getSetting(ConfigInterface::APP_URL, 'https://mythicaldash-v3.mythical.systems') . '/api/stripe/cancelled',
+                    'success_url' =>  $appInstance->getConfig()->getSetting(ConfigInterface::APP_URL, 'https://mymythicalid-v3.mythical.systems') . '/api/stripe/processed?code=' . $code,
+                    'cancel_url' => $appInstance->getConfig()->getSetting(ConfigInterface::APP_URL, 'https://mymythicalid-v3.mythical.systems') . '/api/stripe/cancelled',
                     'line_items' => [
                         [
                             'quantity' => 1,

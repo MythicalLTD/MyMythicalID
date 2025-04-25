@@ -2,9 +2,9 @@
 import { ref, onMounted, onErrorCaptured } from 'vue';
 import { format } from 'date-fns';
 import TableTanstack from '@/components/client/ui/Table/TableTanstack.vue';
-import Activities from '@/mythicaldash/Activities';
+import Activities from '@/mymythicalid/Activities';
 import { useI18n } from 'vue-i18n';
-import { MythicalDOM } from '@/mythicaldash/MythicalDOM';
+import { MythicalDOM } from '@/mymythicalid/MythicalDOM';
 import LoadingAnimation from '@/components/client/ui/LoadingAnimation.vue';
 import { Activity, AlertCircle } from 'lucide-vue-next';
 
