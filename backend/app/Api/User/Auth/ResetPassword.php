@@ -122,10 +122,10 @@ $router->post('/api/user/auth/reset', function (): void {
             $token = App::getInstance(true)->encrypt(date('Y-m-d H:i:s') . $uuid . random_bytes(16) . base64_encode($code));
             User::updateInfo($userToken, UserColumns::ACCOUNT_TOKEN, $token, true);
             UserActivities::add(
-				$userInfoArray[UserColumns::UUID],
-				UserActivitiesTypes::$change_password,
-				CloudFlareRealIP::getRealIP()
-			);
+                $userInfoArray[UserColumns::UUID],
+                UserActivitiesTypes::$change_password,
+                CloudFlareRealIP::getRealIP()
+            );
             $appInstance->OK('Password has been reset', []);
         } else {
             $appInstance->BadRequest('Failed to reset password', ['error_code' => 'FAILED_TO_RESET_PASSWORD']);

@@ -11,8 +11,6 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-use MyMythicalID\Plugins\PluginManager;
-
 /*
  * This file is part of MyMythicalID.
  * Please view the LICENSE file that was distributed with this source code.
@@ -39,7 +37,6 @@ try {
 ini_set('expose_php', 'off');
 header_remove('X-Powered-By');
 header_remove('Server');
-
 
 if (!is_writable(__DIR__)) {
     $error = 'Please make sure the root directory is writable.';

@@ -69,7 +69,6 @@ $router->post('/api/admin/ticket/departments/create', function (): void {
                 CloudFlareRealIP::getRealIP(),
             );
 
-
             $appInstance->OK('Department created successfully.', [
                 'department' => [
                     'id' => $departmentId,

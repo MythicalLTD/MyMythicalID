@@ -18,11 +18,6 @@ const i18n = createI18n({
     fallbackLocale: 'EN',
     messages: {
         EN: {},
-        RO: {},
-        FR: {},
-        DE: {},
-        ES: {},
-        MD: {},
     },
 });
 

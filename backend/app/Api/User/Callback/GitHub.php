@@ -12,13 +12,13 @@
  */
 
 use MyMythicalID\App;
-use MyMythicalID\Chat\interface\UserActivitiesTypes;
 use MyMythicalID\Chat\User\User;
 use MyMythicalID\Chat\User\Session;
 use MyMythicalID\Config\ConfigInterface;
 use MyMythicalID\Chat\columns\UserColumns;
 use MyMythicalID\Chat\User\UserActivities;
 use MyMythicalID\CloudFlare\CloudFlareRealIP;
+use MyMythicalID\Chat\interface\UserActivitiesTypes;
 
 $router->get('/api/user/auth/callback/github/link', function () {
     header('Location: /api/user/auth/callback/github');

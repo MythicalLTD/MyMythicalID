@@ -118,7 +118,6 @@ interface ConfigInterface
     public const GITHUB_CLIENT_SECRET = 'github_client_secret';
     public const GITHUB_LINK_ALLOWED = 'github_link_allowed';
 
-
     /**
      * Allow Tickets.
      */

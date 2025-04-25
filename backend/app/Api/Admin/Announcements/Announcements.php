@@ -264,7 +264,6 @@ $router->post('/api/admin/announcements/(.*)/assets/add', function ($id) {
                 }
             }
 
-
             UserActivities::add(
                 $session->getInfo(UserColumns::UUID, false),
                 UserActivitiesTypes::$announcement_asset_create,

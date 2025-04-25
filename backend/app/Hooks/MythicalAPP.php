@@ -13,7 +13,7 @@
 
 namespace MyMythicalID\Hooks;
 
-class MythicalAPP extends \MyMythicalID\Hooks\MythicalSystems\Api\Api
+class MythicalAPP extends MythicalSystems\Api\Api
 {
     /**
      * Return a 200 response.
@@ -144,7 +144,7 @@ class MythicalAPP extends \MyMythicalID\Hooks\MythicalSystems\Api\Api
             'core' => [
                 'debug_os' => SYSTEM_OS_NAME,
                 'debug_os_kernel' => SYSTEM_KERNEL_NAME,
-                'debug_name' => 'MythicalDash',
+                'debug_name' => 'MyMythicalID',
                 'debug_debug' => APP_DEBUG,
                 'debug_version' => APP_VERSION,
                 'debug_telemetry' => TELEMETRY,

@@ -13,7 +13,6 @@
 
 use MyMythicalID\App;
 
-
 /**
  * Define the environment path.
  */

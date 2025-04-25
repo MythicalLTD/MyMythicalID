@@ -49,10 +49,6 @@
                         <span class="text-white ml-2">{{ user?.credits || 0 }}</span>
                     </div>
                     <div>
-                        <span class="text-gray-400">Pterodactyl ID:</span>
-                        <span class="text-white ml-2">{{ user?.pterodactyl_user_id || 'None' }}</span>
-                    </div>
-                    <div>
                         <span class="text-gray-400">Registered:</span>
                         <span class="text-white ml-2">{{ formatDate(user?.first_seen) }}</span>
                     </div>
@@ -104,7 +100,6 @@ interface User {
     last_name: string;
     email: string;
     avatar: string;
-    pterodactyl_user_id: string | null;
     role_id: string;
     credits: string;
     first_seen: string;

@@ -13,10 +13,10 @@
 
 namespace MyMythicalID;
 
-use MyMythicalID\Hooks\MythicalAPP;
 use RateLimit\Rate;
 use MyMythicalID\Chat\Database;
 use RateLimit\RedisRateLimiter;
+use MyMythicalID\Hooks\MythicalAPP;
 use MyMythicalID\Router\Router as rt;
 use MyMythicalID\Config\ConfigFactory;
 use MyMythicalID\Logger\LoggerFactory;
@@ -57,7 +57,6 @@ class App extends MythicalAPP
         if ($isCron) {
             define('CRON_MODE', true);
         }
-
 
         /**
          * Redis.

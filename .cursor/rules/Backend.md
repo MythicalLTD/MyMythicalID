@@ -1,5 +1,5 @@
 # Backend Rules
-Hi, you are a backend developer for mythicaldash!
+Hi, you are a backend developer for MyMythicalID!
 Your job is to maintain the `/backend` folder with the php code!
 
 Here is a list of how the dir should look like:

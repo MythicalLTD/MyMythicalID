@@ -13,7 +13,7 @@
 
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 flex items-center justify-center bg-[#1a1a2e]/30 rounded-lg">
-                        <img :src="appLogo" alt="MythicalDash" class="h-6 w-6" />
+                        <img :src="appLogo" alt="MyMythicalID" class="h-6 w-6" />
                     </div>
                     <span
                         class="text-xl font-bold bg-gradient-to-r from-indigo-400 to-indigo-600 bg-clip-text text-transparent"
@@ -31,7 +31,7 @@
                     />
                     <input
                         type="text"
-                        :placeholder="t('components.search.placeholder')"
+                        placeholder="Search.."
                         class="px-10 py-2 w-72 bg-[#1a1a2e]/30 border border-[#2a2a3f]/30 rounded-lg text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50"
                         @click="$emit('toggle-search')"
                         readonly
@@ -50,30 +50,6 @@
             <!-- Right: Actions -->
             <div class="flex items-center gap-2">
                 <SocialMediaLinks class="hidden lg:flex" />
-
-                <!-- Language Selector -->
-                <div class="relative">
-                    <select
-                        v-model="locale"
-                        @change="changeLocale"
-                        class="appearance-none bg-[#1a1a2e]/30 border border-[#2a2a3f]/30 rounded-lg pl-8 pr-3 py-1.5 text-sm text-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all duration-200 cursor-pointer hover:bg-[#1a1a2e]/50"
-                    >
-                        <option
-                            v-for="lang in availableLocales"
-                            :key="lang"
-                            :value="lang"
-                            class="bg-[#12121f] text-gray-200"
-                        >
-                            {{ lang }}
-                        </option>
-                    </select>
-                    <div class="absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none">
-                        <GlobeIcon class="w-4 h-4 text-gray-400" />
-                    </div>
-                    <div class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
-                        <ChevronDownIcon class="w-4 h-4 text-gray-400" />
-                    </div>
-                </div>
 
                 <button
                     @click="$emit('toggle-notifications')"
@@ -123,27 +99,15 @@ import {
     User as UserIcon,
     Menu as MenuIcon,
     X as XIcon,
-    ChevronDown as ChevronDownIcon,
-    Globe as GlobeIcon,
 } from 'lucide-vue-next';
 import { useSettingsStore } from '@/stores/settings';
 const Settings = useSettingsStore();
-import { useI18n } from 'vue-i18n';
 import Session from '@/mymythicalid/Session';
 import SocialMediaLinks from './SocialMediaLinks.vue';
 
 const role =
     (Session.getInfo('role_real_name') ?? '').charAt(0).toUpperCase() +
     (Session.getInfo('role_real_name') ?? '').slice(1);
-const { t, locale } = useI18n();
-
-const availableLocales = ['EN', 'RO', 'FR', 'DE', 'ES', 'MD'];
-
-const changeLocale = (event: Event) => {
-    const target = event.target as HTMLSelectElement;
-    localStorage.setItem('locale', target.value);
-    window.location.href = '/';
-};
 
 defineProps<{
     isSidebarOpen: boolean;

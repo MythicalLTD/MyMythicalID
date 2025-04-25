@@ -12,23 +12,12 @@ import {
     DatabaseIcon,
     ClockIcon,
     MailIcon as EnvelopeIcon,
-    ExternalLink as ExternalLinkIcon,
 } from 'lucide-vue-next';
 import Users from '@/mymythicalid/admin/Users';
 import Swal from 'sweetalert2';
 import { useSound } from '@vueuse/sound';
 import failedAlertSfx from '@/assets/sounds/error.mp3';
-import { useSettingsStore } from '@/stores/settings';
-const Settings = useSettingsStore();
 import successAlertSfx from '@/assets/sounds/success.mp3';
-
-// Utility function to open URLs safely in a new tab
-function openExternalLink(url: string): void {
-    // Using the global window object explicitly
-    const globalWindow = window as typeof globalThis;
-    const newWindow = globalWindow.open(url, '_blank');
-    if (newWindow) newWindow.opener = null;
-}
 
 // Define interfaces for user data
 interface User {
@@ -497,20 +486,6 @@ onMounted(() => {
                             </div>
 
                             <div class="flex flex-wrap gap-2 mt-4">
-                                <div v-if="user.pterodactyl_user_id" class="flex">
-                                    <button
-                                        @click="
-                                            openExternalLink(
-                                                Settings.getSetting('pterodactyl_base_url') +
-                                                    `/admin/users/view/${user.pterodactyl_user_id}`,
-                                            )
-                                        "
-                                        class="flex items-center gap-1 px-3 py-1 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-colors text-sm"
-                                    >
-                                        <ExternalLinkIcon class="h-3.5 w-3.5" />
-                                        Pterodactyl Account
-                                    </button>
-                                </div>
                                 <div class="flex">
                                     <button
                                         @click="router.push('/mc-admin/users')"

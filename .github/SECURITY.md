@@ -1,4 +1,4 @@
-# MythicalDash GitHub Security Policy
+# MyMythicalID GitHub Security Policy
 
 ## Table of Contents
 1. [Introduction](#introduction)

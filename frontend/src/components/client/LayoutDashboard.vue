@@ -10,10 +10,10 @@ import ProfileDropdown from '@/components/client/layout/ProfileDropdown.vue';
 import { SettingsIcon, UsersIcon } from 'lucide-vue-next';
 import Session from '@/mymythicalid/Session';
 import StorageMonitor from '@/mymythicalid/StorageMonitor';
-import MythicalDash from '@/mymythicalid/MyMythicalID';
+import MyMythicalID from '@/mymythicalid/MyMythicalID';
 import ReloadAnimation from '@/components/client/ui/ReloadAnimation.vue';
 
-MythicalDash.download();
+MyMythicalID.download();
 
 new StorageMonitor();
 

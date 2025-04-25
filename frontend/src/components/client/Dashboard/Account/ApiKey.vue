@@ -235,7 +235,7 @@ const { t } = useI18n();
                     </Button>
 
                     <a
-                        href="https://www.postman.com/mythicalsystems/mythicaldash-v3/overview"
+                        href="https://www.postman.com/mythicalsystems/mymythicalid/overview"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="sm:flex-1"

@@ -19,7 +19,6 @@ use MyMythicalID\Chat\User\Session;
 use MyMythicalID\Chat\columns\UserColumns;
 use MyMythicalID\Chat\User\UserActivities;
 
-
 $router->get('/api/admin', function (): void {
     App::init();
     $appInstance = App::getInstance(true);

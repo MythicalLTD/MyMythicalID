@@ -1,5 +1,5 @@
 <?php
-require(__DIR__."/storage/packages/autoload.php");
+require(__DIR__."/vendor/autoload.php");
 
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;

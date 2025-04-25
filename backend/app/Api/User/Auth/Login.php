@@ -57,7 +57,6 @@ $router->add('/api/user/auth/login', function (): void {
         $appInstance->BadRequest('Invalid login credentials', ['error_code' => 'INVALID_CREDENTIALS']);
     }
 
-
     try {
         $userInfoArray = User::getInfoArray($loginResult, [
             UserColumns::VERIFIED,
@@ -83,7 +82,6 @@ $router->add('/api/user/auth/login', function (): void {
         $appInstance->getLogger()->error('Failed to get user info: ' . $e->getMessage());
         $appInstance->InternalServerError('Internal Server Error', ['error_code' => 'DATABASE_ERROR']);
     }
-
 
     // Check account verification if mail is enabled
     if ($userInfoArray[UserColumns::VERIFIED] == 'false' && Mail::isEnabled()) {

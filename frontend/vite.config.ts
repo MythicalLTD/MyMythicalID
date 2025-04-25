@@ -13,7 +13,7 @@ export default defineConfig({
     plugins: [
         ViteYaml({
             onWarning: (warning) => {
-                console.warn('[MythicalDash/YML⚠️] Yaml parser warning: ' + warning);
+                console.warn('[MyMythicalID/YML⚠️] Yaml parser warning: ' + warning);
             },
         }),
         vue(),

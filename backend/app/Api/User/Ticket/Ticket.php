@@ -116,7 +116,7 @@ $router->post('/api/user/ticket/(.*)/reply', function ($ticketId) {
             return;
         }
         Messages::createMessage($ticketId, $message, $uuid);
-     
+
         UserActivities::add(
             $uuid,
             UserActivitiesTypes::$ticket_reply,

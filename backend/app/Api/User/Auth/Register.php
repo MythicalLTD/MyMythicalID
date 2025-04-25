@@ -93,7 +93,6 @@ $router->add('/api/user/auth/register', function (): void {
      */
     try {
 
-
         if (User::exists(UserColumns::USERNAME, $username)) {
             $appInstance->BadRequest('Bad Request', ['error_code' => 'USERNAME_ALREADY_IN_USE']);
         }

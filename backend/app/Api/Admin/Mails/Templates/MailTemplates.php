@@ -189,7 +189,6 @@ $router->post('/api/admin/mail/mail-templates/(.*)/delete', function (string $id
             return;
         }
 
-
         UserActivities::add(
             $session->getInfo(UserColumns::UUID, false),
             UserActivitiesTypes::$mail_template_delete,
