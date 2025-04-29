@@ -13,6 +13,7 @@
                 </div>
                 <!-- Main Content -->
                 <div class="lg:col-span-3 space-y-6">
+                    <LicenseList />
                     <TicketList />
                 </div>
             </div>
@@ -29,6 +30,7 @@ import Header from '@/components/client/Dashboard/Main/Header.vue';
 import UserProfile from '@/components/client/Dashboard/Main/UserProfile.vue';
 import QuickLinks from '@/components/client/Dashboard/Main/QuickLinks.vue';
 import AnnouncementsPreview from '@/components/client/Dashboard/Main/AnnouncementsPreview.vue';
+import LicenseList from '@/components/client/Dashboard/Main/LicenseList.vue';
 import { MythicalDOM } from '@/mymythicalid/MythicalDOM';
 
 import BeforeContent from '@/plugins/components/Dashboard/BeforeContent.vue';

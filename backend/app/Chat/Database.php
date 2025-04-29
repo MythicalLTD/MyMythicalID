@@ -171,15 +171,17 @@ class Database
      * @param string $table the name of the table containing the record
      * @param int $row the ID of the record to mark as deleted
      */
-    public static function markRecordAsDeleted(string $table, int $row): void
+    public static function markRecordAsDeleted(string $table, int $row): bool
     {
         try {
             $query = self::getPdoConnection()->query('UPDATE ' . $table . " SET deleted = 'true' WHERE id = " . $row);
             $query->execute();
+
+            return true;
         } catch (\Exception $e) {
             self::db_Error('Failed to mark record as deleted: ' . $e->getMessage());
 
-            return;
+            return false;
         }
     }
 
@@ -209,15 +211,17 @@ class Database
      * @param string $table the name of the table containing the record
      * @param int $row the ID of the record to restore
      */
-    public static function restoreRecord(string $table, int $row): void
+    public static function restoreRecord(string $table, int $row): bool
     {
         try {
             $query = self::getPdoConnection()->query('UPDATE ' . $table . " SET deleted = 'false' WHERE id = " . $row);
             $query->execute();
+
+            return true;
         } catch (\Exception $e) {
             self::db_Error('Failed to restore record: ' . $e->getMessage());
 
-            return;
+            return false;
         }
     }
 
@@ -246,15 +250,17 @@ class Database
      * @param string $table the name of the table containing the record
      * @param int $row the ID of the record to lock
      */
-    public static function lockRecord(string $table, int $row): void
+    public static function lockRecord(string $table, int $row): bool
     {
         try {
             $query = self::getPdoConnection()->query('UPDATE ' . $table . " SET locked = 'true' WHERE id = " . $row);
             $query->execute();
+
+            return true;
         } catch (\Exception $e) {
             self::db_Error('Failed to lock record: ' . $e->getMessage());
 
-            return;
+            return false;
         }
     }
 
@@ -264,15 +270,17 @@ class Database
      * @param string $table the name of the table containing the record
      * @param int $row the ID of the record to unlock
      */
-    public static function unlockRecord(string $table, int $row): void
+    public static function unlockRecord(string $table, int $row): bool
     {
         try {
             $query = self::getPdoConnection()->query('UPDATE ' . $table . " SET locked = 'false' WHERE id = " . $row);
             $query->execute();
+
+            return true;
         } catch (\Exception $e) {
             self::db_Error('Failed to unlock record: ' . $e->getMessage());
 
-            return;
+            return false;
         }
     }
 

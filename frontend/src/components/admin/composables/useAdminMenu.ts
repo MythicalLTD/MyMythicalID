@@ -1,5 +1,16 @@
 import { ref, computed } from 'vue';
-import { LayoutDashboard, Users, SettingsIcon, Building, BellIcon, MailIcon, InfoIcon } from 'lucide-vue-next';
+import {
+    LayoutDashboard,
+    Users,
+    SettingsIcon,
+    Building,
+    BellIcon,
+    MailIcon,
+    InfoIcon,
+    Key as KeyIcon,
+    Info as ProjectIcon,
+    Server as ServerIcon,
+} from 'lucide-vue-next';
 import type { MenuGroup, ProfileMenuItem } from '../types';
 
 // Define the dashboard data type inline to avoid import issues
@@ -10,6 +21,9 @@ interface DashboardCounts {
     announcements_count: number;
     settings_count: number;
     mail_templates_count: number;
+    projects_count: number;
+    license_keys_count: number;
+    instances_count: number;
 }
 
 interface DashboardData {
@@ -48,6 +62,24 @@ export function useAdminMenu(route: { path: string }, dashBoard: { value: Dashbo
                     icon: Building,
                     count: computed(() => dashBoard.value.count.departments_count || 0),
                     active: route.path === `${adminBaseUri}/departments`,
+                },
+                {
+                    name: 'Projects',
+                    path: `${adminBaseUri}/projects`,
+                    icon: ProjectIcon,
+                    count: computed(() => dashBoard.value.count.projects_count || 0),
+                },
+                {
+                    name: 'License Keys',
+                    path: `${adminBaseUri}/license-keys`,
+                    icon: KeyIcon,
+                    count: computed(() => dashBoard.value.count.license_keys_count || 0),
+                },
+                {
+                    name: 'Instances',
+                    path: `${adminBaseUri}/mythicaldash`,
+                    icon: ServerIcon,
+                    count: computed(() => dashBoard.value.count.instances_count || 0),
                 },
             ],
         },

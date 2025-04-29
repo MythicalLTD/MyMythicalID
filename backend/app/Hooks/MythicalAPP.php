@@ -20,7 +20,7 @@ class MythicalAPP extends MythicalSystems\Api\Api
      *
      * @return void Returns a void so nothing it will die!
      */
-    public static function OK(?string $message, ?array $extraContent): void
+    public static function OK(?string $message, ?array $extraContent = []): void
     {
         self::sendManualResponse(200, null, $message, true, $extraContent);
     }

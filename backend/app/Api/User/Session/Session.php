@@ -115,9 +115,6 @@ $router->get('/api/user/session', function (): void {
             'user' => User::getInfo($accountToken, UserColumns::UUID, false),
         ]);
 
-        $stats_servers = Database::getTableColumnCount('mymythicalid_servers', [
-            'user' => User::getInfo($accountToken, UserColumns::UUID, false),
-        ]);
 
         $columns = [
             UserColumns::USERNAME,
@@ -165,7 +162,7 @@ $router->get('/api/user/session', function (): void {
             'user_info' => $info,
             'stats' => [
                 'tickets' => $stats_tickets,
-                'servers' => $stats_servers,
+                'servers' => '0',
             ],
         ]);
 

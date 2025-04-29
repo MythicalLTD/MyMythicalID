@@ -29,20 +29,18 @@ $router->get('/api/admin', function (): void {
             $github_data = new GitHub();
             $github_data = $github_data->getRepoData();
             $activity = UserActivities::getAll(150);
+            
+            // Get counts for dashboard metrics
             $userCount = Database::getTableRowCount('mymythicalid_users');
-            $addonsCount = Database::getTableRowCount('mymythicalid_addons');
-            $rolesCount = Database::getTableRowCount('mymythicalid_roles');
-            $locationsCount = Database::getTableRowCount('mymythicalid_locations');
-            $ticketsCount = Database::getTableRowCount('mymythicalid_tickets');
-            $eggsCount = Database::getTableRowCount('mymythicalid_eggs');
-            $departmentsCount = Database::getTableRowCount('mymythicalid_departments');
-            $announcementsCount = Database::getTableRowCount('mymythicalid_announcements');
-            $serverQueueCount = Database::getTableRowCount('mymythicalid_servers_queue');
-            $mailTemplatesCount = Database::getTableRowCount('mymythicalid_mail_templates');
-            $settingsCount = Database::getTableRowCount('mymythicalid_settings', false);
-            $redeemCodesCount = Database::getTableRowCount('mymythicalid_redeem_codes');
-            $serversCount = Database::getTableRowCount('mymythicalid_servers');
-            $pluginsCount = Database::getTableRowCount('mymythicalid_addons');
+            $instanceCount = Database::getTableRowCount('mymythicalid_mythicaldash_instances');
+            $licenseCount = Database::getTableRowCount('mymythicalid_license_keys');
+            $projectCount = Database::getTableRowCount('mymythicalid_projects');
+            $ticketCount = Database::getTableRowCount('mymythicalid_tickets');
+            $instanceCount = Database::getTableRowCount('mymythicalid_mythicaldash_instances');
+            $departmentCount = Database::getTableRowCount('mymythicalid_departments');
+            $announcementCount = Database::getTableRowCount('mymythicalid_announcements');
+            $mailTemplateCount = Database::getTableRowCount('mymythicalid_mail_templates');
+            $settingsCount = Database::getTableRowCount('mymythicalid_settings');
 
             $appInstance->OK('Dashboard data retrieved successfully.', [
                 'core' => [
@@ -50,19 +48,15 @@ $router->get('/api/admin', function (): void {
                 ],
                 'count' => [
                     'user_count' => $userCount,
-                    'addons_count' => $addonsCount,
-                    'locations_count' => $locationsCount,
-                    'roles_count' => $rolesCount,
-                    'tickets_count' => $ticketsCount,
-                    'eggs_count' => $eggsCount,
-                    'departments_count' => $departmentsCount,
-                    'announcements_count' => $announcementsCount,
-                    'server_queue_count' => $serverQueueCount,
-                    'mail_templates_count' => $mailTemplatesCount,
+                    'instance_count' => $instanceCount,
+                    'license_keys_count' => $licenseCount,
+                    'projects_count' => $projectCount,
+                    'tickets_count' => $ticketCount,
+                    'departments_count' => $departmentCount,
+                    'announcements_count' => $announcementCount,
+                    'mail_templates_count' => $mailTemplateCount,
                     'settings_count' => $settingsCount,
-                    'redeem_codes_count' => $redeemCodesCount,
-                    'servers_count' => $serversCount,
-                    'plugins_count' => $pluginsCount,
+					'instances_count' => $instanceCount,
                 ],
                 'etc' => [
                     'activity' => $activity,

@@ -1,11 +1,13 @@
 import type { RouteRecordRaw } from 'vue-router';
-import departmentRoutes from './departments.ts';
-import userRoutes from './users.ts';
-import announcementRoutes from './announcements.ts';
-import ticketRoutes from './tickets.ts';
-import mailTemplatesRoutes from './mail-templates.ts';
-import settingsRoutes from './settings.ts';
-
+import departmentRoutes from './departments';
+import userRoutes from './users';
+import announcementRoutes from './announcements';
+import ticketRoutes from './tickets';
+import mailTemplatesRoutes from './mail-templates';
+import settingsRoutes from './settings';
+import projectsRoutes from './projects';
+import licenseKeysRoutes from './license-keys';
+import instancesRoutes from './instances';
 // Main admin dashboard route
 const mainAdminRoutes: RouteRecordRaw[] = [
     {
@@ -28,6 +30,9 @@ const adminRoutes: RouteRecordRaw[] = [
     ...mailTemplatesRoutes,
     ...announcementRoutes,
     ...ticketRoutes,
+    ...projectsRoutes,
+    ...licenseKeysRoutes,
+    ...instancesRoutes,
 ];
 
 export default adminRoutes;

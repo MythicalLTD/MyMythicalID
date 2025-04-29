@@ -6,6 +6,7 @@ import {
     ChevronDown as ChevronDownIcon,
     ServerIcon,
     TicketIcon,
+    StoreIcon,
     Home as HomeIcon,
 } from 'lucide-vue-next';
 import Translation from '@/mymythicalid/Translation';
@@ -50,6 +51,12 @@ const dashboardMenuItem = {
     active: isActiveRoute(['/dashboard']),
 };
 
+const storeMenuItem = {
+    name: t('components.sidebar.store'),
+    icon: StoreIcon,
+    href: '/store',
+    active: isActiveRoute(['/store']),
+};
 const ticketsMenuItem = {
     name: t('components.sidebar.tickets'),
     icon: TicketIcon,
@@ -75,7 +82,7 @@ const ticketsMenuItem = {
 const menuSections = ref<MenuSection[]>([
     {
         title: t('components.sidebar.general'),
-        items: [dashboardMenuItem],
+        items: [dashboardMenuItem, storeMenuItem],
     },
     {
         title: t('components.sidebar.support'),

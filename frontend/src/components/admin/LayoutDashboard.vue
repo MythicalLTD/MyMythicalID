@@ -96,17 +96,15 @@ const isSearchFocused = ref(false);
 const dashBoard = ref({
     count: {
         user_count: 0,
-        locations_count: 0,
         tickets_count: 0,
-        eggs_count: 0,
         departments_count: 0,
         announcements_count: 0,
-        server_queue_count: 0,
         mail_templates_count: 0,
         settings_count: 0,
         redeem_codes_count: 0,
-        servers_count: 0,
-        plugins_count: 0,
+        projects_count: 0,
+        license_keys_count: 0,
+        instances_count: 0,
     },
 });
 

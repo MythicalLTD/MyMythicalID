@@ -26,9 +26,33 @@ const clientRoutes: RouteRecordRaw[] = [
         },
     },
     {
+        path: '/store',
+        name: 'Store',
+        component: () => import('@/views/client/Store.vue'),
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
         path: '/store/add-credits',
         name: 'Add Credits',
         component: () => import('@/views/client/store/AddCredits.vue'),
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: '/store/buy/premium/mythicaldash',
+        name: 'MythicalDashPremium',
+        component: () => import('@/views/client/store/buy/premium/MythicalDash.vue'),
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: '/store/mythicaldash',
+        name: 'MythicalDash',
+        component: () => import('@/views/client/store/MythicalDash.vue'),
         meta: {
             requiresAuth: true,
         },

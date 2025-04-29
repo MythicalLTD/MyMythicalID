@@ -108,6 +108,17 @@ Components:
         d_key: 'D'
         goToDashboard: 'Go to Dashboard'
 
+    Licenses:
+        title: 'My Licenses'
+        description: 'View and manage your license keys'
+        key: 'License Key'
+        expires: 'Expires'
+        errors:
+            title: 'Error Loading Licenses'
+        empty:
+            title: 'No Licenses Found'
+            description: "You don't have any licenses yet"
+
     SupportPin:
         title: 'Support PIN'
         copy: 'Copy'
@@ -1202,14 +1213,16 @@ store:
                     description: 'Please try again or contact support if the issue persists.'
         index:
             title: 'Store'
-            subTitle: 'Buy server resources and upgrades'
+            subTitle: 'Buy extra futures for the projects or extra features'
             loading: 'Loading store items...'
             empty: 'No items available in this category'
             emptyDescription: 'Check back later for new items'
-            cardYourBalance: 'Your Balance'
+            cardYourBalance: 'coins'
             cardAvailableCoins: 'Available coins to spend'
             cardCurrentBalance: 'Current Balance'
             addCredits: 'Add Credits'
+            viewProject: 'View Project'
+            free: 'Free'
             redeemCodes: 'Redeem Codes'
             earnMore: 'Earn More'
             buyButton: 'Buy'
