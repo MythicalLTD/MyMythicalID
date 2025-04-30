@@ -248,7 +248,9 @@ const licenseKeyForm = ref({
 // Generate a random license key UUID
 const generateLicenseKey = () => {
     const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        const r = (Math.random() * 16) | 0;
+        const randomValues = new Uint8Array(1);
+        window.crypto.getRandomValues(randomValues);
+        const r = randomValues[0] % 16;
         const v = c === 'x' ? r : (r & 0x3) | 0x8;
         return v.toString(16);
     });
