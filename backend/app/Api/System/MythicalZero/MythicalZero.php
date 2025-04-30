@@ -146,6 +146,7 @@ $router->put('/api/system/license/(.*)/mythicalzero/user/login', function (strin
 			json_encode($data),
 			'login'
 		);
+
 		$appInstance->Ok('Telemetry received', []);
 	} else {
 		$appInstance->BadRequest('Invalid request', [
@@ -188,7 +189,7 @@ $router->put('/api/system/license/(.*)/telemetry', function (string $licenseKey)
 	];
 
 
-	ZeroTrust::create(
+	$id = ZeroTrust::create(
 		$license_data['project_info']['id'],
 		$license_data['instance']['id'],
 		$license_data['license_key_info']['id'],
@@ -196,7 +197,57 @@ $router->put('/api/system/license/(.*)/telemetry', function (string $licenseKey)
 		json_encode($body),
 		'telemetry'
 	);
-	$appInstance->Ok('Telemetry received', []);
+	$appInstance->Ok('Telemetry received', ['id' => $id]);
 
 });
 
+$router->put('/api/system/license/(.*)/logs', function (string $licenseKey): void {
+	App::init();
+	$appInstance = App::getInstance(true);
+	$appInstance->allowOnlyPUT();
+
+	$license_data = $appInstance->addLicenseCheck($licenseKey, $appInstance);
+	$body = $appInstance->getBody();
+	if (isset($body['os_type'])) {
+		$osType = $body['os_type'];
+	} else {
+		$osType = 'Unknown';
+	}
+
+	if (isset($body['kernel_version'])) {
+		$kernelVersion = $body['kernel_version'];
+	} else {
+		$kernelVersion = 'Unknown';
+	}
+
+	if (isset($body['cpu_architecture'])) {
+		$cpu_architecture = $body['cpu_architecture'];
+	} else {
+		$cpu_architecture = 'Unknown';
+	}
+
+	$osInfo = [
+		'os_type' => $osType,
+		'kernel_version' => $kernelVersion,
+		'cpu_architecture' => $cpu_architecture,
+	];
+
+	if (isset($body['logs'])) {
+		$id = ZeroTrust::create(
+			$license_data['project_info']['id'],
+			$license_data['instance']['id'],
+			$license_data['license_key_info']['id'],
+			json_encode($osInfo),
+			json_encode($body),
+			'logs',
+		);
+		$appInstance->Ok('Logs received', ['id' => $id]);
+	} else {
+		$appInstance->BadRequest('Invalid request', [
+			'error_code' => 'INVALID_REQUEST',
+			'body' => $body
+		]);
+	}
+	
+	
+});
