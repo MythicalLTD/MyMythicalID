@@ -12,13 +12,12 @@
  */
 
 use MyMythicalID\App;
+use MyMythicalID\Chat\User\Can;
+use MyMythicalID\Chat\User\User;
+use MyMythicalID\Chat\Project\Project;
+use MyMythicalID\Chat\columns\UserColumns;
 use MyMythicalID\Chat\LicenseKey\LicenseKey;
 use MyMythicalID\Chat\Project\MythicalDashInstance;
-use MyMythicalID\Chat\Project\Project;
-use MyMythicalID\Chat\User\Can;
-use MyMythicalID\Chat\columns\UserColumns;
-use MyMythicalID\Chat\User\User;
-
 
 $router->get('/api/admin/mythicaldash/instances', function (): void {
     App::init();
@@ -39,47 +38,50 @@ $router->post('/api/admin/mythicaldash/instance/create', function (): void {
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
     $session = new MyMythicalID\Chat\User\Session($appInstance);
-    
+
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         $requiredFields = [
             'user', 'project', 'companyName', 'companyWebsite',
             'businessDescription', 'hostingType', 'currentUsers', 'expectedUsers',
             'instanceUrl', 'serverType', 'serverCount', 'primaryEmail', 'abuseEmail',
-            'supportEmail', 'ownerFirstName', 'ownerLastName', 'ownerBirthDate'
+            'supportEmail', 'ownerFirstName', 'ownerLastName', 'ownerBirthDate',
         ];
-        
+
         $missingFields = [];
         foreach ($requiredFields as $field) {
             if (!isset($_POST[$field])) {
                 $missingFields[] = $field;
             }
         }
-        
+
         if (empty($missingFields)) {
             // Validate project exists
-            if (!Project::getById((int)$_POST['project'])) {
+            if (!Project::getById((int) $_POST['project'])) {
                 $appInstance->BadRequest('Project not found', ['error_code' => 'PROJECT_NOT_FOUND']);
+
                 return;
             }
 
             // Validate user exists
-            if (!User::exists(UserColumns::UUID, (string)$_POST['user'])) {
+            if (!User::exists(UserColumns::UUID, (string) $_POST['user'])) {
                 $appInstance->BadRequest('User not found', ['error_code' => 'USER_NOT_FOUND']);
+
                 return;
             }
 
             // Generate UUID for the instance
             $uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
-            $uuid = preg_replace_callback('/[xy]/', function($matches) {
+            $uuid = preg_replace_callback('/[xy]/', function ($matches) {
                 $r = mt_rand(0, 15);
                 $v = $matches[0] === 'x' ? $r : ($r & 0x3 | 0x8);
+
                 return dechex($v);
             }, $uuid);
 
             // Create license key first
             $licenseKey = LicenseKey::create(
-                (int)$_POST['project'],
-                (string)$_POST['user'],
+                (int) $_POST['project'],
+                (string) $_POST['user'],
                 $uuid,
                 'MythicalDash Free License',
                 'active',
@@ -88,26 +90,27 @@ $router->post('/api/admin/mythicaldash/instance/create', function (): void {
 
             if (!$licenseKey) {
                 $appInstance->BadRequest('Failed to create license key', ['error_code' => 'FAILED_TO_CREATE_LICENSE']);
+
                 return;
             }
 
-			$instanceUUID = $uuid;
+            $instanceUUID = $uuid;
 
             // Create the instance with the license key ID
             $instance = MythicalDashInstance::create(
                 uuid: $instanceUUID,
                 user: $_POST['user'],
-                project: (int)$_POST['project'],
+                project: (int) $_POST['project'],
                 licenseKey: $licenseKey,
                 companyName: $_POST['companyName'],
                 companyWebsite: $_POST['companyWebsite'],
                 businessDescription: $_POST['businessDescription'],
                 hostingType: $_POST['hostingType'],
-                currentUsers: (int)$_POST['currentUsers'],
-                expectedUsers: (int)$_POST['expectedUsers'],
+                currentUsers: (int) $_POST['currentUsers'],
+                expectedUsers: (int) $_POST['expectedUsers'],
                 instanceUrl: $_POST['instanceUrl'],
                 serverType: $_POST['serverType'],
-                serverCount: (int)$_POST['serverCount'],
+                serverCount: (int) $_POST['serverCount'],
                 primaryEmail: $_POST['primaryEmail'],
                 abuseEmail: $_POST['abuseEmail'],
                 supportEmail: $_POST['supportEmail'],
@@ -117,27 +120,27 @@ $router->post('/api/admin/mythicaldash/instance/create', function (): void {
             );
 
             if ($instance) {
-				$context = "Company Name: " . $_POST['companyName'] . " \n".
-				"Company Website: " . $_POST['companyWebsite'] . " \n".
-				"Business Description: " . $_POST['businessDescription'] . " \n".
-				"Hosting Type: " . $_POST['hostingType'] . " \n".
-				"Current Users: " . $_POST['currentUsers'] . " \n".
-				"Expected Users: " . $_POST['expectedUsers'] . " \n".
-				"Instance URL: " . $_POST['instanceUrl'] . " \n".
-				"Server Type: " . $_POST['serverType'] . " \n".
-				"Server Count: " . $_POST['serverCount'] . " \n".
-				"Primary Email: " . $_POST['primaryEmail'] . " \n".
-				"Abuse Email: " . $_POST['abuseEmail'] . " \n".
-				"Support Email: " . $_POST['supportEmail'] . " \n".
-				"Owner First Name: " . $_POST['ownerFirstName'] . " \n".
-				"Owner Last Name: " . $_POST['ownerLastName'] . " \n".
-				"Owner Birth Date: " . $_POST['ownerBirthDate'] . " \n".
-				"License Key: " . $uuid . " \n".
-				"License Key UUID: " . $uuid . " \n";
+                $context = 'Company Name: ' . $_POST['companyName'] . " \n" .
+                'Company Website: ' . $_POST['companyWebsite'] . " \n" .
+                'Business Description: ' . $_POST['businessDescription'] . " \n" .
+                'Hosting Type: ' . $_POST['hostingType'] . " \n" .
+                'Current Users: ' . $_POST['currentUsers'] . " \n" .
+                'Expected Users: ' . $_POST['expectedUsers'] . " \n" .
+                'Instance URL: ' . $_POST['instanceUrl'] . " \n" .
+                'Server Type: ' . $_POST['serverType'] . " \n" .
+                'Server Count: ' . $_POST['serverCount'] . " \n" .
+                'Primary Email: ' . $_POST['primaryEmail'] . " \n" .
+                'Abuse Email: ' . $_POST['abuseEmail'] . " \n" .
+                'Support Email: ' . $_POST['supportEmail'] . " \n" .
+                'Owner First Name: ' . $_POST['ownerFirstName'] . " \n" .
+                'Owner Last Name: ' . $_POST['ownerLastName'] . " \n" .
+                'Owner Birth Date: ' . $_POST['ownerBirthDate'] . " \n" .
+                'License Key: ' . $uuid . " \n" .
+                'License Key UUID: ' . $uuid . " \n";
 
-				LicenseKey::update($licenseKey, [
-					'context' => $context
-				]);
+                LicenseKey::update($licenseKey, [
+                    'context' => $context,
+                ]);
                 $appInstance->OK('MythicalDash instance created successfully', ['instance' => $instance]);
             } else {
                 // If instance creation fails, delete the license key
@@ -157,25 +160,25 @@ $router->post('/api/admin/mythicaldash/instance/(.*)/update', function (string $
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
     $session = new MyMythicalID\Chat\User\Session($appInstance);
-    
+
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         $allowedFields = [
             'companyName', 'companyWebsite', 'businessDescription', 'hostingType',
             'currentUsers', 'expectedUsers', 'instanceUrl', 'serverType', 'serverCount',
             'primaryEmail', 'abuseEmail', 'supportEmail', 'ownerFirstName', 'ownerLastName',
-            'ownerBirthDate'
+            'ownerBirthDate',
         ];
-        
+
         $updateData = [];
         foreach ($allowedFields as $field) {
             if (isset($_POST[$field])) {
                 $updateData[$field] = $_POST[$field];
             }
         }
-        
+
         if (!empty($updateData)) {
             $success = MythicalDashInstance::update($instanceId, $updateData);
-            
+
             if ($success) {
                 $instance = MythicalDashInstance::getById($instanceId);
                 $appInstance->OK('MythicalDash instance updated successfully', ['instance' => $instance]);
@@ -195,14 +198,14 @@ $router->post('/api/admin/mythicaldash/instance/(.*)/delete', function (string $
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
     $session = new MyMythicalID\Chat\User\Session($appInstance);
-    
+
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
-        
-		$instance = MythicalDashInstance::getById((int)$instanceId);
-		if ($instance) {
-			LicenseKey::delete((int)$instance['license_key']);
-		}
-		$success = MythicalDashInstance::delete((int)$instanceId);
+
+        $instance = MythicalDashInstance::getById((int) $instanceId);
+        if ($instance) {
+            LicenseKey::delete((int) $instance['license_key']);
+        }
+        $success = MythicalDashInstance::delete((int) $instanceId);
         if ($success) {
 
             $appInstance->OK('MythicalDash instance deleted successfully');
@@ -221,8 +224,8 @@ $router->get('/api/admin/mythicaldash/instance/(.*)/info', function (string $ins
     $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
-        $instance = MythicalDashInstance::getById((int)$instanceId);
-        
+        $instance = MythicalDashInstance::getById((int) $instanceId);
+
         if ($instance) {
             $appInstance->OK('MythicalDash instance fetched successfully', ['instance' => $instance]);
         } else {
@@ -238,10 +241,10 @@ $router->post('/api/admin/mythicaldash/instance/(.*)/restore', function (string 
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
     $session = new MyMythicalID\Chat\User\Session($appInstance);
-    
+
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         $success = MythicalDashInstance::restore($instanceId);
-        
+
         if ($success) {
             $appInstance->OK('MythicalDash instance restored successfully', []);
         } else {
@@ -257,10 +260,10 @@ $router->post('/api/admin/mythicaldash/instance/(.*)/lock', function (string $in
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
     $session = new MyMythicalID\Chat\User\Session($appInstance);
-    
+
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         $success = MythicalDashInstance::lock($instanceId);
-        
+
         if ($success) {
             $appInstance->OK('MythicalDash instance locked successfully');
         } else {
@@ -276,10 +279,10 @@ $router->post('/api/admin/mythicaldash/instance/(.*)/unlock', function (string $
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
     $session = new MyMythicalID\Chat\User\Session($appInstance);
-    
+
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
         $success = MythicalDashInstance::unlock($instanceId);
-        
+
         if ($success) {
             $appInstance->OK('MythicalDash instance unlocked successfully', []);
         } else {
@@ -330,4 +333,4 @@ $router->get('/api/admin/mythicaldash/instance/license/(.*)', function (string $
     } else {
         $appInstance->Unauthorized('Unauthorized', ['error_code' => 'INVALID_SESSION']);
     }
-}); 
+});

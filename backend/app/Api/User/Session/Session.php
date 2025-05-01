@@ -115,7 +115,6 @@ $router->get('/api/user/session', function (): void {
             'user' => User::getInfo($accountToken, UserColumns::UUID, false),
         ]);
 
-
         $columns = [
             UserColumns::USERNAME,
             UserColumns::EMAIL,

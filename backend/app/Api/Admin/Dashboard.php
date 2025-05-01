@@ -29,7 +29,7 @@ $router->get('/api/admin', function (): void {
             $github_data = new GitHub();
             $github_data = $github_data->getRepoData();
             $activity = UserActivities::getAll(150);
-            
+
             // Get counts for dashboard metrics
             $userCount = Database::getTableRowCount('mymythicalid_users');
             $instanceCount = Database::getTableRowCount('mymythicalid_mythicaldash_instances');
@@ -56,7 +56,7 @@ $router->get('/api/admin', function (): void {
                     'announcements_count' => $announcementCount,
                     'mail_templates_count' => $mailTemplateCount,
                     'settings_count' => $settingsCount,
-					'instances_count' => $instanceCount,
+                    'instances_count' => $instanceCount,
                 ],
                 'etc' => [
                     'activity' => $activity,

@@ -12,12 +12,9 @@
  */
 
 use MyMythicalID\App;
-use MyMythicalID\Chat\LicenseKey\LicenseKey;
 use MyMythicalID\Chat\User\Can;
 use MyMythicalID\Chat\columns\UserColumns;
-use MyMythicalID\Chat\User\UserActivities;
-use MyMythicalID\CloudFlare\CloudFlareRealIP;
-use MyMythicalID\Chat\interface\UserActivitiesTypes;
+use MyMythicalID\Chat\LicenseKey\LicenseKey;
 
 $router->get('/api/admin/license-keys', function (): void {
     App::init();
@@ -38,19 +35,19 @@ $router->post('/api/admin/license-key/create', function (): void {
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
     $session = new MyMythicalID\Chat\User\Session($appInstance);
-    
+
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
-        if (isset($_POST['project']) && isset($_POST['uuid']) && isset($_POST['license_key_uuid']) && 
-            isset($_POST['context']) && isset($_POST['status']) && isset($_POST['expires_at']) && isset($_POST['instance'])) {
-            
-            $projectId = (int)$_POST['project'];
+        if (isset($_POST['project']) && isset($_POST['uuid']) && isset($_POST['license_key_uuid'])
+            && isset($_POST['context']) && isset($_POST['status']) && isset($_POST['expires_at']) && isset($_POST['instance'])) {
+
+            $projectId = (int) $_POST['project'];
             $userUuid = $_POST['uuid'];
             $licenseKeyUuid = $_POST['license_key_uuid'];
             $context = $_POST['context'];
             $status = $_POST['status'];
-			$instance = $_POST['instance'];
+            $instance = $_POST['instance'];
             $expiresAt = $_POST['expires_at'];
-            
+
             $license = LicenseKey::create($projectId, $userUuid, $licenseKeyUuid, $context, $status, $instance, $expiresAt);
 
             if ($license) {
@@ -72,25 +69,25 @@ $router->post('/api/admin/license-key/(.*)/update', function (string $licenseKey
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
     $session = new MyMythicalID\Chat\User\Session($appInstance);
-    
+
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
-        if (isset($_POST['project']) && isset($_POST['uuid']) && isset($_POST['license_key_uuid']) && 
-            isset($_POST['context']) && isset($_POST['status']) && isset($_POST['expires_at']) && isset($_POST['instance'])) {
-            
+        if (isset($_POST['project']) && isset($_POST['uuid']) && isset($_POST['license_key_uuid'])
+            && isset($_POST['context']) && isset($_POST['status']) && isset($_POST['expires_at']) && isset($_POST['instance'])) {
+
             $data = [
-                'project' => (int)$_POST['project'],
+                'project' => (int) $_POST['project'],
                 'uuid' => $_POST['uuid'],
                 'license_key_uuid' => $_POST['license_key_uuid'],
                 'context' => $_POST['context'],
                 'status' => $_POST['status'],
                 'expires_at' => $_POST['expires_at'],
-                'instance' => $_POST['instance']
+                'instance' => $_POST['instance'],
             ];
-            
-            $license = LicenseKey::update((int)$licenseKeyId, $data);
+
+            $license = LicenseKey::update((int) $licenseKeyId, $data);
 
             if ($license) {
-                $licenseData = LicenseKey::getById((int)$licenseKeyId);
+                $licenseData = LicenseKey::getById((int) $licenseKeyId);
                 $appInstance->OK('License key updated successfully', ['license_key' => $licenseData]);
             } else {
                 $appInstance->BadRequest('Failed to update license key', ['error_code' => 'FAILED_TO_UPDATE_LICENSE']);
@@ -108,9 +105,9 @@ $router->post('/api/admin/license-key/(.*)/delete', function (string $licenseKey
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
     $session = new MyMythicalID\Chat\User\Session($appInstance);
-    
+
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
-        $license = LicenseKey::delete((int)$licenseKeyId);
+        $license = LicenseKey::delete((int) $licenseKeyId);
 
         if ($license) {
             $appInstance->OK('License key deleted successfully', ['license_key' => $license]);
@@ -129,7 +126,7 @@ $router->get('/api/admin/license-key/(.*)/info', function (string $licenseKeyId)
     $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
-        $license = LicenseKey::getById((int)$licenseKeyId);
+        $license = LicenseKey::getById((int) $licenseKeyId);
         if ($license) {
             $appInstance->OK('License key fetched successfully', ['license_key' => $license]);
         } else {
@@ -147,7 +144,7 @@ $router->get('/api/admin/license/project/(.*)', function (string $projectId): vo
     $session = new MyMythicalID\Chat\User\Session($appInstance);
 
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
-        $licenses = LicenseKey::getByProjectId((int)$projectId);
+        $licenses = LicenseKey::getByProjectId((int) $projectId);
         $appInstance->OK('Project licenses fetched successfully', ['licenses' => $licenses]);
     } else {
         $appInstance->Unauthorized('Unauthorized', ['error_code' => 'INVALID_SESSION']);
@@ -201,9 +198,9 @@ $router->post('/api/admin/license/(.*)/restore', function (string $licenseId): v
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
     $session = new MyMythicalID\Chat\User\Session($appInstance);
-    
+
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
-        $license = LicenseKey::restore((int)$licenseId);
+        $license = LicenseKey::restore((int) $licenseId);
 
         if ($license) {
             $appInstance->OK('License restored successfully', ['license' => $license]);
@@ -220,9 +217,9 @@ $router->post('/api/admin/license/(.*)/lock', function (string $licenseId): void
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
     $session = new MyMythicalID\Chat\User\Session($appInstance);
-    
+
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
-        $license = LicenseKey::lock((int)$licenseId);
+        $license = LicenseKey::lock((int) $licenseId);
 
         if ($license) {
             $appInstance->OK('License locked successfully', ['license' => $license]);
@@ -239,9 +236,9 @@ $router->post('/api/admin/license/(.*)/unlock', function (string $licenseId): vo
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
     $session = new MyMythicalID\Chat\User\Session($appInstance);
-    
+
     if (Can::canAccessAdminUI($session->getInfo(UserColumns::ROLE_ID, false))) {
-        $license = LicenseKey::unlock((int)$licenseId);
+        $license = LicenseKey::unlock((int) $licenseId);
 
         if ($license) {
             $appInstance->OK('License unlocked successfully', ['license' => $license]);
@@ -252,4 +249,3 @@ $router->post('/api/admin/license/(.*)/unlock', function (string $licenseId): vo
         $appInstance->Unauthorized('Unauthorized', ['error_code' => 'INVALID_SESSION']);
     }
 });
-

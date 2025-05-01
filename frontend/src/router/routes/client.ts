@@ -58,6 +58,14 @@ const clientRoutes: RouteRecordRaw[] = [
         },
     },
     {
+        path: '/logs/:id',
+        name: 'Logs',
+        component: () => import('@/views/Logs.vue'),
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
         path: '/',
         redirect: '/dashboard',
     },
