@@ -219,11 +219,17 @@ $router->post('/api/user/mythicaldash/instances/(.*)/upgrade', function (string 
             'status' => 'inactive',
             'context' => 'MythicalDash instance upgraded to premium' . $keyInfo['context'],
         ]);
+		$uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
+		$uuid = preg_replace_callback('/[xy]/', function ($matches) {
+			$r = mt_rand(0, 15);
+			$v = $matches[0] === 'x' ? $r : ($r & 0x3 | 0x8);
 
+			return dechex($v);
+		}, $uuid);
         LicenseKey::create(
             5,
             $instance['user'],
-            $instance['uuid'],
+            $uuid,
             'MythicalDash Premium License',
             date('Y-m-d H:i:s', strtotime('+1 month')),
             $instance['id'],

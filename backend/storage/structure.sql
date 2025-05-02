@@ -857,3 +857,8 @@ ALTER TABLE `mymythicalid_license_keys` ADD `instance` INT (36) NOT NULL DEFAULT
 ADD CONSTRAINT `mymythicalid_license_keys_ibfk_3` FOREIGN KEY (`instance`) REFERENCES `mymythicalid_mythicaldash_instances` (`id`);
 
 ALTER TABLE `mymythicalid_license_keys` ADD `other1` TEXT NULL DEFAULT NULL AFTER `context`;
+
+
+
+ALTER TABLE `mymythicalid_mythicaldash_instances` CHANGE `license_key` `license_key` INT(16) NULL DEFAULT NULL;
+ALTER TABLE `mymythicalid_license_keys` CHANGE `instance` `instance` INT(36) NULL DEFAULT NULL;

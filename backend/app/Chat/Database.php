@@ -376,4 +376,27 @@ class Database
             return;
         }
     }
+
+    /**
+     * Execute a query with parameters.
+     *
+     * @param string $query The SQL query
+     * @param array $params The parameters to bind
+     *
+     * @return array The query results
+     */
+    public static function query(string $query, array $params = []): array
+    {
+        try {
+            $pdo = self::getPdoConnection();
+            $stmt = $pdo->prepare($query);
+            $stmt->execute($params);
+            
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            self::db_Error('Failed to execute query: ' . $e->getMessage());
+            
+            return [];
+        }
+    }
 }

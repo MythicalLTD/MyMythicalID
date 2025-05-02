@@ -368,6 +368,10 @@ class App extends MythicalAPP
      */
     public function addLicenseCheck(string $licenseKey, App $appInstance): array
     {
+        // Extract the license key if it contains a path
+        if (strpos($licenseKey, '/') !== false) {
+            $licenseKey = explode('/', $licenseKey)[0];
+        }
 
         if (LicenseKey::existsByLicenseKey($licenseKey) == false) {
             $appInstance->BadRequest('License key does not exist', [

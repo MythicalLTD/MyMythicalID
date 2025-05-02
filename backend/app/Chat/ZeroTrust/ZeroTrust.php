@@ -334,4 +334,32 @@ class ZeroTrust
             return 0;
         }
     }
+
+    /**
+     * Get a ZeroTrust record by filename.
+     *
+     * @param string $filename The filename to search for
+     *
+     * @return array|null The record if found, null otherwise
+     */
+    public static function getByFilename(string $filename): ?array
+    {
+        try {
+            $query = "SELECT * FROM " . self::getTableName() . " WHERE trustInfo LIKE :filename AND action = 'backup'";
+            $params = [':filename' => '%"filename":"' . $filename . '"%'];
+            
+            $result = Database::query($query, $params);
+            
+            if ($result && count($result) > 0) {
+                return $result[0];
+            }
+            
+            return null;
+        } catch (\Exception $e) {
+            Database::db_Error('Failed to get ZeroTrust record by filename: ' . $e->getMessage());
+            
+            return null;
+        }
+    }
+
 }
