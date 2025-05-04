@@ -395,6 +395,7 @@ const saveInstance = async () => {
             instanceForm.value.ownerFirstName,
             instanceForm.value.ownerLastName,
             instanceForm.value.ownerBirthDate,
+            true,
         );
 
         if (response.success) {

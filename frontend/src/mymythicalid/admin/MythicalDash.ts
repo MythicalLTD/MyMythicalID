@@ -78,6 +78,7 @@ class MythicalDash {
         ownerFirstName: string,
         ownerLastName: string,
         ownerBirthDate: string,
+        isAdmin: boolean,
     ) {
         const formData = new FormData();
         formData.append('user', user);
@@ -98,11 +99,19 @@ class MythicalDash {
         formData.append('ownerLastName', ownerLastName);
         formData.append('ownerBirthDate', ownerBirthDate);
 
-        const response = await fetch('/api/admin/mythicaldash/instance/create', {
-            method: 'POST',
-            body: formData,
-        });
-        return await response.json();
+        if (isAdmin) {
+            const response = await fetch('/api/admin/mythicaldash/instance/create', {
+                method: 'POST',
+                body: formData,
+            });
+            return await response.json();
+        } else {
+            const response = await fetch('/api/user/mythicaldash/create', {
+                method: 'POST',
+                body: formData,
+            });
+            return await response.json();
+        }
     }
 
     /**
@@ -199,7 +208,7 @@ class MythicalDash {
      * @returns Promise with the instances
      */
     public static async getInstancesByUser(userUuid: string) {
-        const response = await fetch(`/api/admin/mythicaldash/instance/user/${userUuid}`, {
+        const response = await fetch(`/api/user/mythicaldash/instance/user/${userUuid}`, {
             method: 'GET',
         });
         return await response.json();

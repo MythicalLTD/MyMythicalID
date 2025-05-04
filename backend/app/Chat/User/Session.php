@@ -26,12 +26,13 @@ class Session extends Database
     public function __construct(App $app)
     {
         if (isset($_COOKIE['user_token']) && !$_COOKIE['user_token'] == '') {
-            if (User::exists(UserColumns::ACCOUNT_TOKEN, $_COOKIE['user_token'])) {
+			$token = $_COOKIE['user_token'];
+            if (User::exists(UserColumns::ACCOUNT_TOKEN, $token)) {
                 try {
                     $this->setSecurityHeaders();
 
                     $this->app = $app;
-                    $this->SESSION_KEY = $_COOKIE['user_token'];
+                    $this->SESSION_KEY = $token;
                     $this->updateLastSeen();
                     $this->updateCookie();
                     $this->setSecurityCookies();

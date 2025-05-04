@@ -12,6 +12,7 @@
  */
 
 use MyMythicalID\App;
+use MyMythicalID\Chat\User\Session;
 use MyMythicalID\Chat\User\User;
 use MyMythicalID\Chat\Project\Project;
 use MyMythicalID\Chat\columns\UserColumns;
@@ -23,7 +24,7 @@ $router->post('/api/user/mythicaldash/create', function (): void {
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
 
-    $session = new MyMythicalID\Chat\User\Session($appInstance);
+	$session = new Session($appInstance);
 
     $allowedFields = [
         'companyName',
@@ -80,8 +81,9 @@ $router->post('/api/user/mythicaldash/create', function (): void {
             (string) $_POST['user'],
             $uuid,
             'MythicalDash Free License',
-            'active',
-            date('Y-m-d H:i:s', strtotime('+5 year'))
+            date('Y-m-d H:i:s', strtotime('+5 year')),
+			0,
+			'active',
         );
 
         if (!$licenseKey) {
@@ -136,6 +138,7 @@ $router->post('/api/user/mythicaldash/create', function (): void {
 
             LicenseKey::update($licenseKey, [
                 'context' => $context,
+				'instance' => $instance,
             ]);
             $appInstance->OK('MythicalDash instance created successfully', ['instance' => $instance]);
         } else {
@@ -148,20 +151,12 @@ $router->post('/api/user/mythicaldash/create', function (): void {
     }
 });
 
-$router->get('/api/user/mythicaldash/instances', function (): void {
+$router->get('/api/user/mythicaldash/instance/user/(.*)', function (string $userUuid): void {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyGET();
 
-    $session = new MyMythicalID\Chat\User\Session($appInstance);
-});
-
-$router->get('/api/admin/mythicaldash/instance/user/(.*)', function (string $userUuid): void {
-    App::init();
-    $appInstance = App::getInstance(true);
-    $appInstance->allowOnlyGET();
-
-    $session = new MyMythicalID\Chat\User\Session($appInstance);
+	$session = new Session($appInstance);
 
     if (!User::exists(UserColumns::UUID, $userUuid)) {
         $appInstance->BadRequest('User not found', ['error_code' => 'USER_NOT_FOUND']);
@@ -192,7 +187,7 @@ $router->post('/api/user/mythicaldash/instances/(.*)/upgrade', function (string 
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
 
-    $session = new MyMythicalID\Chat\User\Session($appInstance);
+	$session = new Session($appInstance);
 
     if (!MythicalDashInstance::exists((int) $instanceId)) {
         $appInstance->BadRequest('Instance not found', ['error_code' => 'INSTANCE_NOT_FOUND']);
