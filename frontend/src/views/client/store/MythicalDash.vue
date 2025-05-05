@@ -258,6 +258,459 @@
                         </div>
                     </div>
 
+                    <!-- Step 6: License Agreement -->
+                    <div v-if="currentStep === 5" class="space-y-4">
+                        <!-- License Text -->
+                        <div class="form-group">
+                            <div
+                                class="max-h-96 overflow-y-auto bg-[#1a1a2e]/50 border border-[#2a2a3f]/30 rounded-lg p-4 text-gray-300 text-sm"
+                            >
+                                <h2 class="text-xl font-bold mb-4">MythicalSystems License v2.0</h2>
+
+                                <h3 class="font-semibold mb-2">
+                                    Copyright (c) 2021–2025 MythicalSystems and Cassian Gherman
+                                </h3>
+
+                                <h4 class="font-semibold mb-2">Preamble</h4>
+                                <p class="mb-4">
+                                    This license governs the use, modification, and distribution of the software known
+                                    as MythicalDash or MythicalDash ("the Software"). By using the Software, you agree
+                                    to the terms outlined in this document. These terms aim to protect the Software's
+                                    integrity, ensure fair use, and establish guidelines for authorized distribution,
+                                    modification, and commercial use.
+                                </p>
+
+                                <p class="mb-4">
+                                    For any inquiries, abuse reports, or violation notices, contact us at
+                                    <a
+                                        href="mailto:abuse@mythical.systems"
+                                        class="text-indigo-400 hover:text-indigo-300"
+                                        >abuse@mythical.systems</a
+                                    >.
+                                </p>
+
+                                <h4 class="font-semibold mb-2">1. Grant of License</h4>
+                                <h5 class="font-medium mb-1">1.1. Usage Rights</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        You are granted a non-exclusive, revocable license to use the Software, provided
+                                        you comply with the terms herein.
+                                    </li>
+                                    <li>
+                                        The Software must be linked to an active account on our public platform,
+                                        MythicalSystems.
+                                    </li>
+                                </ul>
+
+                                <h5 class="font-medium mb-1">1.2. Modification Rights</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        You may modify the Software only for personal use and must not distribute
+                                        modified versions unless explicitly approved by MythicalSystems or Cassian
+                                        Gherman.
+                                    </li>
+                                </ul>
+
+                                <h5 class="font-medium mb-1">1.3. Redistribution and Commercial Use</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        Redistribution of the Software, whether modified or unmodified, is strictly
+                                        prohibited unless explicitly authorized in writing by MythicalSystems or Cassian
+                                        Gherman.
+                                    </li>
+                                    <li>
+                                        Selling the Software or its derivatives is only permitted on authorized
+                                        marketplaces specified by MythicalSystems.
+                                    </li>
+                                    <li>
+                                        Unauthorized leaking, sharing, or redistribution of the Software or its
+                                        components is illegal and subject to legal action.
+                                    </li>
+                                </ul>
+
+                                <h5 class="font-medium mb-1">1.4. Third-Party Addons and Plugins</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        The creation, sale, and distribution of third-party addons or plugins for the
+                                        Software are permitted, provided they comply with this license.
+                                    </li>
+                                    <li>
+                                        All third-party addons or plugins must not attempt to bypass, modify, or
+                                        interfere with the core functionality or licensing requirements of the Software.
+                                    </li>
+                                </ul>
+
+                                <h5 class="font-medium mb-1">1.5. Forking</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        Forking the Software is allowed, provided that the forked version continues to
+                                        comply with all terms and conditions outlined in this license. Any modifications
+                                        made in the fork must respect the original license and maintain all attributions
+                                        and copyright notices.
+                                    </li>
+                                    <li>
+                                        Redistribution of forked versions is subject to the same restrictions as the
+                                        original Software, requiring explicit authorization from MythicalSystems or
+                                        Cassian Gherman.
+                                    </li>
+                                    <li>
+                                        Forked versions must not attempt to bypass, modify, or interfere with the core
+                                        functionality or licensing requirements of the Software.
+                                    </li>
+                                    <li>
+                                        Unauthorized leaking, sharing, or redistribution of forked versions is illegal
+                                        and subject to legal action.
+                                    </li>
+                                    <li>
+                                        Forked versions must be linked to an active account on our public platform,
+                                        MythicalSystems.
+                                    </li>
+                                </ul>
+
+                                <h4 class="font-semibold mb-2">2. Restrictions</h4>
+                                <h5 class="font-medium mb-1">2.1. Account Requirement</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        The Software requires an active account on MythicalSystems. Attempts to modify,
+                                        bypass, or remove this requirement are strictly prohibited.
+                                    </li>
+                                </ul>
+
+                                <h5 class="font-medium mb-1">2.2. Unauthorized Use</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        Use of the Software to perform unauthorized actions, including but not limited
+                                        to exploiting vulnerabilities, bypassing authentication, or reverse engineering,
+                                        is prohibited.
+                                    </li>
+                                </ul>
+
+                                <h5 class="font-medium mb-1">2.3. Leaking and Distribution</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        Any unauthorized leaking, sharing, or distribution of the Software is a direct
+                                        violation of this license. Legal action will be taken against violators.
+                                    </li>
+                                    <li>
+                                        Leaked or pirated copies of the Software are considered illegal, and users found
+                                        utilizing such versions will face immediate termination of access and potential
+                                        legal consequences.
+                                    </li>
+                                </ul>
+
+                                <h5 class="font-medium mb-1">2.4. Modification of Terms</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        The terms and conditions of this license may not be modified, replaced, or
+                                        overridden in any distributed version of the Software.
+                                    </li>
+                                </ul>
+
+                                <h4 class="font-semibold mb-2">3. Attribution and Copyright</h4>
+                                <h5 class="font-medium mb-1">3.1. Attribution</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        You must retain all copyright notices, attributions, and references to
+                                        MythicalSystems and Cassian Gherman in all copies, derivatives, or distributions
+                                        of the Software.
+                                    </li>
+                                </ul>
+
+                                <h5 class="font-medium mb-1">3.2. Copyright Invariance</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        Copyright notices must remain intact and unaltered in all versions of the
+                                        Software, including modified versions.
+                                    </li>
+                                </ul>
+
+                                <h4 class="font-semibold mb-2">4. Legal and Liability Terms</h4>
+                                <h5 class="font-medium mb-1">4.1. Disclaimer of Liability</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        The Software is provided "as is," without any warranty, express or implied,
+                                        including but not limited to warranties of merchantability, fitness for a
+                                        particular purpose, or non-infringement.
+                                    </li>
+                                    <li>
+                                        MythicalSystems and Cassian Gherman shall not be held liable for any damages
+                                        arising from the use, misuse, or inability to use the Software, including but
+                                        not limited to:
+                                        <ul class="list-disc pl-6 mt-2">
+                                            <li>Loss of data, profits, or revenue.</li>
+                                            <li>
+                                                Security vulnerabilities such as SQL injection, zero-day exploits, or
+                                                other potential risks.
+                                            </li>
+                                            <li>System failures, downtime, or disruptions.</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                                <h5 class="font-medium mb-1">4.2. Enforcement</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        Violations of this license will result in immediate termination of access to the
+                                        Software and may involve legal action.
+                                    </li>
+                                    <li>
+                                        MythicalSystems reserves the right to suspend or terminate access to any user,
+                                        client, or hosting provider without prior notice.
+                                    </li>
+                                </ul>
+
+                                <h5 class="font-medium mb-1">4.3. No Guarantees</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        MythicalSystems does not guarantee uninterrupted or error-free operation of the
+                                        Software.
+                                    </li>
+                                </ul>
+
+                                <h4 class="font-semibold mb-2">5. Privacy and Data Sharing</h4>
+                                <h5 class="font-medium mb-1">5.1. Public Information</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        Some user information may be shared with third parties or made publicly visible
+                                        in accordance with our Privacy Policy and Terms of Service. For more details,
+                                        please visit:
+                                        <ul class="list-disc pl-6 mt-2">
+                                            <li>
+                                                <a
+                                                    href="https://www.mythical.systems/privacy"
+                                                    class="text-indigo-400 hover:text-indigo-300"
+                                                    >Privacy Policy</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    href="https://www.mythical.systems/terms"
+                                                    class="text-indigo-400 hover:text-indigo-300"
+                                                    >Terms of Service</a
+                                                >
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                                <h5 class="font-medium mb-1">5.2. Data Collection</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        The Software may collect and transmit anonymized usage data to improve
+                                        performance and functionality.
+                                    </li>
+                                </ul>
+
+                                <h4 class="font-semibold mb-2">6. Governing Law</h4>
+                                <h5 class="font-medium mb-1">6.1. Jurisdiction</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        This license shall be governed and construed in accordance with the laws of
+                                        Romania.
+                                    </li>
+                                </ul>
+
+                                <h5 class="font-medium mb-1">6.2. Dispute Resolution</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        All disputes arising under or in connection with this license shall be subject
+                                        to the exclusive jurisdiction of the courts in Romania.
+                                    </li>
+                                </ul>
+
+                                <h5 class="font-medium mb-1">6.3. GDPR</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        You may send us an email to remove your data or your hosting's data at:
+                                        <code class="bg-gray-800 px-1 rounded">gdpr@mythical.systems</code> and we will
+                                        take care of it in the next 7 working days!
+                                    </li>
+                                </ul>
+
+                                <h4 class="font-semibold mb-2">7. Termination</h4>
+                                <h5 class="font-medium mb-1">7.1. Violation of Terms</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        MythicalSystems reserves the right to terminate access to the Software for any
+                                        user found in violation of this license.
+                                    </li>
+                                </ul>
+
+                                <h5 class="font-medium mb-1">7.2. Immediate Termination</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>Termination may occur immediately and without prior notice.</li>
+                                </ul>
+
+                                <h4 class="font-semibold mb-2">8. Contact Information</h4>
+                                <p class="mb-4">
+                                    For abuse reports, legal inquiries, or support, contact
+                                    <a
+                                        href="mailto:abuse@mythical.systems"
+                                        class="text-indigo-400 hover:text-indigo-300"
+                                        >abuse@mythical.systems</a
+                                    >.
+                                </p>
+
+                                <h4 class="font-semibold mb-2">9. Acceptance</h4>
+                                <p class="mb-4">
+                                    By using, modifying, or distributing the Software, you agree to the terms outlined
+                                    in this license.
+                                </p>
+
+                                <h4 class="font-semibold mb-2">10. Additional Terms</h4>
+                                <h5 class="font-medium mb-1">10.1. OAuth Authentication</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        If you use the Software in conjunction with OAuth or similar, you acknowledge
+                                        and agree that the system may automatically:
+                                        <ul class="list-disc pl-6 mt-2">
+                                            <li>
+                                                Star the <strong>MythicalDash</strong> repository or any related public
+                                                repositories owned by the <strong>MythicalSystems</strong> organization.
+                                            </li>
+                                            <li>
+                                                Follow the <strong>MythicalDash</strong> organization on GitHub on
+                                                behalf of your authenticated GitHub account.
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        If you use Discord authentication, you acknowledge and agree that the system may
+                                        automatically:
+                                        <ul class="list-disc pl-6 mt-2">
+                                            <li>
+                                                Join the official <strong>MythicalSystems</strong> Discord server on
+                                                behalf of your authenticated Discord account.
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        This behavior is intended to support the community and visibility of the
+                                        Software and is considered part of the license terms.
+                                    </li>
+                                </ul>
+
+                                <h5 class="font-medium mb-1">10.2. Hosting Provider Requirements</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        If you are a hosting provider offering the Software as a managed service or as
+                                        part of your hosting panel, you must:
+                                        <ul class="list-disc pl-6 mt-2">
+                                            <li>
+                                                Explicitly include this license in your Terms of Service (ToS) or User
+                                                Agreement.
+                                            </li>
+                                            <li>
+                                                Ensure that all end users are aware of and agree to the terms of the
+                                                MythicalSystems License v2.0.
+                                            </li>
+                                            <li>
+                                                Maintain a clear reference to <strong>MythicalDash</strong> and
+                                                <strong>MythicalSystems</strong> in all relevant documentation, portals,
+                                                and legal notices.
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                                <h5 class="font-medium mb-1">10.3. User Data Collection and Sharing</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        By using the Software, you acknowledge and agree that certain user data may be
+                                        collected and shared with MythicalSystems, including but not limited to:
+                                        <ul class="list-disc pl-6 mt-2">
+                                            <li>
+                                                Account information (username, email address, first name, last name)
+                                            </li>
+                                            <li>Account status (banned status, verification status, 2FA settings)</li>
+                                            <li>
+                                                Connected service data (Discord and GitHub and Google account
+                                                information)
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        This data collection is used for:
+                                        <ul class="list-disc pl-6 mt-2">
+                                            <li>Analyzing user behavior and Software usage patterns</li>
+                                            <li>Supporting the ZeroTrust initiative to prevent abuse</li>
+                                            <li>
+                                                Enabling communication between hosting providers about potentially
+                                                malicious users
+                                            </li>
+                                            <li>Improving Software security and functionality</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        MythicalSystems will handle all collected data in accordance with applicable
+                                        privacy laws and regulations.
+                                    </li>
+                                    <li>
+                                        This data sharing agreement is considered an integral part of using the Software
+                                        and cannot be opted out of while using the system.
+                                    </li>
+                                </ul>
+
+                                <h5 class="font-medium mb-1">10.4. Data Privacy and Third-Party Sharing</h5>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>
+                                        Your personal data (including first name and last name) will never be shared
+                                        with any third parties other than MythicalSystems and Cassian Gherman.
+                                    </li>
+                                    <li>
+                                        All data held by MythicalSystems can be requested for deletion, specifically:
+                                        <ul class="list-disc pl-6 mt-2">
+                                            <li>First name</li>
+                                            <li>Last name</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        To request deletion of your personal data, please contact gdpr@mythical.systems
+                                    </li>
+                                    <li>Data deletion requests will be processed within 7 working days of receipt</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Declaration Statement -->
+                        <div class="form-group mb-4">
+                            <div
+                                class="bg-[#1a1a2e]/50 border border-[#2a2a3f]/30 rounded-lg p-4 text-gray-300 text-sm"
+                            >
+                                <p class="mb-2">I hereby declare and affirm that:</p>
+                                <ul class="list-disc pl-6">
+                                    <li>
+                                        All information provided in this application is true, accurate, and complete to
+                                        the best of my knowledge.
+                                    </li>
+                                    <li>
+                                        I have not knowingly provided any false, misleading, or fraudulent information.
+                                    </li>
+                                    <li>
+                                        I understand that providing false information may result in immediate
+                                        termination of access and potential legal consequences.
+                                    </li>
+                                    <li>
+                                        I am authorized to submit this application on behalf of the business entity.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- License Accepted -->
+                        <div class="form-group">
+                            <label class="flex items-center space-x-2 text-sm font-medium text-gray-300">
+                                <input
+                                    v-model="formData.licenseAccepted"
+                                    type="checkbox"
+                                    required
+                                    class="w-4 h-4 rounded border-gray-600 bg-[#1a1a2e]/50 text-indigo-600 focus:ring-indigo-500/50"
+                                />
+                                <span>I have read and accept the license terms</span>
+                            </label>
+                        </div>
+                    </div>
+
                     <!-- Navigation Buttons -->
                     <div class="flex justify-between pt-4">
                         <Button
@@ -348,6 +801,11 @@ const steps = [
         title: 'Owner Info',
         description: 'Information about the business owner',
     },
+    {
+        id: 5,
+        title: 'License Agreement',
+        description: 'Please review and accept the license terms',
+    },
 ];
 
 const formData = ref({
@@ -375,6 +833,9 @@ const formData = ref({
     ownerFirstName: '',
     ownerLastName: '',
     ownerBirthDate: '',
+
+    // License Agreement
+    licenseAccepted: false,
 });
 
 const isStepValid = computed(() => {
@@ -389,6 +850,8 @@ const isStepValid = computed(() => {
             return formData.value.primaryEmail && formData.value.abuseEmail && formData.value.supportEmail;
         case 4:
             return formData.value.ownerFirstName && formData.value.ownerLastName && formData.value.ownerBirthDate;
+        case 5:
+            return formData.value.licenseAccepted;
         default:
             return false;
     }
